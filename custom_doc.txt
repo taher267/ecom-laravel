@@ -1,0 +1,43 @@
+composer require laravel/livewire
+
+php artisan make:
+
+
+//login registration 
+composer require laravel/jetstream
+php artisan jetstream:install livewire
+
+//if get any problem about npm 
+first install nodejs soft and  install npm in laravel project
+
+//custom dashboard or dashboard accroding to user like Admin/customer
+
+make middleware and reg in kernel.php
+A. after user login redirect user app/Provider/RouteServiceProvider.php
+change public const HOME ='fillup here'
+
+//Set condition According to user type \vendor\laravel\fortify\src\Actions\AttemptToAuthenticate.php
+
+public function handle($request, $next)
+    {
+        if (Fortify::$authenticateUsingCallback) {
+            return $this->handleUsingCustomCallback($request, $next);
+        }
+
+        if ($this->guard->attempt(
+            $request->only(Fortify::username(), 'password'),
+            $request->filled('remember'))
+        ) {
+		//adding condition start
+            if (Auth::user()->utype === 'ADM') {
+                session(['utype' => 'ADM']);
+            }elseif (Auth::user()->utype === 'USR') {
+                session(['utype' => 'USR']);
+                return redirect(RouteServiceProvider::HOME);
+            }
+		//adding condition End
+            return $next($request);
+        }
+
+        $this->throwFailedAuthenticationException($request);
+    }

@@ -12,6 +12,7 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/font-awesome.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/owl.carousel.min.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/flexslider.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/chosen.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/color-01.css')}}">
@@ -42,8 +43,6 @@
 						</div>
 						<div class="topbar-menu right-menu">
 							<ul>
-								<li class="menu-item" ><a title="Register or Login" href="login.html">Login</a></li>
-								<li class="menu-item" ><a title="Register or Login" href="register.html">Register</a></li>
 								<li class="menu-item lang-menu menu-item-has-children parent">
 									<a title="English" href="#"><span class="img label-before"><img src="{{asset('assets/images/lang-en.png')}}" alt="lang-en"></span>English<i class="fa fa-angle-down" aria-hidden="true"></i></a>
 									<ul class="submenu lang" >
@@ -53,20 +52,44 @@
 										<li class="menu-item" ><a title="canada" href="#"><span class="img label-before"><img src="{{asset('assets/images/lang-can.png')}}" alt="lang-can"></span>Canada</a></li>
 									</ul>
 								</li>
-								<li class="menu-item menu-item-has-children parent" >
-									<a title="Dollar (USD)" href="#">Dollar (USD)<i class="fa fa-angle-down" aria-hidden="true"></i></a>
-									<ul class="submenu curency" >
-										<li class="menu-item" >
-											<a title="Pound (GBP)" href="#">Pound (GBP)</a>
-										</li>
-										<li class="menu-item" >
-											<a title="Euro (EUR)" href="#">Euro (EUR)</a>
-										</li>
-										<li class="menu-item" >
-											<a title="Dollar (USD)" href="#">Dollar (USD)</a>
-										</li>
-									</ul>
-								</li>
+									@if( Route::has('login') )
+										@auth
+											@if (Auth::user()->utype === 'ADM')
+												<li class="menu-item menu-item-has-children parent" >
+													<a title="My Account" href="#">My Account ({{ Auth::user()->name }})<i class="fa fa-angle-down" aria-hidden="true"></i></a>
+													<ul class="submenu curency" >
+														<li class="menu-item" >
+															<a title="Dashboard" href="{{route('admin.dashboard')}}">Dashboard</a>
+														</li>
+														<li class="menu-item" >
+															<form action="{{route('logout')}}" method="post">
+																@csrf
+															<button style="border: none; background:transparent;" type="submit" title="Logout" >logout</button>
+															</form>
+														</li>
+													</ul>
+												</li>
+											@else
+												<li class="menu-item menu-item-has-children parent" >
+													<a title="My Account" href="#">My Account ({{ Auth::user()->name }})<i class="fa fa-angle-down" aria-hidden="true"></i></a>
+													<ul class="submenu curency" >
+														<li class="menu-item" >
+															<a title="Dashboard" href="{{route('user.dashboard')}}">Dashboard</a>
+															<li class="menu-item" >
+																<a {{route('logout')}} onclick="event.preventDefault(); document.querySelector('#logut-form').submit();" title="Logout">logout</a>
+															</li>
+															<form id="logut-form" action="{{route('logout')}}" method="post">
+																@csrf
+															</form>
+														</li>
+													</ul>
+												</li>
+											@endif
+										@else
+											<li class="menu-item" ><a title="Register or Login" href="{{route('login')}}">Login</a></li>
+											<li class="menu-item" ><a title="Register or Login" href="{{route('register')}}">Register</a></li>
+										@endif
+									@endif
 							</ul>
 						</div>
 					</div>
@@ -449,7 +472,7 @@
 	<script src="{{asset('assets/js/owl.carousel.min.js')}}"></script>
 	<script src="{{asset('assets/js/jquery.countdown.min.js')}}"></script>
 	<script src="{{asset('assets/js/jquery.sticky.js')}}"></script>
-	<script src="{{('assets/js/functions.js')}}"></script>
+	<script src="{{asset('assets/js/functions.js')}}"></script>
 	@livewireScripts
 </body>
 </html>
