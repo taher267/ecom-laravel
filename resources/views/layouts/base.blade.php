@@ -4,13 +4,14 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Home</title>	
+	<title>Home</title>
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/images/favicon.ico')}}">
 	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,400italic,700,700italic,900,900italic&amp;subset=latin,latin-ext" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Open%20Sans:300,400,400italic,600,600italic,700,700italic&amp;subset=latin,latin-ext" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/animate.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/font-awesome.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap5.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/owl.carousel.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/flexslider.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/chosen.min.css')}}">
@@ -62,6 +63,12 @@
 															<a title="Dashboard" href="{{route('admin.dashboard')}}">Dashboard</a>
 														</li>
 														<li class="menu-item" >
+															<a title="All Category" href="{{route('admin.categories')}}">categories</a>
+														</li>
+                                                        <li class="menu-item" >
+															<a title="All Product" href="{{route('admin.products')}}">products</a>
+														</li>
+														<li class="menu-item" >
 															<form action="{{route('logout')}}" method="post">
 																@csrf
 															<button style="border: none; background:transparent;" type="submit" title="Logout" >logout</button>
@@ -97,43 +104,10 @@
 
 				<div class="container">
 					<div class="mid-section main-info-area">
-
 						<div class="wrap-logo-top left-section">
 							<a href="{{route('home')}}" class="link-to-home"><img src="{{asset('assets/images/logo-top-1.png')}}" alt="mercado"></a>
 						</div>
-
-						<div class="wrap-search center-section">
-							<div class="wrap-search-form">
-								<form action="#" id="form-search-top" name="form-search-top">
-									<input type="text" name="search" value="" placeholder="Search here...">
-									<button form="form-search-top" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
-									<div class="wrap-list-cate">
-										<input type="hidden" name="product-cate" value="0" id="product-cate">
-										<a href="#" class="link-control">All Category</a>
-										<ul class="list-cate">
-											<li class="level-0">All Category</li>
-											<li class="level-1">-Electronics</li>
-											<li class="level-2">Batteries & Chargens</li>
-											<li class="level-2">Headphone & Headsets</li>
-											<li class="level-2">Mp3 Player & Acessories</li>
-											<li class="level-1">-Smartphone & Table</li>
-											<li class="level-2">Batteries & Chargens</li>
-											<li class="level-2">Mp3 Player & Headphones</li>
-											<li class="level-2">Table & Accessories</li>
-											<li class="level-1">-Electronics</li>
-											<li class="level-2">Batteries & Chargens</li>
-											<li class="level-2">Headphone & Headsets</li>
-											<li class="level-2">Mp3 Player & Acessories</li>
-											<li class="level-1">-Smartphone & Table</li>
-											<li class="level-2">Batteries & Chargens</li>
-											<li class="level-2">Mp3 Player & Headphones</li>
-											<li class="level-2">Table & Accessories</li>
-										</ul>
-									</div>
-								</form>
-							</div>
-						</div>
-
+						@livewire('header-search-component')
 						<div class="wrap-icon right-section">
 							<div class="wrap-icon-section wishlist">
 								<a href="#" class="link-direction">
@@ -145,10 +119,10 @@
 								</a>
 							</div>
 							<div class="wrap-icon-section minicart">
-								<a href="#" class="link-direction">
+								<a href="{{route('product.cart')}}" class="link-direction">
 									<i class="fa fa-shopping-basket" aria-hidden="true"></i>
 									<div class="left-info">
-										<span class="index">4 items</span>
+										<span class="index">{{(Cart::count() > 0)? Cart::count(). 'items' : 0 . ' item'}}</span>
 										<span class="title">CART</span>
 									</div>
 								</a>
@@ -188,18 +162,18 @@
 									<a href="about-us.html" class="link-term mercado-item-title">About Us</a>
 								</li>
 								<li class="menu-item">
-									<a href="{{route('shop')}}" class="link-term mercado-item-title 
+									<a href="{{route('shop')}}" class="link-term mercado-item-title
 									{{(Request::is('shop'))?'nav_active': ''}}">Shop</a>
 								</li>
 								<li class="menu-item">
-									<a href="{{route('cart')}}" class="link-term mercado-item-title">Cart</a>
+									<a href="{{route('product.cart')}}" class="link-term mercado-item-title">Cart</a>
 								</li>
 								<li class="menu-item">
 									<a href="{{route('checkout')}}" class="link-term mercado-item-title">Checkout</a>
 								</li>
 								<li class="menu-item">
 									<a href="contact-us.html" class="link-term mercado-item-title">Contact Us</a>
-								</li>																	
+								</li>
 							</ul>
 						</div>
 					</div>
@@ -276,7 +250,7 @@
 											<li>
 												<i class="fa fa-envelope" aria-hidden="true"></i>
 												<p class="contact-txt">Contact@yourcompany.com</p>
-											</li>											
+											</li>
 										</ul>
 									</div>
 								</div>
@@ -451,10 +425,10 @@
 					<div class="coppy-right-item item-right">
 						<div class="wrap-nav horizontal-nav">
 							<ul>
-								<li class="menu-item"><a href="about-us.html" class="link-term">About us</a></li>								
+								<li class="menu-item"><a href="about-us.html" class="link-term">About us</a></li>
 								<li class="menu-item"><a href="privacy-policy.html" class="link-term">Privacy Policy</a></li>
 								<li class="menu-item"><a href="terms-conditions.html" class="link-term">Terms & Conditions</a></li>
-								<li class="menu-item"><a href="return-policy.html" class="link-term">Return Policy</a></li>								
+								<li class="menu-item"><a href="return-policy.html" class="link-term">Return Policy</a></li>
 							</ul>
 						</div>
 					</div>
@@ -463,12 +437,13 @@
 			</div>
 		</div>
 	</footer>
-	
+
 	<script src="{{asset('assets/js/jquery-1.12.4.minb8ff.js?ver=1.12.4')}}"></script>
 	<script src="{{asset('assets/js/jquery-ui-1.12.4.minb8ff.js?ver=1.12.4')}}"></script>
 	<script src="{{asset('assets/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('assets/js/bootstrap5.min.js')}}"></script>
 	<script src="{{asset('assets/js/jquery.flexslider.js')}}"></script>
-	<script src="{{asset('assets/js/chosen.jquery.min.js')}}"></script>
+	{{-- <script src="{{asset('assets/js/chosen.jquery.min.js')}}"></script> --}}
 	<script src="{{asset('assets/js/owl.carousel.min.js')}}"></script>
 	<script src="{{asset('assets/js/jquery.countdown.min.js')}}"></script>
 	<script src="{{asset('assets/js/jquery.sticky.js')}}"></script>

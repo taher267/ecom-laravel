@@ -2,25 +2,25 @@
 <div class="container">
     <div class="wrap-breadcrumb">
         <ul>
-            <li class="item-link"><a href="#" class="link">home</a></li>
-            <li class="item-link"><span>Digital & Electronics</span></li>
+            <li class="item-link"><a href="/" class="link">home</a></li>
+            <li class="item-link"><span>shop</span></li>
         </ul>
     </div>
     <div class="row">
         <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12 main-content-area">
             <div class="banner-shop">
                 <a href="#" class="banner-link">
-                    <figure><img src="{{('assets/images/shop-banner.jpg')}}" alt=""></figure>
+                    <figure><img src="{{asset('assets/images/shop-banner.jpg')}}" alt=""></figure>
                 </a>
             </div>
             <div class="wrap-shop-control">
                 <h1 class="shop-title">Digital & Electronics</h1>
                 <div class="wrap-right">
-                    <div class="sort-item orderby ">
-                        <select name="orderby" class="use-chosen" >
-                            <option value="menu_order" selected="selected">Default sorting</option>
-                            <option value="popularity">Sort by popularity</option>
-                            <option value="rating">Sort by average rating</option>
+                    <div class="sort-item orderby " style="">
+                        <select name="orderby" class="shop_select_wrapper" wire:model="sorting">
+                            <option value="default" selected="selected">Default sorting</option>
+                            {{-- <option value="popularity">Sort by popularity</option>
+                            <option value="rating">Sort by average rating</option> --}}
                             <option value="date">Sort by newness</option>
                             <option value="price">Sort by price: low to high</option>
                             <option value="price-desc">Sort by price: high to low</option>
@@ -28,7 +28,7 @@
                     </div>
 
                     <div class="sort-item product-per-page">
-                        <select name="post-per-page" class="use-chosen" >
+                        <select name="post-per-page" class="shop_select_wrapper" autofocus="off" wire:model="productperpage">
                             <option value="12" selected="selected">12 per page</option>
                             <option value="16">16 per page</option>
                             <option value="18">18 per page</option>
@@ -38,7 +38,14 @@
                             <option value="32">32 per page</option>
                         </select>
                     </div>
+<style>
 
+select.shop_select_wrapper {
+    padding: 5px 10px;
+    border: none;
+    outline: none;
+}
+</style>
                     <div class="change-display-mode">
                         <a href="#" class="grid-mode display-mode active"><i class="fa fa-th"></i>Grid</a>
                         <a href="list.html" class="list-mode display-mode"><i class="fa fa-th-list"></i>List</a>
@@ -56,13 +63,13 @@
                         <div class="product product-style-3 equal-elem ">
                             <div class="product-thumnail">
                                 <a href="{{route('product.details', $product->slug)}}" title="{{$product->name}}">
-                                    <figure><img src="{{('assets/images/products/'. $product->image)}}" alt="{{$product->name}}"></figure>
+                                    <figure><img src="{{asset('assets/images/products/'. $product->image)}}" alt="{{$product->name}}"></figure>
                                 </a>
                             </div>
                             <div class="product-info">
                                 <a href="{{route('product.details', $product->slug)}}" class="product-name text-capitalize"><span>{{$product->name}}</span></a>
                                 <div class="wrap-price"><span class="product-price">${{$product->regular_price}}</span></div>
-                                <a href="{{$product->id}}" class="btn add-to-cart">Add To Cart</a>
+                                <a href="#" wire:click.prevent="store({{$product->id}}, '{{$product->name}}', {{$product->regular_price}})" class="btn add-to-cart">Add To Cart</a>
                             </div>
                         </div>
                     </li>
@@ -80,42 +87,11 @@
                 <h2 class="widget-title">All Categories</h2>
                 <div class="widget-content">
                     <ul class="list-category">
-                        <li class="category-item has-child-cate">
-                            <a href="#" class="cate-link">Fashion & Accessories</a>
-                            <span class="toggle-control">+</span>
-                            <ul class="sub-cate">
-                                <li class="category-item"><a href="#" class="cate-link">Batteries (22)</a></li>
-                                <li class="category-item"><a href="#" class="cate-link">Headsets (16)</a></li>
-                                <li class="category-item"><a href="#" class="cate-link">Screen (28)</a></li>
-                            </ul>
-                        </li>
-                        <li class="category-item has-child-cate">
-                            <a href="#" class="cate-link">Furnitures & Home Decors</a>
-                            <span class="toggle-control">+</span>
-                            <ul class="sub-cate">
-                                <li class="category-item"><a href="#" class="cate-link">Batteries (22)</a></li>
-                                <li class="category-item"><a href="#" class="cate-link">Headsets (16)</a></li>
-                                <li class="category-item"><a href="#" class="cate-link">Screen (28)</a></li>
-                            </ul>
-                        </li>
-                        <li class="category-item has-child-cate">
-                            <a href="#" class="cate-link">Digital & Electronics</a>
-                            <span class="toggle-control">+</span>
-                            <ul class="sub-cate">
-                                <li class="category-item"><a href="#" class="cate-link">Batteries (22)</a></li>
-                                <li class="category-item"><a href="#" class="cate-link">Headsets (16)</a></li>
-                                <li class="category-item"><a href="#" class="cate-link">Screen (28)</a></li>
-                            </ul>
-                        </li>
+                        @foreach ($categories as $category)
                         <li class="category-item">
-                            <a href="#" class="cate-link">Tools & Equipments</a>
+                            <a href="{{ route('product.category', ['category_slug' => $category->slug] ) }}" class="cate-link text-capitalize">{{$category->name}}</a>
                         </li>
-                        <li class="category-item">
-                            <a href="#" class="cate-link">Kid’s Toys</a>
-                        </li>
-                        <li class="category-item">
-                            <a href="#" class="cate-link">Organics & Spa</a>
-                        </li>
+                        @endforeach
                     </ul>
                 </div>
             </div><!-- Categories widget-->
@@ -175,7 +151,7 @@
                         <li class="list-item"><a class="filter-link " href="#">xl</a></li>
                     </ul>
                     <div class="widget-banner">
-                        <figure><img src="{{('assets/images/size-banner-widget.jpg')}}" width="270" height="331" alt=""></figure>
+                        <figure><img src="{{asset('assets/images/size-banner-widget.jpg')}}" width="270" height="331" alt=""></figure>
                     </div>
                 </div>
             </div><!-- Size -->
@@ -188,7 +164,7 @@
                             <div class="product product-widget-style">
                                 <div class="thumbnnail">
                                     <a href="detail.html" title="Radiant-360 R6 Wireless Omnidirectional Speaker [White]">
-                                        <figure><img src="{{('assets/images/products/digital_1.jpg')}}" alt=""></figure>
+                                        <figure><img src="{{asset('assets/images/products/digital_1.jpg')}}" alt=""></figure>
                                     </a>
                                 </div>
                                 <div class="product-info">
@@ -202,7 +178,7 @@
                             <div class="product product-widget-style">
                                 <div class="thumbnnail">
                                     <a href="" title="Radiant-360 R6 Wireless Omnidirectional Speaker [White]">
-                                        <figure><img src="{{('assets/images/products/digital_17.jpg')}}" alt=""></figure>
+                                        <figure><img src="{{asset('assets/images/products/digital_17.jpg')}}" alt=""></figure>
                                     </a>
                                 </div>
                                 <div class="product-info">
@@ -216,7 +192,7 @@
                             <div class="product product-widget-style">
                                 <div class="thumbnnail">
                                     <a href="detail.html" title="Radiant-360 R6 Wireless Omnidirectional Speaker [White]">
-                                        <figure><img src="{{('assets/images/products/digital_18.jpg')}}" alt=""></figure>
+                                        <figure><img src="{{asset('assets/images/products/digital_18.jpg')}}" alt=""></figure>
                                     </a>
                                 </div>
                                 <div class="product-info">
@@ -230,7 +206,7 @@
                             <div class="product product-widget-style">
                                 <div class="thumbnnail">
                                     <a href="detail.html" title="Radiant-360 R6 Wireless Omnidirectional Speaker [White]">
-                                        <figure><img src="{{('assets/images/products/digital_20.jpg')}}" alt=""></figure>
+                                        <figure><img src="{{asset('assets/images/products/digital_20.jpg')}}" alt=""></figure>
                                     </a>
                                 </div>
                                 <div class="product-info">

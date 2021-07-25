@@ -41,3 +41,7 @@ public function handle($request, $next)
 
         $this->throwFailedAuthenticationException($request);
     }
+
+
+    //Gloudeman\ShoppingcartServiceProvider
+    php artisan vendor:publish --provider="Gloudeman\ShoppingcartServiceProvider" --tag="config"

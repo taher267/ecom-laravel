@@ -64,12 +64,14 @@
                 });
                 $('.wrap-search-form .wrap-list-cate .list-cate').on('click', 'li', function (event) {
                     var _this 	 = $(this),
-						_value 	 = _this.attr('value'),
+						// _value 	 = _this.attr('value'),
+						_value 	 = _this.text(),
 						_content = _this.text(),
 						_title 	 = _this.text();
                     _content = _content.slice(0, 12);
                     _this.parent().siblings('a').text(_content).attr('title',_title);
-                    _this.parent().siblings('input[name="product-cate"]').val(_value);
+                    _this.parent().siblings('input[name="product_cate"]').val(_value);
+					_this.parent().siblings('input[name="product_cate_id"]').val(_this.data("id"));
                     _this.parent().slideUp();
                 });
 			}
@@ -357,7 +359,7 @@
 	                    _this.addClass('active');
 	                    _this.parents().siblings('.tab-contents').find('.active').removeClass('active');
 	                    _this.parents().siblings('.tab-contents').find(_this.attr('href')).addClass('active');
-                    }  
+                    }
                 });
             }
 
@@ -605,4 +607,40 @@
 	$(window).on("resize", function() {
 		MERCADO_JS.onResize();
 	});
+
+
+    // $("#admin_category_name").keyup(function(){
+    //     $("#admin_make_cat_slug").val($(this).val().toLowerCase().toLowerCase().replace(/ /g,'-').replace(/[-]+/g, '-').replace(/[^\w-]+/g,''));
+    // });
+
+    $("#title_to_slug").keyup(function(){
+        $("#convarted_slug").val($(this).val().toLowerCase().toLowerCase().replace(/ /g,'-').replace(/[-]+/g, '-').replace(/[^\w-]+/g,''));
+    });
+
+    // $("#add_category_name").keyup(function(){
+
+    // });
+
+
+    $("#add_category_name").keyup(function(){
+        const prev =  $('.cat_converted_slug').val();
+        if( prev.slice(-9) == ':avaiable' && prev != '' ){
+            $('.cat_converted_slug').addClass( 'text-success');
+        }else
+        // if( prev.slice(-9) != ':avaiable' || prev == '' )
+        {
+            $('.cat_converted_slug').addClass( 'text-danger');
+        }
+    });
+
+//     setTimeout(function(){
+//         $("#errors_edit").fadeOut();
+//         $("#errors_edit").removeClass('d-block');
+//         $("#errors_edit").addClass('d-none');
+// }, 5000);
+
+
+
+
+
 })(window.Zepto || window.jQuery, window, document);
