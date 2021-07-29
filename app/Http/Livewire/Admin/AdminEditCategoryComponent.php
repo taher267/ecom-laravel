@@ -32,6 +32,15 @@ class AdminEditCategoryComponent extends Component
             return $this->slugYes ='avaiable';
         }
     }
+    //live validation
+    public function updated( $fields )
+    {
+        $this->validateOnly($fields, [
+            'slug' => 'required|unique:categories',
+            'name' => 'required|unique:categories',
+        ]);
+    }
+    //update data of Category for DB
     public function updateCategory()
     {
         $this->validate([

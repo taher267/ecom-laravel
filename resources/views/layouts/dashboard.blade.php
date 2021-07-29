@@ -8,7 +8,6 @@
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/images/favicon.ico')}}">
 	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,400italic,700,700italic,900,900italic&amp;subset=latin,latin-ext" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Open%20Sans:300,400,400italic,600,600italic,700,700italic&amp;subset=latin,latin-ext" rel="stylesheet">
-
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/animate.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/font-awesome.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap.min.css')}}">
@@ -18,18 +17,9 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/chosen.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/color-01.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/select2.min.css')}}">
 	@livewireStyles
 </head>
 <body class="home-page home-01 ">
-
-	<!-- mobile menu -->
-    <div class="mercado-clone-wrap">
-        <div class="mercado-panels-actions-wrap">
-            <a class="mercado-close-btn mercado-close-panels" href="#">x</a>
-        </div>
-        <div class="mercado-panels"></div>
-    </div>
 
 	<!--header-->
 	<header id="header" class="header header-style-1">
@@ -70,11 +60,6 @@
                                                         <li class="menu-item" >
 															<a title="All Product" href="{{route('admin.products')}}">products</a>
 														</li>
-                                                        <li class="menu-item" >
-															<a title="All Product" href="{{route('admin.homeslider')}}">manage home slider</a>
-														</li>
-
-
 														<li class="menu-item" >
 															<form action="{{route('logout')}}" method="post">
 																@csrf
@@ -104,83 +89,6 @@
 											<li class="menu-item" ><a title="Register or Login" href="{{route('register')}}">Register</a></li>
 										@endif
 									@endif
-							</ul>
-						</div>
-					</div>
-				</div>
-
-				<div class="container">
-					<div class="mid-section main-info-area">
-						<div class="wrap-logo-top left-section">
-							<a href="{{route('home')}}" class="link-to-home"><img src="{{asset('assets/images/logo-top-1.png')}}" alt="mercado"></a>
-						</div>
-						@livewire('header-search-component')
-						<div class="wrap-icon right-section">
-							<div class="wrap-icon-section wishlist">
-								<a href="#" class="link-direction">
-									<i class="fa fa-heart" aria-hidden="true"></i>
-									<div class="left-info">
-										<span class="index">0 item</span>
-										<span class="title">Wishlist</span>
-									</div>
-								</a>
-							</div>
-							<div class="wrap-icon-section minicart">
-								<a href="{{route('product.cart')}}" class="link-direction">
-									<i class="fa fa-shopping-basket" aria-hidden="true"></i>
-									<div class="left-info">
-										<span class="index">{{(Cart::count() > 0)? Cart::count(). 'items' : 0 . ' item'}}</span>
-										<span class="title">CART</span>
-									</div>
-								</a>
-							</div>
-							<div class="wrap-icon-section show-up-after-1024">
-								<a href="#" class="mobile-navigation">
-									<span></span>
-									<span></span>
-									<span></span>
-								</a>
-							</div>
-						</div>
-
-					</div>
-				</div>
-
-				<div class="nav-section header-sticky">
-					<div class="header-nav-section">
-						<div class="container">
-							<ul class="nav menu-nav clone-main-menu" id="mercado_haead_menu" data-menuname="Sale Info" >
-								<li class="menu-item"><a href="#" class="link-term">Weekly Featured</a><span class="nav-label hot-label">hot</span></li>
-								<li class="menu-item"><a href="#" class="link-term">Hot Sale items</a><span class="nav-label hot-label">hot</span></li>
-								<li class="menu-item"><a href="#" class="link-term">Top new items</a><span class="nav-label hot-label">hot</span></li>
-								<li class="menu-item"><a href="#" class="link-term">Top Selling</a><span class="nav-label hot-label">hot</span></li>
-								<li class="menu-item"><a href="#" class="link-term">Top rated items</a><span class="nav-label hot-label">hot</span></li>
-							</ul>
-						</div>
-					</div>
-
-					<div class="primary-nav-section">
-						<div class="container">
-							<ul class="nav primary clone-main-menu" id="mercado_main" data-menuname="Main menu" >
-								<li class="menu-item home-icon">
-									<a href="{{route('home')}}" class="link-term mercado-item-title"><i class="fa fa-home" aria-hidden="true"></i></a>
-								</li>
-								<li class="menu-item">
-									<a href="about-us.html" class="link-term mercado-item-title">About Us</a>
-								</li>
-								<li class="menu-item">
-									<a href="{{route('shop')}}" class="link-term mercado-item-title
-									{{(Request::is('shop'))?'nav_active': ''}}">Shop</a>
-								</li>
-								<li class="menu-item">
-									<a href="{{route('product.cart')}}" class="link-term mercado-item-title">Cart</a>
-								</li>
-								<li class="menu-item">
-									<a href="{{route('checkout')}}" class="link-term mercado-item-title">Checkout</a>
-								</li>
-								<li class="menu-item">
-									<a href="contact-us.html" class="link-term mercado-item-title">Contact Us</a>
-								</li>
 							</ul>
 						</div>
 					</div>
@@ -448,7 +356,6 @@
 	<script src="{{asset('assets/js/jquery-1.12.4.minb8ff.js?ver=1.12.4')}}"></script>
 	<script src="{{asset('assets/js/jquery-ui-1.12.4.minb8ff.js?ver=1.12.4')}}"></script>
 	<script src="{{asset('assets/js/bootstrap.min.js')}}"></script>
-
     <script src="{{asset('assets/js/bootstrap5.min.js')}}"></script>
 	<script src="{{asset('assets/js/jquery.flexslider.js')}}"></script>
 	{{-- <script src="{{asset('assets/js/chosen.jquery.min.js')}}"></script> --}}
@@ -456,9 +363,6 @@
 	<script src="{{asset('assets/js/jquery.countdown.min.js')}}"></script>
 	<script src="{{asset('assets/js/jquery.sticky.js')}}"></script>
 	<script src="{{asset('assets/js/functions.js')}}"></script>
-    <script src="{{asset('assets/js/select2.min.js')}}"></script>
-
 	@livewireScripts
-    @stack('scripts')
 </body>
 </html>

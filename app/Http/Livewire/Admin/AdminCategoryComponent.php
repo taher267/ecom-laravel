@@ -11,8 +11,7 @@ class AdminCategoryComponent extends Component
 {
     public function deleteCategory($id)
     {
-        $category = Category::findOrFail($id);
-        $category->delete();
+        $category = Category::findOrFail($id)->delete();
         session()->flash('msg', 'Category has been deleted!');
     }
     use WithPagination;

@@ -14,8 +14,12 @@ class AdminAddProductComponent extends Component
 {
     use WithFileUploads;
 
-    public $name, $slug, $short_description, $checkSlug, $description, $image, $regular_price, $sale_price, $SKU, $featured, $category_id, $quantity, $stock_status;
-
+    public $name, $slug, $short_description, $checkSlug, $description, $image, $regular_price,
+    $sale_price, $SKU, $featured, $category_id, $quantity, $stock_status;
+    //poduct categories
+    public $sel_categories =[], $no_of_products;
+    //product categories for pvot table
+    public $product_id, $categories_id;
     public function mount()
     {
         $this->stock_status = 'instock';
@@ -35,6 +39,25 @@ class AdminAddProductComponent extends Component
             return $this->checkSlug ='avaiable';
         }
     }
+    //check live validation
+    public function updated($fields)
+    {
+        $this->validateOnly($fields, [
+            'name' => 'required|unique:products',
+            'slug' => 'required|unique:products',
+            'short_description' => 'nullable',
+            'description' => 'required',
+            'regular_price' => 'required',
+            'sale_price' => 'nullable',
+            'SKU' => 'required|unique:products',
+            'stock_status' => 'required',
+            'featured' => 'required|numeric|min:0|max:1',
+            'quantity' => 'required|numeric',
+            'image' => 'nullable|image|mimes:png,jpg,jpeg',
+            'category_id' => 'required|numeric|min:1',
+            'sel_categories' => ['required'],
+        ]);
+}
 
     public function storeProduct()
     {
@@ -51,6 +74,7 @@ class AdminAddProductComponent extends Component
             'quantity' => 'required|numeric',
             'image' => 'nullable|image|mimes:png,jpg,jpeg',
             'category_id' => 'required|numeric|min:1',
+            'sel_categories' => ['required'],
         ]);
 
 
@@ -66,14 +90,20 @@ class AdminAddProductComponent extends Component
         $product->featured = $this->featured;
         $product->quantity = $this->quantity;
         if ($this->image) {
-            $imageName = Carbon::now()->timestamp . '.' . $this->image->extension();
+            $imageName = $this->slug . Carbon::now()->timestamp . '.' . $this->image->extension();
             $product->image = $imageName;
         }
         $product->category_id = $this->category_id;
+        $product->categories = implode(',', $this->sel_categories);
         if ($product->save()) {
             if ($this->image) {
                 $this->image->storeAs('products', $imageName);
             }
+            //Add products Categories in pvot table=product_category
+            $categoryAttach = Product::findOrFail(Product::orderBy('id', 'DESC')->first()->id);
+           //tag adding
+           $categoryAttach->categories()->sync($this->sel_categories);
+
             session()->flash('msg', 'Product has been added!!!');
         }
 

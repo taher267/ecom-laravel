@@ -639,8 +639,10 @@
 //         $("#errors_edit").addClass('d-none');
 // }, 5000);
 
+    //Admin Product multiple categories
 
-
-
+        // $('.select_multiple').select2();
 
 })(window.Zepto || window.jQuery, window, document);
+
+
