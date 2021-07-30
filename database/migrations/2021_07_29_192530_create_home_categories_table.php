@@ -14,6 +14,7 @@ class CreateHomeCategoriesTable extends Migration
     public function up()
     {
         Schema::create('home_categories', function (Blueprint $table) {
+            $table->id();
             $table->string('sel_categories');
             $table->integer('no_of_products');
         });

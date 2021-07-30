@@ -147,7 +147,8 @@
 <script>
     $(document).ready(function() {
         $('.select_multiple').select2();
+        $('.select2-container').addClass('form-control', 'p-0', 'f-z-16');
     });
-    document.querySelector('.select2-container').classList.add('form-control', 'p-0', 'f-z-16');
+
 </script>
 @endpush

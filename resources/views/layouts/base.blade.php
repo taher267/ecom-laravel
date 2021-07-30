@@ -71,7 +71,10 @@
 															<a title="All Product" href="{{route('admin.products')}}">products</a>
 														</li>
                                                         <li class="menu-item" >
-															<a title="All Product" href="{{route('admin.homeslider')}}">manage home slider</a>
+															<a title="manage home slider" href="{{route('admin.homeslider')}}">manage home slider</a>
+														</li>
+                                                        <li class="menu-item" >
+															<a title="manage product category" href="{{route('admin.homecategory')}}">manage product Category</a>
 														</li>
 
 

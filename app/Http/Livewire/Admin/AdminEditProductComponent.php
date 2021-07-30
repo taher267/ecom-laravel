@@ -16,13 +16,24 @@ class AdminEditProductComponent extends Component
 
     public $product_id, $product_slug, $name, $slug, $short_description, $checkSlug,
             $description, $image, $newimage, $regular_price, $sale_price, $SKU, $featured,
-            $category_id, $sel_categories=[], $quantity, $stock_status;
-    public $pre_slug;
+            $category_id, $sel_categories, $quantity, $stock_status, $updated_id;
 
     public function mount($product_slug)
     {
-        $this->pre_slug = $product_slug;
-        $product = Product::where('slug', $product_slug)->first();
+
+
+        // if ($product->id) {
+        //     $this->product_id      = $product->id;
+        // }
+        // if(''== $product->id){
+        //     $this->product_id = 27;
+        // }
+        // if (Product::where('slug', $product_slug)->first() != null) {
+            $product = Product::where('slug', $product_slug)->first();
+        // }
+        // else {
+        //     $product = Product::findOrFail($this->updatedID());
+        // }
         $this->product_id           = $product->id;
         $this->name                 = $product->name;
         $this->slug                 = $product->slug;
@@ -36,7 +47,7 @@ class AdminEditProductComponent extends Component
         $this->quantity             = $product->quantity;
         $this->image                = $product->image;
         $this->category_id          = $product->category_id;
-        $this->sel_categories       = $product->categories;
+        // $this->sel_categories       = $product->pro_categories;
 
     }
     //genetate slug and check with Database
@@ -67,7 +78,7 @@ class AdminEditProductComponent extends Component
             'quantity'              => 'required|numeric',
             'newimage'              => 'nullable|mimes:png,jpg,jpeg,gif|image',
             'category_id'           => 'required|numeric|min:1',
-            'sel_categories'         => ['required'],
+            // 'sel_categories'        => 'required',
         ]);
     }
     public function updateProduct()
@@ -85,13 +96,14 @@ class AdminEditProductComponent extends Component
             'quantity'              => 'required|numeric',
             'newimage'              => 'nullable|image|mimes:png,jpg,jpeg,gif',
             'category_id'           => 'required|numeric|min:1',
-            'sel_categories'         => ['required'],
+            // 'sel_categories'        => ['required'],
         ]);
 
 
         $product                    = Product::findOrFail($this->product_id);
         $product->name              = $this->name;
         $product->slug              = $this->slug;
+        $this->updated_id           = $this->product_id;
         $product->short_description = $this->short_description;
         $product->description       = $this->description;
         $product->regular_price     = $this->regular_price;
@@ -101,11 +113,11 @@ class AdminEditProductComponent extends Component
         $product->featured          = $this->featured;
         $product->quantity   = $this->quantity;
         $product->category_id = $this->category_id;
-        $product->categories = $this->sel_categories;
+        // $product->categories = $this->sel_categories;
 
         //Exist image than update of image data
         if ( $this->newimage ) {
-            $imageName = Carbon::now()->timestamp . '.' . $this->newimage->extension();
+            $imageName      = Carbon::now()->timestamp . '.' . $this->newimage->extension();
             $product->image = $imageName;
         }
 
@@ -115,18 +127,25 @@ class AdminEditProductComponent extends Component
         {
             //update new image
             if ( $this->newimage ) {
-                $this->newimage->storeAs('products', $imageName);
+                $this->newimage->storeAs( 'products', $imageName );
             }
             //Update products Categories in pvot table=product_category
-            $product->categories()->sync($this->sel_categories);
+            // $product->pro_categories()->sync($this->sel_categories);
 
             session()->flash('msg', 'Product has been updated!!!');
+            return redirect()->to('/admin/product/edit/'. $this->slug);
         }
 
     }
+    // public function updatedID()
+    // {
+    //     $id = Product::where('updated_at', 'DESC')->first();
+    //     Product::findOrFail($id->id);
+
+    // }
     public function render()
     {
-        $product = Product::where('slug', $this->product_slug)->first();
+        $product = Product::where( 'slug', $this->product_slug )->first();
         $categories = Category::all();
         return view('livewire.admin.admin-edit-product-component', compact('categories', 'product'))->layout('layouts.base');
     }

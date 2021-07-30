@@ -11,7 +11,7 @@
                 <div class="panel-body row">
                     <div class="col-lg-8 col-md-8 mx-auto">
                         @if (Session::has('msg'))
-                            <div class="text-succes f-z-16s">
+                            <div class="alert alert-success f-z-16s">
                                 {{Session::get('msg')}}
                             </div>
                         @endif
@@ -100,23 +100,22 @@
                                 </select>
                             </div>
                             @error('category_id') <p class="text-danger f-z-16">{{$message}}</p>@enderror
-                            <div class="form-group input-group">
+                            {{-- <div class="form-group input-group">
                                 <span class="input-group-text f-z-16" id="basic-addon1">Categories<sup class="text-danger">*</sup></span>
                                 <select name="sel_categories[]" wire:model="sel_categories" class="select_multiple f-z-16 text-capitalize" multiple="multiple">
-                                    {{-- <option value="0">Select Category</option> --}}
                                     @foreach ($categories as $category)
                                         <option value="{{$category->id}}">{{$category->name}}</option>
                                     @endforeach
                                 </select>
 
-                                {{-- <div class="form-control">
+                                <div class="form-control">
                                     @foreach ($categories as $category)
-                                    <p class="d-inline-block"><input value="{{$category->id}}" type="checkbox" name="sel_categories[]" wire:model="sel_categories" id="cat_{{$category->id}}">
+                                    <p class="d-inline-block"><input value="{{$category->id}}" type="checkbox" name="sel_categories" wire:model="sel_categories" id="cat_{{$category->id}}">
                                     <label for="cat_{{$category->id}}">{{$category->name}}</label></p>
                                 @endforeach
-                                </div> --}}
-                            </div>
-                            @error('sel_categories') <p class="test-danger">{{$message}}</p> @enderror
+                                </div>
+                            </div> --}}
+                            {{-- @error('sel_categories') <p class="test-danger">{{$message}}</p> @enderror --}}
 
                             <style>
                                 div#from_group_pro_slug::after {
@@ -133,8 +132,10 @@
 
                             {{-- <span class="avaiable_or_not">avaiable_or_not</span> --}}
                             {{-- <input type="hidden" class="slug_exist_or_not" value="{{($confirmSlug)? $confirmSlug :'no'}}"> --}}
-                            <div class="form-group">
+                            <div class="form-group input-group">
+                                <span class="input-group-text" id="basic-addon1"><a href="#" class="btn text-primary m-0 p-0 fz-15"><i class="fa fa-arrow-left"></i> Back</a></span>
                                 <button type="{{--($checkSlug=='avaiable' && ' ' != $checkSlug )?'submit': 'button' --}}submit" class="f-z-16 btn btn-primary form-control" {{--($checkSlug=='avaiable' && ' ' != $checkSlug )? '': 'disabled' --}}>Update <i class="fa fa-arrow-up"></i></button>
+
                             </div>
                         </form>
                     </div>
@@ -144,7 +145,7 @@
     </div>
 </div>
 
-@push('scripts')
+{{-- @push('scripts')
 <script>
     $(document).ready(function() {
         $('.select_multiple').select2();
@@ -155,4 +156,4 @@
     });
     document.querySelector('.select2-container').classList.add('form-control', 'p-0', 'f-z-16');
 </script>
-@endpush
+@endpush --}}

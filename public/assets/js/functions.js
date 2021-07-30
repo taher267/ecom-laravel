@@ -646,3 +646,4 @@
 })(window.Zepto || window.jQuery, window, document);
 
 
+document.querySelector('.select2.select2-container').classList.add('form-control', 'p-0', 'f-z-16');

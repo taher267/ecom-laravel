@@ -102,7 +102,7 @@ class AdminAddProductComponent extends Component
             //Add products Categories in pvot table=product_category
             $categoryAttach = Product::findOrFail(Product::orderBy('id', 'DESC')->first()->id);
            //tag adding
-           $categoryAttach->categories()->sync($this->sel_categories);
+           $categoryAttach->pro_categories()->sync($this->sel_categories);
 
             session()->flash('msg', 'Product has been added!!!');
         }
