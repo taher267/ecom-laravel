@@ -4,11 +4,12 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Home</title>
+	<title>@yield('title', 'Home')</title>
     <link rel="shortcut icon" type="image/x-icon" href="{{asset('assets/images/favicon.ico')}}">
 	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,400italic,700,700italic,900,900italic&amp;subset=latin,latin-ext" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Open%20Sans:300,400,400italic,600,600italic,700,700italic&amp;subset=latin,latin-ext" rel="stylesheet">
 
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/nouislider/nouislider.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/animate.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/font-awesome.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap.min.css')}}">
@@ -19,6 +20,12 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/color-01.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/select2.min.css')}}">
+    {{-- <link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap-datetimepicker.min.css')}}"> --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.7.0/nouislider.min.css" integrity="sha512-40vN6DdyQoxRJCw0klEUwZfTTlcwkOLKpP8K8125hy9iF4fi8gPpWZp60qKC6MYAFaond8yQds7cTMVU8eMbgA==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
+
+
+
 	@livewireStyles
 </head>
 <body class="home-page home-01 ">
@@ -76,8 +83,11 @@
                                                         <li class="menu-item" >
 															<a title="manage product category" href="{{route('admin.homecategory')}}">manage product Category</a>
 														</li>
+                                                        <li class="menu-item" >
+															<a title="sale Setting" href="{{route('admin.onsale')}}">Sale Setting</a>
+														</li>
 
-
+                                                        {{-- LOGOUT --}}
 														<li class="menu-item" >
 															<form action="{{route('logout')}}" method="post">
 																@csrf
@@ -451,15 +461,22 @@
 	<script src="{{asset('assets/js/jquery-1.12.4.minb8ff.js?ver=1.12.4')}}"></script>
 	<script src="{{asset('assets/js/jquery-ui-1.12.4.minb8ff.js?ver=1.12.4')}}"></script>
 	<script src="{{asset('assets/js/bootstrap.min.js')}}"></script>
-
     <script src="{{asset('assets/js/bootstrap5.min.js')}}"></script>
+    <script src="{{asset('assets/nouislider/nouislider.min.js')}}"></script>
 	<script src="{{asset('assets/js/jquery.flexslider.js')}}"></script>
-	{{-- <script src="{{asset('assets/js/chosen.jquery.min.js')}}"></script> --}}
+	<!-- <script src="{{asset('assets/js/chosen.jquery.min.js')}}"></script> -->
 	<script src="{{asset('assets/js/owl.carousel.min.js')}}"></script>
 	<script src="{{asset('assets/js/jquery.countdown.min.js')}}"></script>
 	<script src="{{asset('assets/js/jquery.sticky.js')}}"></script>
 	<script src="{{asset('assets/js/functions.js')}}"></script>
     <script src="{{asset('assets/js/select2.min.js')}}"></script>
+
+    {{-- <script src="{{asset('assets/js/bootstrap-datetimepicker.min.js')}}"></script> --}}
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script> --}}
+    <script src="{{asset('assets/js/jquery-1.7.2.min.js')}}"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.0.0/js/bootstrap-datetimepicker.min.js"></script>
+
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.7.0/nouislider.min.js" integrity="sha512-jWNpWAWx86B/GZV4Qsce63q5jxx/rpWnw812vh0RE+SBIo/mmepwOSQkY2eVQnMuE28pzUEO7ux0a5sJX91g8A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
 
 	@livewireScripts
     @stack('scripts')

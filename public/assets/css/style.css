@@ -75,7 +75,7 @@ nav svg{
 nav .hidden {
     display: block !important;
 }
-.fz-14{font-size: 14px;}
+.fz-14{font-size: 14px !important;}
 .fz-15{font-size: 15px;}
 .f-z-16{font-size: 16px;}
 .fz-16{font-size: 16px;}
@@ -7185,3 +7185,46 @@ svg { overflow: hidden; vertical-align: middle;}
 .wrap-pagination-info .hidden{ display: block !important;}
 .wrap-pagination-info .rounded-l-md{ margin-right:5px;}
 .wrap-pagination-info .rounded-r-md{ margin-left:5px;}
+
+
+/*
+======================== Shop Page Slider========================
+*/
+.noUi-base, .noUi-connect{ background: #444;}
+.noUi-horizontal{height:12px}
+.noUi-handle{border: 0; box-shadow: none; background: #FF2832;}
+.noUi-horizontal .noUi-handle {width: 28px;height: 24px;right: -17px;top: -7px;}
+.noUi-handle:after {left: 15px !important; }
+.noUi-handle:after, .noUi-handle:before {height: 10px; left: 12px;top: 6.5px;}
+.noUi-tooltip{color: #FF2832; border: 1.5px solid #444;}
+/*
+.range_wrap{width: 100%; display: flex; font-size: 15px;}
+.range_wrap span{width: 23%; display: inline-block;}
+.range_wrap input[type="range"]{
+width: 75.5%;
+display: inline-block;
+-height: 18px; background: #FF2832;
+
+}
+.price_inp {
+-webkit-appearance: none;
+width: 100%;
+margin-top: 10px;
+height: 5px;
+border-radius: 5px;
+background: #FF2832;
+outline: none;
+opacity: 0.7;
+-webkit-transition: .2s;
+transition: opacity .2s;
+}
+.price_inp::-webkit-slider-thumb {
+appearance: none;
+width: 15px;
+height: 15px; border-radius: 50%;
+background: #FF2832;
+cursor: pointer;
+}
+.price_inp:hover {
+opacity: 1;
+} */

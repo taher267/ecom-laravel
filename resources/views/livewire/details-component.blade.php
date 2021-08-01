@@ -1,5 +1,5 @@
+@section('title', 'Product Details')
 <main id="main" class="main-site">
-
     <div class="container">
 
         <div class="wrap-breadcrumb">
@@ -41,19 +41,28 @@
                         <div class="wrap-social">
                             <a class="link-socail" href="#"><img src="{{asset('assets/images/social-list.png')}}" alt="{{$product->name}}"></a>
                         </div>
-                        <div class="wrap-price"><span class="product-price">${{$product->regular_price}}</span></div>
+                        <div class="wrap-price">
+                            <span class="product-price">${{$product->regular_price}}</span>
+                            @if ($product->sale_price >0)
+                            <del class="product-price fz-14">${{$product->sale_price}}</del>
+                            @endif
+                            @if (! empty(Auth::user()) && Auth::user()->utype==='ADM')<a href="{{route('admin.editproduct', $product->slug)}}" style="" class="btn btn-secondary">Quick Edit</a>@endif
+                        </div>
                         <div class="stock-info in-stock">
                             <p class="availability text-capitalize">Availability: <b>{{$product->stock_status}}</b></p>
                         </div>
                         <div class="quantity">
                             <span>Quantity:</span>
+
                             <div class="quantity-input">
                                 <input type="text" name="product-quatity" value="1" data-max="120" pattern="[0-9]*" >
-                                
+
                                 <a class="btn btn-reduce" href="#"></a>
                                 <a class="btn btn-increase" href="#"></a>
                             </div>
+
                         </div>
+
                         <div class="wrap-butons">
                             <a href="#" wire:click.prevent="store({{$product->id}}, '{{$product->name}}', {{$product->regular_price}})" class="btn add-to-cart">Add to Cart</a>
                             <div class="wrap-btn">
@@ -88,21 +97,21 @@
                                 </table>
                             </div>
                             <div class="tab-content-item " id="review">
-                                
+
                                 <div class="wrap-review-form">
-                                    
+
                                     <div id="comments">
                                         <h2 class="woocommerce-Reviews-title">01 review for <span>Radiant-360 R6 Chainsaw Omnidirectional [Orage]</span></h2>
                                         <ol class="commentlist">
                                             <li class="comment byuser comment-author-admin bypostauthor even thread-even depth-1" id="li-comment-20">
-                                                <div id="comment-20" class="comment_container"> 
+                                                <div id="comment-20" class="comment_container">
                                                     <img alt=""{{$product->name}} src="{{asset('assets/images/author-avata.jpg')}}" height="80" width="80">
                                                     <div class="comment-text">
                                                         <div class="star-rating">
                                                             <span class="width-80-percent">Rated <strong class="rating">5</strong> out of 5</span>
                                                         </div>
-                                                        <p class="meta"> 
-                                                            <strong class="woocommerce-review__author">admin</strong> 
+                                                        <p class="meta">
+                                                            <strong class="woocommerce-review__author">admin</strong>
                                                             <span class="woocommerce-review__dash">–</span>
                                                             <time class="woocommerce-review__published-date" datetime="2008-02-14 20:00" >Tue, Aug 15,  2017</time>
                                                         </p>
@@ -117,7 +126,7 @@
 
                                     <div id="review_form_wrapper">
                                         <div id="review_form">
-                                            <div id="respond" class="comment-respond"> 
+                                            <div id="respond" class="comment-respond">
 
                                                 <form action="#" method="post" id="commentform" class="comment-form" novalidate="">
                                                     <p class="comment-notes">
@@ -126,7 +135,7 @@
                                                     <div class="comment-form-rating">
                                                         <span>Your rating</span>
                                                         <p class="stars">
-                                                            
+
                                                             <label for="rated-1"></label>
                                                             <input type="radio" id="rated-1" name="rating" value="1">
                                                             <label for="rated-2"></label>
@@ -140,11 +149,11 @@
                                                         </p>
                                                     </div>
                                                     <p class="comment-form-author">
-                                                        <label for="author">Name <span class="required">*</span></label> 
+                                                        <label for="author">Name <span class="required">*</span></label>
                                                         <input id="author" name="author" type="text" value="">
                                                     </p>
                                                     <p class="comment-form-email">
-                                                        <label for="email">Email <span class="required">*</span></label> 
+                                                        <label for="email">Email <span class="required">*</span></label>
                                                         <input id="email" name="email" type="email" value="" >
                                                     </p>
                                                     <p class="comment-form-comment">

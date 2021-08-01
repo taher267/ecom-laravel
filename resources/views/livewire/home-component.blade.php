@@ -1,3 +1,4 @@
+@section('title', 'Home')
 <main id="main">
 		<div class="container">
 
@@ -33,10 +34,10 @@
 			</div>
 
 			<!--On Sale-->
-            @if ($s_products->count()>0)
+            @if ($s_products->count()>0 && $onsale->status ==1 && $onsale->sale_date > Carbon\Carbon::now())
 			<div class="wrap-show-advance-info-box style-1 has-countdown">
 				<h3 class="title-box">On Sale</h3>
-				<div class="wrap-countdown mercado-countdown" data-expire="2020/12/12 12:34:56"></div>
+				<div class="wrap-countdown mercado-countdown" data-expire="{{Carbon\Carbon::parse($onsale->sale_date)->setTimezone('Asia/dhaka')->format('Y/m/d h:i:s')}}"></div>
 				<div class="wrap-products slide-carousel owl-carousel style-nav-1 equal-container " data-items="5" data-loop="false" data-nav="true" data-dots="false" data-responsive='{"0":{"items":"1"},"480":{"items":"{{$s_products->count()>=2? 2:$s_products->count()}}"},"768":{"items":"{{$s_products->count()>=3? 2:$s_products->count()}}"},"992":{"items":"{{$s_products->count()>=4? 4 : $s_products->count()}}"},"1200":{"items":"{{$s_products->count()>=5? 5:$s_products->count()}}"}}'>
                     @foreach ($s_products as $key => $sproduct)
                     <div class="product product-style-2 equal-elem ">
@@ -56,7 +57,7 @@
 						</div>
 						<div class="product-info">
 							<a href="{{route('product.details', $sproduct->slug)}}" class="product-name"><span>{{$sproduct->name}}</span></a>
-							<div class="wrap-price"><ins><p class="product-price">${{$sproduct->regular_price}}</p></ins> <del><p class="product-price">${{$sproduct->sale_price}}</p></del></div>
+							<div class="wrap-price"><ins><p class="product-price">${{$sproduct->sale_price}}</p></ins> <del><p class="product-price">${{$sproduct->regular_price}}</p></del></div>
 						</div>
 					</div>
                     @endforeach

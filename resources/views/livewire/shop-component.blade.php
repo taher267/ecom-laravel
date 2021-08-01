@@ -7,82 +7,8 @@
         </ul>
     </div>
     <div class="row">
-        <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12 main-content-area">
-            <div class="banner-shop">
-                <a href="#" class="banner-link">
-                    <figure><img src="{{asset('assets/images/shop-banner.jpg')}}" alt=""></figure>
-                </a>
-            </div>
-            <div class="wrap-shop-control">
-                <h1 class="shop-title">Digital & Electronics</h1>
-                <div class="wrap-right">
-                    <div class="sort-item orderby " style="">
-                        <select name="orderby" class="shop_select_wrapper" wire:model="sorting">
-                            <option value="default" selected="selected">Default sorting</option>
-                            {{-- <option value="popularity">Sort by popularity</option>
-                            <option value="rating">Sort by average rating</option> --}}
-                            <option value="date">Sort by newness</option>
-                            <option value="price">Sort by price: low to high</option>
-                            <option value="price-desc">Sort by price: high to low</option>
-                        </select>
-                    </div>
-
-                    <div class="sort-item product-per-page">
-                        <select name="post-per-page" class="shop_select_wrapper" autofocus="off" wire:model="productperpage">
-                            <option value="12" selected="selected">12 per page</option>
-                            <option value="16">16 per page</option>
-                            <option value="18">18 per page</option>
-                            <option value="21">21 per page</option>
-                            <option value="24">24 per page</option>
-                            <option value="30">30 per page</option>
-                            <option value="32">32 per page</option>
-                        </select>
-                    </div>
-<style>
-
-select.shop_select_wrapper {
-    padding: 5px 10px;
-    border: none;
-    outline: none;
-}
-</style>
-                    <div class="change-display-mode">
-                        <a href="#" class="grid-mode display-mode active"><i class="fa fa-th"></i>Grid</a>
-                        <a href="list.html" class="list-mode display-mode"><i class="fa fa-th-list"></i>List</a>
-                    </div>
-
-                </div>
-
-            </div><!--end wrap shop control-->
-
-            <div class="row">
-
-                <ul class="product-list grid-products equal-container">
-                    @foreach ($products as $product)
-                        <li class="col-lg-4 col-md-6 col-sm-6 col-xs-6 ">
-                        <div class="product product-style-3 equal-elem ">
-                            <div class="product-thumnail">
-                                <a href="{{route('product.details', $product->slug)}}" title="{{$product->name}}">
-                                    <figure><img src="{{asset('assets/images/products/'. $product->image)}}" alt="{{$product->name}}"></figure>
-                                </a>
-                            </div>
-                            <div class="product-info">
-                                <a href="{{route('product.details', $product->slug)}}" class="product-name text-capitalize"><span>{{$product->name}}</span></a>
-                                <div class="wrap-price"><span class="product-price">${{$product->regular_price}}</span></div>
-                                <a href="#" wire:click.prevent="store({{$product->id}}, '{{$product->name}}', {{$product->regular_price}})" class="btn add-to-cart">Add To Cart</a>
-                            </div>
-                        </div>
-                    </li>
-                    @endforeach
-                </ul>
-            </div>
-
-            <div class="wrap-pagination-info">
-                {{$products->links()}}
-            </div>
-        </div><!--end main products area-->
-
-        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 sitebar">
+        {{-- col-md-push-9 --}}
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 sitebar ">
             <div class="widget mercado-widget categories-widget">
                 <h2 class="widget-title">All Categories</h2>
                 <div class="widget-content">
@@ -117,18 +43,18 @@ select.shop_select_wrapper {
 
             <div class="widget mercado-widget filter-widget price-filter">
                 <h2 class="widget-title">Price</h2>
-                <div class="widget-content">
-                    <div id="slider-range"></div>
-                    <p>
-                        <label for="amount">Price:</label>
-                        <input type="text" id="amount" readonly>
-                        <button class="filter-submit">Filter</button>
-                    </p>
+                <div class="widget-content" style="padding: 37px 32px 0 13px">
+                    <div class="price_range_slider" id="price_range_slider" wire:ignore></div>
                 </div>
             </div><!-- Price-->
+            <style>
 
+            </style>
+
+            {{-- <div style="margin-top: 50px;"></div> --}}
             <div class="widget mercado-widget filter-widget">
                 <h2 class="widget-title">Color</h2>
+
                 <div class="widget-content">
                     <ul class="list-style vertical-list has-count-index">
                         <li class="list-item"><a class="filter-link " href="#">Red <span>(217)</span></a></li>
@@ -220,6 +146,100 @@ select.shop_select_wrapper {
                 </div>
             </div><!-- brand widget-->
         </div><!--end sitebar-->
+        {{-- col-md-pull-3 --}}
+        <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12 main-content-area">
+            <div class="banner-shop">
+                <a href="#" class="banner-link">
+                    <figure><img src="{{asset('assets/images/shop-banner.jpg')}}" alt=""></figure>
+                </a>
+            </div>
+            <div class="wrap-shop-control">
+                <h1 class="shop-title">Digital & Electronics</h1>
+                <div class="wrap-right">
+                    <div class="sort-item orderby " style="">
+                        <select name="orderby" class="shop_select_wrapper" wire:model="sorting">
+                            <option value="default" selected="selected">Default sorting</option>
+                            {{-- <option value="popularity">Sort by popularity</option>
+                            <option value="rating">Sort by average rating</option> --}}
+                            <option value="date">Sort by newness</option>
+                            <option value="price">Sort by price: low to high</option>
+                            <option value="price-desc">Sort by price: high to low</option>
+                        </select>
+                    </div>
+
+                    <div class="sort-item product-per-page">
+                        <select name="post-per-page" class="shop_select_wrapper" autofocus="off" wire:model="productperpage">
+                            <option value="12" selected="selected">12 per page</option>
+                            <option value="16">16 per page</option>
+                            <option value="18">18 per page</option>
+                            <option value="21">21 per page</option>
+                            <option value="24">24 per page</option>
+                            <option value="30">30 per page</option>
+                            <option value="32">32 per page</option>
+                        </select>
+                    </div>
+                        <style>
+
+                        select.shop_select_wrapper {
+                            padding: 5px 10px;
+                            border: none;
+                            outline: none;
+                        }
+                        </style>
+                    <div class="change-display-mode">
+                        <a href="#" class="grid-mode display-mode active"><i class="fa fa-th"></i>Grid</a>
+                        <a href="list.html" class="list-mode display-mode"><i class="fa fa-th-list"></i>List</a>
+                    </div>
+
+                </div>
+
+            </div><!--end wrap shop control-->
+
+            <div class="row">
+
+                <ul class="product-list grid-products equal-container">
+                    @foreach ($products as $product)
+                        <li class="col-lg-4 col-md-6 col-sm-6 col-xs-6 ">
+                        <div class="product product-style-3 equal-elem ">
+                            <div class="product-thumnail">
+                                <a href="{{route('product.details', $product->slug)}}" title="{{$product->name}}">
+                                    <figure><img src="{{asset('assets/images/products/'. $product->image)}}" alt="{{$product->name}}"></figure>
+                                </a>
+                            </div>
+                            <div class="product-info">
+                                <a href="{{route('product.details', $product->slug)}}" class="product-name text-capitalize"><span>{{$product->name}}</span></a>
+                                <div class="wrap-price"><span class="product-price">${{$product->regular_price}}</span></div>
+                                <a href="#" wire:click.prevent="store({{$product->id}}, '{{$product->name}}', {{$product->regular_price}})" class="btn add-to-cart">Add To Cart</a>
+                            </div>
+                        </div>
+                    </li>
+                    @endforeach
+                </ul>
+            </div>
+
+            <div class="wrap-pagination-info">
+                {{$products->links()}}
+            </div>
+        </div><!--end main products area-->
+
+
     </div><!--end row-->
 </div><!--end container-->
 </main>
+
+@push('scripts')
+    <script>
+        var slider = document.querySelector('#price_range_slider');
+        noUiSlider.create(slider, {
+            start: [1,1000],
+            connect:true,
+            range:{ 'min' : {{$min_price}}, 'max' : {{$max_price}} },
+            tooltips: true,
+            //pips:{mode: 'steps', stepped:true,density: 4},
+        });
+        slider.noUiSlider.on('update', function(value){
+            @this.set('min_price',value[0]);
+            @this.set('max_price', value[1]);
+        });
+    </script>
+@endpush
