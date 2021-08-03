@@ -22,6 +22,7 @@
                                 <div class="alert alert-danger">{{$err}}</div>
                                     @endforeach
                                 @endif --}}
+
                             <form class="" wire:submit.prevent="storeProduct">
 
                                 <div class="input-group form-group">
@@ -88,10 +89,36 @@
                                     <span class="input-group-text f-z-16" id="basic-addon1">Image<sup class="text-primary">*</sup></span>
                                     <input type="file" name="image" wire:model="image" class="form-control f-z-16" placeholder="Product Image...">
                                 </div>
-                                @error('image') <p class="text-danger fz-15">{{$message}}</p> @enderror
+
                                 @if ($image)
-                                    <img class="" src="{{$image->temporaryUrl()}}" width="120">
+                                    @if ($errors->any())
+                                        @foreach ($errors->all() as $err)
+                                            @if ($err === 'The image must be an image.' || 'The image must be a file of type: png, jpg, jpeg.' === $err)
+                                                <p class="text-danger fz-15">{{$err}}</p>
+                                            @endif
+                                        @endforeach
+                                        @else
+                                             <img class="" src="{{$image->temporaryUrl()}}" width="120">
+                                    @endif
+
                                 @endif
+
+
+                                {{-- @if ($image)
+                                @php
+                                    // try {
+                                    //    $url = $image->temporaryUrl();
+                                    //    $imageStatus = true;
+                                    // }catch (RuntimeException $exception){
+                                    //     $this->imageStatus =  false;
+                                    // }
+                                @endphp
+                                @if($imageStatus== true)
+                                    <img src="{{ $image->temporaryUrl() }}">
+                                @else
+                                    Something went wrong while uploading the file.
+                                @endif
+                            @endif --}}
 
                                 <div class="form-group input-group">
                                     <span class="input-group-text f-z-16" id="basic-addon1">Category<sup class="text-danger">*</sup></span>
@@ -144,6 +171,7 @@
             </div>
         </div>
     </div>
+
 </div>
 @push('scripts')
 <script>

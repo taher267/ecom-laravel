@@ -7228,3 +7228,11 @@ cursor: pointer;
 .price_inp:hover {
 opacity: 1;
 } */
+
+/* Pagination custom css */
+span.relative.inline-flex.items-center.px-4.py-2.-ml-px.text-sm.font-medium.text-gray-500.bg-white.border.border-gray-300.cursor-default.leading-5 {
+    background: #FF2832 !important;
+    font-weight: bold;
+    color: #fff;
+    border: 2.5px solid #FF2832 !important;
+}

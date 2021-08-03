@@ -96,6 +96,7 @@ class AdminAddProductComponent extends Component
         $product->featured = $this->featured;
         $product->quantity = $this->quantity;
         if ($this->image) {
+            // dd( $this->image);
             $imageName = $this->slug . Carbon::now()->timestamp . '.' . $this->image->extension();
             $product->image = $imageName;
         }
@@ -104,6 +105,7 @@ class AdminAddProductComponent extends Component
         if ($product->save()) {
             if ($this->image) {
                 $this->image->storeAs('products', $imageName);
+                // Storage::disk('local')->
             }
             //Add products Categories in pvot table=product_category
             $categoryAttach = Product::findOrFail(Product::orderBy('id', 'DESC')->first()->id);
@@ -114,6 +116,20 @@ class AdminAddProductComponent extends Component
         }
 
     }
+
+    protected function cleanupOldUploads()
+    {
+
+        $storage = Storage::disk('local');
+        foreach ($storage->allFiles('livewire-tmp') as $filePathname) {
+            $yesterdaysStamp = now()->subSeconds(5)->timestamp;
+            if ($yesterdaysStamp > $storage->lastModified($filePathname)) {
+                $storage->delete($filePathname);
+            }
+        }
+    }
+
+
     public function render()
     {
         $categories = Category::all();

@@ -51,24 +51,24 @@ class AdminEditProductComponent extends Component
             return $this->checkSlug ='avaiable';
         }
     }
-    // public function updated($fields)
-    // {
-    //     $this->validateOnly($fields, [
-    //         'name'                  => ['required', \Illuminate\Validation\Rule::unique('products')->ignore($this->product_id)],
-    //         'slug'                  => ['required', \Illuminate\Validation\Rule::unique('products')->ignore($this->product_id)],
-    //         'short_description'     => 'nullable',
-    //         'description'           => 'required',
-    //         'regular_price'         => 'required|numeric',
-    //         'sale_price'            => 'nullable|numeric',
-    //         'SKU'                   => ['required', \Illuminate\Validation\Rule::unique('products')->ignore($this->product_id)],
-    //         'stock_status'          => 'required',
-    //         'featured'              => 'required|numeric|min:0|max:1',
-    //         'quantity'              => 'required|numeric',
-    //         'newimage'              => 'nullable|mimes:png,jpg,jpeg,gif|image',
-    //         'category_id'           => 'required|numeric|min:1',
-    //         // 'sel_categories.*'        => 'required',
-    //     ]);
-    // }
+    public function updated($fields)
+    {
+        $this->validateOnly($fields, [
+            'name'                  => ['required', \Illuminate\Validation\Rule::unique('products')->ignore($this->product_id)],
+            'slug'                  => ['required', \Illuminate\Validation\Rule::unique('products')->ignore($this->product_id)],
+            'short_description'     => 'nullable',
+            'description'           => 'required',
+            'regular_price'         => 'required|numeric',
+            'sale_price'            => 'nullable|numeric',
+            'SKU'                   => ['required', \Illuminate\Validation\Rule::unique('products')->ignore($this->product_id)],
+            'stock_status'          => 'required',
+            'featured'              => 'required|numeric|min:0|max:1',
+            'quantity'              => 'required|numeric',
+            'newimage'              => 'image|mimes:png,jpg,jpeg|nullable',
+            'category_id'           => 'required|numeric|min:1',
+            // 'sel_categories.*'        => 'required',
+        ]);
+    }
     public function updateProduct()
     {
         $this->validate([
@@ -125,12 +125,19 @@ class AdminEditProductComponent extends Component
         }
 
     }
-    // public function updatedID()
-    // {
-    //     $id = Product::where('updated_at', 'DESC')->first();
-    //     Product::findOrFail($id->id);
 
-    // }
+    protected function cleanupOldUploads()
+    {
+
+        $storage = Storage::disk('local');
+        foreach ($storage->allFiles('livewire-tmp') as $filePathname) {
+            $yesterdaysStamp = now()->subSeconds(5)->timestamp;
+            if ($yesterdaysStamp > $storage->lastModified($filePathname)) {
+                $storage->delete($filePathname);
+            }
+        }
+    }
+
     public function render()
     {
         $product = Product::where( 'slug', $this->product_slug )->first();

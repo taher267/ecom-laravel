@@ -80,15 +80,27 @@
                                 <input type="text" name="quantity" wire:model="quantity" class="form-control f-z-16" placeholder="Product Quantity...">
                             </div>
                             @error('quantity') <p class="text-danger f-z-16">{{$message}}</p>@enderror
-                            <p class="text-danger f-z-16">Image format should be jpg, jpeg,png, gif</p>
+
                             <div class="form-group input-group">
-                                <span class="input-group-text p-0" id="basic-addon1">@if($image) <img src='{{asset('assets/images/products/'. $image)}}' wire:model="image" style="width:43px" alt="Edit image"> @endif</span>
+                                <span class="input-group-text p-0" id="basic-addon1">@if(! empty($image)) <img src='{{asset('assets/images/products/'. $image)}}'  style="width:43px; height:32px !important;" alt="Edit image"> @endif</span>
                                 <input type="file" name="newimage" wire:model="newimage" class="form-control f-z-16" placeholder="Product Image...">
                             </div>
-                            @error('newimage') <p class="text-danger f-z-16">{{$message}}</p>@enderror
-                            @if ( $newimage )
-                                <img class="" src="{{$newimage->temporaryUrl()}}" width="120">
+                            {{-- @error('newimage') <p class="text-danger f-z-16">{{$message}}</p>@enderror --}}
+                            @if ($newimage)
+                            @if ($errors->any())
+                                @foreach ($errors->all() as $err)
+                                    @if ($err === 'The newimage must be an image.' || 'The newimage must be a file of type: png, jpg, jpeg.' === $err)
+                                        <p class="text-danger fz-15">{{$err}}</p>
+                                    @endif
+                                @if ($err === 'The newimage failed to upload.')
+                                <p class="text-danger fz-15">{{$err}} It seems not image file.</p>
+                                @endif
+                                @endforeach
+                                @else
+                                     <img class="" src="{{$newimage->temporaryUrl()}}" width="120">
                             @endif
+
+                        @endif
 
                             <div class="form-group input-group">
                                 <span class="input-group-text f-z-16" id="basic-addon1">Category<sup class="text-danger">*</sup></span>
