@@ -475,8 +475,9 @@
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script> --}}
     <script src="{{asset('assets/js/jquery-1.7.2.min.js')}}"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.0.0/js/bootstrap-datetimepicker.min.js"></script>
-
+	<script src="https://cdn.tiny.cloud/1/kkzm7aotubmkrvxqfvo82szskkhwzcqh9wd4vt5jjqqir1q2/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.7.0/nouislider.min.js" integrity="sha512-jWNpWAWx86B/GZV4Qsce63q5jxx/rpWnw812vh0RE+SBIo/mmepwOSQkY2eVQnMuE28pzUEO7ux0a5sJX91g8A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
+    {{-- <script src="{!! asset("assets/tinymce/tinymce.min.js") !!}"></script> --}}
 
 	@livewireScripts
     @stack('scripts')

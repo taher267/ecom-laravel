@@ -28,39 +28,41 @@
                                     <span class="input-group-text f-z-16" id="basic-addon1">Product Name<sup class="text-danger">*</sup></span>
                                     <input type="text" name="name" id="add_product_name" class="form-control f-z-16" placeholder="Product Name..."  wire:keyup="generateSlug" wire:model="name" {{--wire:keydown="generateSlug"--}}>
                                 </div>
-                                @error('name') <p class="test-danger">{{$message}}</p> @enderror
+                                @error('name') <p class="text-danger fz-15">{{$message}}</p> @enderror
 
                                 <div class="form-group input-group" id="from_group_pro_slug">
                                     <span class="input-group-text f-z-16" id="basic-addon1">Product Slug<sup class="text-danger">*</sup></span>
                                     <input style="color: {{($checkSlug=='avaiable' && $checkSlug !=' ')?'green': 'red' }}" wire:model="slug" type="text" name="slug" id="Product_slug" class="form-control cat_converted_slug f-z-16" placeholder="Product Slug..."  >
                                 </div>
-                                @error('slug') <p class="test-danger">{{$message}}</p> @enderror
+                                @error('slug') <p class="text-danger fz-15">{{$message}}</p> @enderror
 
-                                <div class="form-group input-group">
+                                <div class="form-group input-group" wire:ignore>
                                     <span class="input-group-text f-z-16" id="basic-addon1">Short Description<sup class="text-primary">*</sup></span>
-                                    <textarea wire:model="short_description" rows="3" type="text" name="short_description" class="form-control f-z-16" placeholder="Product Short Description..."   > </textarea>
+                                    <textarea wire:model="short_description" id="short_description" rows="3" name="short_description" class="form-control f-z-16" placeholder="Product Short Description..."   > </textarea>
                                 </div>
-                                @error('short_description') <p class="test-danger">{{$message}}</p> @enderror
-                                <div class="form-group input-group">
+                                @error('short_description') <p class="text-danger fz-15">{{$message}}</p> @enderror
+
+                                <div class="form-group input-group" wire:ignore>
                                     <span class="input-group-text f-z-16 text-danger" id="basic-addon1">Description<sup class="text-danger">*</sup></span>
-                                    <textarea rows="6" wire:model="description" type="text" name="description" class="form-control f-z-16" placeholder="Product Description..................." ></textarea>
+                                    <textarea rows="6" wire:model="description" id="description" name="description" class="form-control f-z-16" placeholder="Product Description..................." ></textarea>
                                 </div>
-                                @error('description') <p class="test-danger">{{$message}}</p> @enderror
+                                @error('description') <p class="text-danger fz-15">{{$message}}</p> @enderror
+
                                 <div class="form-group input-group">
                                     <span class="input-group-text f-z-16" id="basic-addon1">Regular Price<sup class="text-danger">*</sup></span>
                                     <input type="number" name="regular_price" class="form-control f-z-16" placeholder="Product regular price..."  wire:model="regular_price">
                                 </div>
-                                @error('regular_price') <p class="test-danger">{{$message}}</p> @enderror
+                                @error('regular_price') <p class="text-danger fz-15">{{$message}}</p> @enderror
                                 <div class="form-group input-group">
                                     <span class="input-group-text f-z-16" id="basic-addon1">Sale Price<sup class="text-primary">*</sup></span>
                                     <input type="number" name="sale_price" class="form-control f-z-16" placeholder="Product Sale price..."  wire:model="sale_price">
                                 </div>
-                                @error('sale_price') <p class="test-danger">{{$message}}</p> @enderror
+                                @error('sale_price') <p class="text-danger fz-15">{{$message}}</p> @enderror
                                 <div class="form-group input-group">
                                     <span class="input-group-text f-z-16" id="basic-addon1">SKU<sup class="text-danger">*</sup></span>
                                     <input type="text" name="SKU" wire:model="SKU" class="form-control f-z-16" placeholder="Product SKU...">
                                 </div>
-                                @error('SKU') <p class="test-danger">{{$message}}</p> @enderror
+                                @error('SKU') <p class="text-danger fz-15">{{$message}}</p> @enderror
                                 <div class="form-group input-group">
                                     <span class="input-group-text f-z-16" id="basic-addon1">Stock Status<sup class="text-danger">*</sup></span>
                                     <select name="stock_status" wire:model="stock_status" class="form-control f-z-16">
@@ -68,7 +70,7 @@
                                             <option value="outofstock">Out of Stock</option>
                                     </select>
                                 </div>
-                                @error('stock_status') <p class="test-danger">{{$message}}</p> @enderror
+                                @error('stock_status') <p class="text-danger fz-15">{{$message}}</p> @enderror
                                 <div class="form-group input-group">
                                     <span class="input-group-text f-z-16" id="basic-addon1">Featured<sup class="text-danger">*</sup></span>
                                     <select name="featured" wire:model="featured" class="form-control f-z-16">
@@ -76,17 +78,17 @@
                                             <option value="1">Yes</option>
                                     </select>
                                 </div>
-                                @error('featured') <p class="test-danger">{{$message}}</p> @enderror
+                                @error('featured') <p class="text-danger fz-15">{{$message}}</p> @enderror
                                 <div class="form-group input-group">
                                     <span class="input-group-text f-z-16" id="basic-addon1">Quantity<sup class="text-danger">*</sup></span>
                                     <input type="number" name="quantity" wire:model="quantity" class="form-control f-z-16" placeholder="Product Quantity...">
                                 </div>
-                                @error('quantity') <p class="test-danger">{{$message}}</p> @enderror
+                                @error('quantity') <p class="text-danger fz-15">{{$message}}</p> @enderror
                                 <div class="form-group input-group">
                                     <span class="input-group-text f-z-16" id="basic-addon1">Image<sup class="text-primary">*</sup></span>
                                     <input type="file" name="image" wire:model="image" class="form-control f-z-16" placeholder="Product Image...">
                                 </div>
-                                @error('image') <p class="test-danger">{{$message}}</p> @enderror
+                                @error('image') <p class="text-danger fz-15">{{$message}}</p> @enderror
                                 @if ($image)
                                     <img class="" src="{{$image->temporaryUrl()}}" width="120">
                                 @endif
@@ -100,7 +102,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                @error('category_id') <p class="test-danger">{{$message}}</p> @enderror
+                                @error('category_id') <p class="text-danger fz-15">{{$message}}</p> @enderror
                                 <div class="form-group input-group">
                                     <span class="input-group-text f-z-16" id="basic-addon1">Categories<sup class="text-danger">*</sup></span>
                                     {{-- <select name="sel_categories[]" wire:model="sel_categories" class="select_multiple f-z-16 text-capitalize" multiple="multiple">
@@ -116,7 +118,7 @@
                                     @endforeach
                                     </div>
                                 </div>
-                                @error('sel_categories') <p class="test-danger">{{$message}}</p> @enderror
+                                @error('sel_categories') <p class="text-danger fz-15">{{$message}}</p> @enderror
                                 <style>
                                     div#from_group_pro_slug::after {
                                     position: absolute;
@@ -133,7 +135,7 @@
                                 {{-- <span class="avaiable_or_not">avaiable_or_not</span> --}}
                                 {{-- <input type="hidden" class="slug_exist_or_not" value="{{($confirmSlug)? $confirmSlug :'no'}}"> --}}
                                 <div class="form-group">
-                                    <button type="{{--($checkSlug=='avaiable' && ' ' != $checkSlug )?'submit': 'button' --}}submit" class="f-z-16 btn btn-primary form-control" {{--($checkSlug=='avaiable' && ' ' != $checkSlug )? '': 'disabled' --}}><i class="fa fa-plus"></i> Add Product</button>
+                                    <button type="{{ $errors->any() ?'button': 'submit'}}" class="f-z-16 btn btn-primary form-control" {{ ( $errors->any() )? 'disabled' :'' }}><i class="fa fa-plus"></i> Add Product</button>
                                 </div>
                             </form>
                         </div>
@@ -145,10 +147,33 @@
 </div>
 @push('scripts')
 <script>
-    $(document).ready(function() {
-        $('.select_multiple').select2();
-        $('.select2-container').addClass('form-control', 'p-0', 'f-z-16');
-    });
+    $(function(){
+            tinymce.init({
+            selector: '#short_description',
+            // height: 500,
+            setup:function(editor){
+                editor.on('Change', function(e){
+                    tinyMCE.triggerSave();
+                    var sd_data = $('#short_description').val();
+                    @this.set('short_description', sd_data);
+                })
+            },
+            });
 
+            tinymce.init({
+            selector: '#description',
+            setup:function(editor){
+                editor.on('Change', function(ee){
+                    tinyMCE.triggerSave();
+                    var d_data = $('#description').val();
+                    @this.set('description', d_data);
+                })
+            },
+            });
+        });
+    // $(document).ready(function() {
+    //     $('.select_multiple').select2();
+    //     $('.select2-container').addClass('form-control', 'p-0', 'f-z-16');
+    // });
 </script>
 @endpush

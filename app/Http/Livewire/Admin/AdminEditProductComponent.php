@@ -16,24 +16,11 @@ class AdminEditProductComponent extends Component
 
     public $product_id, $product_slug, $name, $slug, $short_description, $checkSlug,
             $description, $image, $newimage, $regular_price, $sale_price, $SKU, $featured,
-            $category_id, $sel_categories, $quantity, $stock_status, $updated_id;
+            $category_id, $sel_categories=[], $quantity, $stock_status, $updated_id;
 
     public function mount($product_slug)
     {
-
-
-        // if ($product->id) {
-        //     $this->product_id      = $product->id;
-        // }
-        // if(''== $product->id){
-        //     $this->product_id = 27;
-        // }
-        // if (Product::where('slug', $product_slug)->first() != null) {
-            $product = Product::where('slug', $product_slug)->first();
-        // }
-        // else {
-        //     $product = Product::findOrFail($this->updatedID());
-        // }
+        $product                    = Product::where('slug', $product_slug)->first();
         $this->product_id           = $product->id;
         $this->name                 = $product->name;
         $this->slug                 = $product->slug;
@@ -47,9 +34,10 @@ class AdminEditProductComponent extends Component
         $this->quantity             = $product->quantity;
         $this->image                = $product->image;
         $this->category_id          = $product->category_id;
-        // $this->sel_categories       = $product->pro_categories;
+        $this->sel_categories       = $product->pro_categories;
 
     }
+
     //genetate slug and check with Database
     public function generateSlug()
     {
@@ -63,24 +51,24 @@ class AdminEditProductComponent extends Component
             return $this->checkSlug ='avaiable';
         }
     }
-    public function updated($fields)
-    {
-        $this->validateOnly($fields, [
-            'name'                  => ['required', \Illuminate\Validation\Rule::unique('products')->ignore($this->product_id)],
-            'slug'                  => ['required', \Illuminate\Validation\Rule::unique('products')->ignore($this->product_id)],
-            'short_description'     => 'nullable',
-            'description'           => 'required',
-            'regular_price'         => 'required|numeric',
-            'sale_price'            => 'nullable|numeric',
-            'SKU'                   => ['required', \Illuminate\Validation\Rule::unique('products')->ignore($this->product_id)],
-            'stock_status'          => 'required',
-            'featured'              => 'required|numeric|min:0|max:1',
-            'quantity'              => 'required|numeric',
-            'newimage'              => 'nullable|mimes:png,jpg,jpeg,gif|image',
-            'category_id'           => 'required|numeric|min:1',
-            // 'sel_categories'        => 'required',
-        ]);
-    }
+    // public function updated($fields)
+    // {
+    //     $this->validateOnly($fields, [
+    //         'name'                  => ['required', \Illuminate\Validation\Rule::unique('products')->ignore($this->product_id)],
+    //         'slug'                  => ['required', \Illuminate\Validation\Rule::unique('products')->ignore($this->product_id)],
+    //         'short_description'     => 'nullable',
+    //         'description'           => 'required',
+    //         'regular_price'         => 'required|numeric',
+    //         'sale_price'            => 'nullable|numeric',
+    //         'SKU'                   => ['required', \Illuminate\Validation\Rule::unique('products')->ignore($this->product_id)],
+    //         'stock_status'          => 'required',
+    //         'featured'              => 'required|numeric|min:0|max:1',
+    //         'quantity'              => 'required|numeric',
+    //         'newimage'              => 'nullable|mimes:png,jpg,jpeg,gif|image',
+    //         'category_id'           => 'required|numeric|min:1',
+    //         // 'sel_categories.*'        => 'required',
+    //     ]);
+    // }
     public function updateProduct()
     {
         $this->validate([
@@ -96,7 +84,7 @@ class AdminEditProductComponent extends Component
             'quantity'              => 'required|numeric',
             'newimage'              => 'nullable|image|mimes:png,jpg,jpeg,gif',
             'category_id'           => 'required|numeric|min:1',
-            // 'sel_categories'        => ['required'],
+            // 'sel_categories.*'        => ['required'|'numeric'],
         ]);
 
 
@@ -112,7 +100,7 @@ class AdminEditProductComponent extends Component
         $product->stock_status      = $this->stock_status;
         $product->featured          = $this->featured;
         $product->quantity   = $this->quantity;
-        $product->category_id = $this->category_id;
+        // $product->category_id = $this->category_id;
         // $product->categories = $this->sel_categories;
 
         //Exist image than update of image data

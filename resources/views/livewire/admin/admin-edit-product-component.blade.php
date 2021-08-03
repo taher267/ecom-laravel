@@ -34,14 +34,14 @@
                                 <input style="color: {{($checkSlug=='avaiable' && $checkSlug !=' ')?'green': 'red' }}" wire:model="slug" type="text" name="slug" id="Product_slug" class="form-control cat_converted_slug f-z-16" placeholder="Product Slug..."  >
                             </div>
                             @error('slug') <p class="text-danger f-z-16">{{$message}}</p>@enderror
-                            <div class="form-group input-group">
+                            <div class="form-group input-group" wire:ignore>
                                 <span class="input-group-text f-z-16" id="basic-addon1">Short Description<sup class="text-primary">*</sup></span>
-                                <textarea wire:model="short_description" rows="3" type="text" name="short_description" class="form-control f-z-16" placeholder="Product Short Description..."   > </textarea>
+                                <textarea wire:model="short_description" id="short_description" rows="3" type="text" name="short_description" class="form-control f-z-16" placeholder="Product Short Description..."   > </textarea>
                             </div>
                             @error('short_description') <p class="text-danger f-z-16">{{$message}}</p>@enderror
-                            <div class="form-group input-group">
+                            <div class="form-group input-group" wire:ignore>
                                 <span class="input-group-text f-z-16 text-danger" id="basic-addon1">Description<sup class="text-danger">*</sup></span>
-                                <textarea rows="6" wire:model="description" type="text" name="description" class="form-control f-z-16" placeholder="Product Description..................." ></textarea>
+                                <textarea rows="6" wire:model="description" type="text" name="description" id="description" class="form-control f-z-16" placeholder="Product Description..................." ></textarea>
                             </div>
                             @error('description') <p class="text-danger f-z-16">{{$message}}</p>@enderror
                             <div class="form-group input-group">
@@ -100,21 +100,21 @@
                                 </select>
                             </div>
                             @error('category_id') <p class="text-danger f-z-16">{{$message}}</p>@enderror
-                            {{-- <div class="form-group input-group">
+                            <div class="form-group input-group">
                                 <span class="input-group-text f-z-16" id="basic-addon1">Categories<sup class="text-danger">*</sup></span>
-                                <select name="sel_categories[]" wire:model="sel_categories" class="select_multiple f-z-16 text-capitalize" multiple="multiple">
+                                {{-- <select name="sel_categories[]" wire:model="sel_categories" class="select_multiple f-z-16 text-capitalize" multiple="multiple">
                                     @foreach ($categories as $category)
                                         <option value="{{$category->id}}">{{$category->name}}</option>
                                     @endforeach
-                                </select>
+                                </select> --}}
 
-                                <div class="form-control">
+                                {{-- <div class="form-control">
                                     @foreach ($categories as $category)
-                                    <p class="d-inline-block"><input value="{{$category->id}}" type="checkbox" name="sel_categories" wire:model="sel_categories" id="cat_{{$category->id}}">
+                                    <p class="d-inline-block"><input value="{{$category->id}}" type="checkbox" name="sel_categories[]" wire:model="sel_categories" id="cat_{{$category->id}}">
                                     <label for="cat_{{$category->id}}">{{$category->name}}</label></p>
                                 @endforeach
-                                </div>
-                            </div> --}}
+                                </div> --}}
+                            </div>
                             {{-- @error('sel_categories') <p class="test-danger">{{$message}}</p> @enderror --}}
 
                             <style>
@@ -135,7 +135,7 @@
                             <div class="form-group input-group">
                                 <span class="input-group-text" id="basic-addon1"><a href="#" class="btn text-primary m-0 p-0 fz-15"><i class="fa fa-arrow-left"></i> Back</a></span>
                                 <button type="{{--($checkSlug=='avaiable' && ' ' != $checkSlug )?'submit': 'button' --}}submit" class="f-z-16 btn btn-primary form-control" {{--($checkSlug=='avaiable' && ' ' != $checkSlug )? '': 'disabled' --}}>Update <i class="fa fa-arrow-up"></i></button>
-
+                                <span class="input-group-text" id="basic-addon1"><a href="{!! route('product.details', $slug) !!}" class="btn text-primary m-0 p-0 fz-15">View <i class="fa fa-eye"></i></a></span>
                             </div>
                         </form>
                     </div>
@@ -157,3 +157,32 @@
     document.querySelector('.select2-container').classList.add('form-control', 'p-0', 'f-z-16');
 </script>
 @endpush --}}
+@push('scripts')
+    <script>
+        $(function(){
+            tinymce.init({
+            selector: '#short_description',
+            // height: 500,
+            setup:function(editor){
+                editor.on('Change', function(e){
+                    tinyMCE.triggerSave();
+                    var sd_data = $('#short_description').val();
+                    @this.set('short_description', sd_data);
+                })
+            },
+            });
+
+            tinymce.init({
+            selector: '#description',
+            // height: 500,
+            setup:function(editor){
+                editor.on('Change', function(e){
+                    tinyMCE.triggerSave();
+                    var d_data = $('#description').val();
+                    @this.set('description', d_data);
+                })
+            },
+            });
+        });
+    </script>
+@endpush

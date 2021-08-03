@@ -14,8 +14,8 @@
                     <div class="detail-media">
                         <div class="product-gallery">
                           <ul class="slides">
-                            <li data-thumb="{{asset('assets/images/products/' . $product->image)}}">
-                                <img src="{{asset('assets/images/products/' . $product->image)}}" alt="product thumbnail" />
+                            <li data-thumb="{!! asset('assets/images/products/' . $product->image) !!}">
+                                <img src="{!! asset('assets/images/products/' . $product->image) !!}" alt="product thumbnail" />
                             </li>
                           </ul>
                         </div>
@@ -29,9 +29,9 @@
                             <i class="fa fa-star" aria-hidden="true"></i>
                             <a href="#" class="count-review">(05 review)</a>
                         </div>
-                        <h2 class="product-name text-capitalize">{{$product->name}}</h2>
+                        <h2 title="{!! $product->category_id !!}" class="product-name text-capitalize">{!! $product->name !!}</h2>
                         <div class="short-desc">
-                            {{$product->short_description}}
+                            {!!$product->short_description!!}
                             {{-- <ul>
                                 <li>7,9-inch LED-backlit, 130Gb</li>
                                 <li>Dual-core A7 with quad-core graphics</li>
@@ -39,17 +39,17 @@
                             </ul> --}}
                         </div>
                         <div class="wrap-social">
-                            <a class="link-socail" href="#"><img src="{{asset('assets/images/social-list.png')}}" alt="{{$product->name}}"></a>
+                            <a class="link-socail" href="#"><img src="{!! asset('assets/images/social-list.png') !!}" alt="{!! $product->name !!}"></a>
                         </div>
                         <div class="wrap-price">
-                            <span class="product-price">${{$product->regular_price}}</span>
+                            <span class="product-price">${!! $product->regular_price !!}</span>
                             @if ($product->sale_price >0)
-                            <del class="product-price fz-14">${{$product->sale_price}}</del>
+                            <del class="product-price fz-14">${!! $product->sale_price !!}</del>
                             @endif
-                            @if (! empty(Auth::user()) && Auth::user()->utype==='ADM')<a href="{{route('admin.editproduct', $product->slug)}}" style="" class="btn btn-secondary">Quick Edit</a>@endif
+                            @if (! empty(Auth::user()) && Auth::user()->utype==='ADM')<a href="{!! route('admin.editproduct', $product->slug) !!}" style="" class="btn btn-secondary">Quick Edit</a>@endif
                         </div>
                         <div class="stock-info in-stock">
-                            <p class="availability text-capitalize">Availability: <b>{{$product->stock_status}}</b></p>
+                            <p class="availability text-capitalize">Availability: <b>{!! $product->stock_status !!}</b></p>
                         </div>
                         <div class="quantity">
                             <span>Quantity:</span>
@@ -64,7 +64,7 @@
                         </div>
 
                         <div class="wrap-butons">
-                            <a href="#" wire:click.prevent="store({{$product->id}}, '{{$product->name}}', {{$product->regular_price}})" class="btn add-to-cart">Add to Cart</a>
+                            <a href="#" wire:click.prevent="store({!! $product->id !!}, '{!! $product->name !!}', {!! $product->regular_price !!})" class="btn add-to-cart">Add to Cart</a>
                             <div class="wrap-btn">
                                 <a href="#" class="btn btn-compare">Add Compare</a>
                                 <a href="#" class="btn btn-wishlist">Add Wishlist</a>
@@ -74,16 +74,21 @@
                     <div class="advance-info">
                         <div class="tab-control normal">
                             <a href="#description" class="tab-control-item active">description</a>
-                            <a href="#add_infomation" class="tab-control-item">Addtional Infomation</a>
+                            <a href="#add_infomation" class="tab-control-item">Additional Infomation</a>
                             <a href="#review" class="tab-control-item">Reviews</a>
                         </div>
                         <div class="tab-contents">
                             <div class="tab-content-item active" id="description">
-                                <p>{{$product->description}}</p>
+                                <p>{!! $product->description !!}</p>
                             </div>
                             <div class="tab-content-item " id="add_infomation">
-                                <table class="shop_attributes">
+                                @if ( $product->additional_info != null )
+                                {!!$product->additional_info!!}
+                                @else
+                                <table class="shop_attributes table table-striped">
+                                    <h4 class="text-warning">Default additional Info</h4>
                                     <tbody>
+
                                         <tr>
                                             <th>Weight</th><td class="product_weight">1 kg</td>
                                         </tr>
@@ -95,6 +100,8 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                                @endif
+
                             </div>
                             <div class="tab-content-item " id="review">
 
@@ -105,7 +112,7 @@
                                         <ol class="commentlist">
                                             <li class="comment byuser comment-author-admin bypostauthor even thread-even depth-1" id="li-comment-20">
                                                 <div id="comment-20" class="comment_container">
-                                                    <img alt=""{{$product->name}} src="{{asset('assets/images/author-avata.jpg')}}" height="80" width="80">
+                                                    <img alt=""{!! $product->name !!} src="{!! asset('assets/images/author-avata.jpg') !!}" height="80" width="80">
                                                     <div class="comment-text">
                                                         <div class="star-rating">
                                                             <span class="width-80-percent">Rated <strong class="rating">5</strong> out of 5</span>
@@ -226,13 +233,13 @@
                             <li class="product-item">
                                 <div class="product product-widget-style">
                                     <div class="thumbnnail">
-                                        <a href="{{route('product.details', $p_product->slug)}}" title="{{$p_product->name}}">
-                                            <figure><img src="{{asset('assets/images/products/' . $p_product->image)}}" alt="{{$p_product->name}}"></figure>
+                                        <a href="{!! route('product.details', $p_product->slug) !!}" title="{!! $p_product->name !!}">
+                                            <figure><img src="{!! asset('assets/images/products/' . $p_product->image) !!}" alt="{!! $p_product->name !!}"></figure>
                                         </a>
                                     </div>
                                     <div class="product-info">
-                                        <a href="{{route('product.details', $p_product->slug)}}" class="product-name text-capitalize"><span>{{$p_product->name}}...</span></a>
-                                        <div class="wrap-price"><span class="product-price">${{$p_product->regular_price}}</span></div>
+                                        <a href="{!! route('product.details', $p_product->slug) !!}" class="product-name text-capitalize"><span>{!! $p_product->name !!}...</span></a>
+                                        <div class="wrap-price"><span class="product-price">${!! $p_product->regular_price !!}</span></div>
                                     </div>
                                 </div>
                             </li>
@@ -242,27 +249,28 @@
                 </div>
 
             </div><!--end sitebar-->
+            @if ($related_products->count() > 0)
             <div class="single-advance-box col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="wrap-show-advance-info-box style-1 box-in-site">
                     <h3 class="title-box">Related Products</h3>
                     <div class="wrap-products">
-                        <div class="products slide-carousel owl-carousel style-nav-1 equal-container" data-items="5" data-loop="false" data-nav="true" data-dots="false" data-responsive='{"0":{"items":"1"},"480":{"items":"2"},"768":{"items":"3"},"992":{"items":"3"},"1200":{"items":"5"}}' >
+                        <div class="products slide-carousel owl-carousel style-nav-1 equal-container" data-activation="owl-carousel_{{rand()}}" data-items="5" data-loop="false" data-nav="true" data-dots="false" data-responsive='{"0":{"items":"1"},"480":{"items":"{!! $related_products->count() >=2?2 : $related_products->count() !!}"},"768":{"items":"{!! $related_products->count() >=3 ? 3 : $related_products->count() !!}"},"992":{"items":"{!! $related_products->count() >=3 ? 3 : $related_products->count() !!}"},"1200":{ "items":"{!! $related_products->count() >=5 ? 5 : $related_products->count() !!}" } }' >
                             @foreach ($related_products as $r_product)
                             <div class="product product-style-2 equal-elem ">
                                 <div class="product-thumnail">
-                                    <a href="{{route('product.details', $r_product->slug)}}" title="{{$r_product->name}}">
-                                        <figure><img src="{{asset('assets/images/products/' . $r_product->image)}}" width="214" height="214" alt="{{$r_product->name}}"></figure>
+                                    <a href="{{ route('product.details', $r_product->slug) }}" title="{{ $r_product->name }}">
+                                        <figure><img src="{!! asset('assets/images/products/' . $r_product->image) !!}" width="214" height="214" alt="{!! $r_product->name !!}"></figure>
                                     </a>
                                     <div class="group-flash">
                                         <span class="flash-item new-label">new</span>
                                     </div>
                                     <div class="wrap-btn">
-                                        <a href="{{route('product.details', $r_product->slug)}}" class="function-link">quick view</a>
+                                        <a href="{!! route('product.details', $r_product->slug) !!}" class="function-link">quick view</a>
                                     </div>
                                 </div>
                                 <div class="product-info">
-                                    <a href="{{route('product.details', $r_product->slug)}}" class="product-name text-capitalize"><span>{{$r_product->name}}</span></a>
-                                    <div class="wrap-price"><span class="product-price">${{$r_product->regular_price}}</span></div>
+                                    <a href="{!! route('product.details', $r_product->slug) !!}" class="product-name text-capitalize"><span>{!! $r_product->name !!}</span></a>
+                                    <div class="wrap-price"><span class="product-price">${!! $r_product->regular_price !!}</span></div>
                                 </div>
                             </div>
                             @endforeach
@@ -270,6 +278,7 @@
                     </div><!--End wrap-products-->
                 </div>
             </div>
+            @endif
         </div><!--end row-->
     </div><!--end container-->
 </main>

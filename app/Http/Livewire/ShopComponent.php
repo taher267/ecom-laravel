@@ -19,14 +19,6 @@ class ShopComponent extends Component
         $this->max_price        = 1000;
         $this->price_range      = 80;
     }
-    public function showMinVal()
-    {
-        $this->min_value = $this->min_price;
-    }
-    public function showMaxVal()
-    {
-        $this->max_value = $this->max_price;
-    }
     public function updated($fields)
     {
         $this->validateOnly($fields, [

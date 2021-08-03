@@ -40,8 +40,8 @@
                                 <tr>
                                     <td>{{$product->id}}</td>
                                     <td class="text-capitalize">{{$product->name}}</td>
-                                    <td>{{$product->short_description}}</td>
-                                    <td>{{$product->description}}</td>
+                                    <td>{!! $product->short_description !!}</td>
+                                    <td>{!! $product->description !!}</td>
                                     <td>{{$product->regular_price}}</td>
                                     <td>{{$product->sale_price}}</td>
                                     <td>{{$product->SKU}}</td>
@@ -51,8 +51,9 @@
                                     <td><img class="thumbnail" src="{{asset('assets/images/products/'. $product->image)}}" alt=""></td>
                                     <td>{{$product->category->name}}</td>
                                     <td class="text-center">
+                                        <a href="{{route('product.details', $product->slug)}}" class="mx-3"><i class="fa fa-eye fa-2x"></i></a>
                                         <a href="{{route('admin.editproduct', $product->slug)}}" class="mx-3"><i class="fa fa-edit fa-2x"></i></a>
-                                        <a href="#" wire:click.prevent="deleteproduct({{$product->id}})" class="text-danger"><i class="fa fa-trash fa-2x"></i></a>
+                                        <a href="#" onclick="confirm('Are you Sure, to delete this product?') || event.stopImmediatePropagation()" wire:click.prevent="deleteproduct({{$product->id}})" class="text-danger"><i class="fa fa-trash fa-2x"></i></a>
                                     </td>
                                 </tr>
                                 @endforeach

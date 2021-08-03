@@ -32,7 +32,7 @@
                                     <td>{{$category->slug}}</td>
                                     <td class="text-center">
                                         <a href="{{route('admin.editcategory', $category->slug)}}" class="mx-3"><i class="fa fa-edit fa-2x"></i></a>
-                                        <a href="#" wire:click.prevent="deleteCategory({{$category->id}})" class="text-danger"><i class="fa fa-trash fa-2x"></i></a>
+                                        <a href="#" onclick="confirm('Are you Sure, to delete this product?') || event.stopImmediatePropagation()" wire:click.prevent="deleteCategory({{$category->id}})" class="text-danger"><i class="fa fa-trash fa-2x"></i></a>
                                     </td>
                                 </tr>
                                 @endforeach

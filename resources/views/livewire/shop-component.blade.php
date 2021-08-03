@@ -42,7 +42,7 @@
             </div><!-- brand widget-->
 
             <div class="widget mercado-widget filter-widget price-filter">
-                <h2 class="widget-title">Price</h2>
+                <h2 class="widget-title">Price min: <strong style="color:#FF2832;">${{$min_price}}</strong> - max: <strong style="color:#FF2832;">${{$max_price}}</strong></h2>
                 <div class="widget-content" style="padding: 37px 32px 0 13px">
                     <div class="price_range_slider" id="price_range_slider" wire:ignore></div>
                 </div>
@@ -233,7 +233,7 @@
         noUiSlider.create(slider, {
             start: [1,1000],
             connect:true,
-            range:{ 'min' : {{$min_price}}, 'max' : {{$max_price}} },
+            range:{ 'min' :{{$min_price}}, 'max' : {{$max_price}} },
             tooltips: true,
             //pips:{mode: 'steps', stepped:true,density: 4},
         });

@@ -24,6 +24,8 @@ class AdminAddProductComponent extends Component
     {
         $this->stock_status = 'instock';
         $this->featured     = 0;
+        $this->description  = $this->description;
+
     }
     //genetate slug and check with Database
     public function generateSlug()
@@ -58,6 +60,10 @@ class AdminAddProductComponent extends Component
             'sel_categories' => ['required'],
         ]);
 }
+        // public function validSubmit()
+        // {
+
+        // }
 
     public function storeProduct()
     {
