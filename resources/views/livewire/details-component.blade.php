@@ -1,13 +1,8 @@
 @section('title', 'Product Details')
 <main id="main" class="main-site">
     <div class="container">
-
-        <div class="wrap-breadcrumb">
-            <ul>
-                <li class="item-link"><a href="/" class="link">home</a></li>
-                <li class="item-link"><span>detail</span></li>
-            </ul>
-        </div>
+        {{-- Breadcrumb --}}
+        @livewire('breadcrumb-component')
         <div class="row">
             <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12 main-content-area">
                 <div class="wrap-product-detail">
@@ -57,17 +52,48 @@
                             <div class="quantity-input">
                                 <input type="text" name="product-quatity" value="1" data-max="120" pattern="[0-9]*" >
 
-                                <a class="btn btn-reduce" href="#"></a>
-                                <a class="btn btn-increase" href="#"></a>
+                                <a class="btn btn-reduce" wire:click.prevent="decreaseQty" href="#"></a>
+                                <a class="btn btn-increase" wire:click.prevent="increaseQry" href="#"></a>
                             </div>
 
                         </div>
 
                         <div class="wrap-butons">
-                            <a href="#" wire:click.prevent="store({!! $product->id !!}, '{!! $product->name !!}', {!! $product->regular_price !!})" class="btn add-to-cart">Add to Cart</a>
+                            {{-- @if (Cart::instance('cart')->count() > 0)
+                            @foreach (Cart::instance('cart')->content() as $item)
+                                <p>{{$item->model->name}}</p>
+                            @endforeach
+                            @endif --}}
+                            @php
+                                $wishitems = Cart::instance('wishlist')->content()->pluck('id');
+                                $cartitems = Cart::instance('cart')->content()->pluck('id');
+                            @endphp
+
+                            @if (Cart::instance('cart')->count() > 0 && $cartitems->contains($product->id))
+                                @foreach (Cart::instance('cart')->content() as $citem)
+                                    @if ($citem->id == $product->id && $cartitems->contains($product->id))
+                                    <a href="#" disabled class="btn add-to-cart already-to-cart" onclick="confirm('Do you want to remove this product from Cart?') || event.stopImmediatePropagation()" wire:click.prevent="removeToCart('{{$citem->rowId}}')">Already To Cart</a>
+                                    @endif
+                                @endforeach
+                                @else
+                                    <a href="#" wire:click.prevent="store({{$product->id}}, '{{$product->name}}', {{$product->regular_price}})" class="btn add-to-cart">Add To Cart</a>
+                                @endif
+                            {{-- <a href="#" wire:click.prevent="store({!! $product->id !!}, '{!! $product->name !!}', {!! $product->regular_price !!})" class="btn add-to-cart">Add to Cart</a> --}}
                             <div class="wrap-btn">
                                 <a href="#" class="btn btn-compare">Add Compare</a>
-                                <a href="#" class="btn btn-wishlist">Add Wishlist</a>
+                                <style>
+                                    .wrap-product-detail .btn.fill-heart, .wrap-product-detail .wrap-btn .btn.fill-heart::before {
+                                        color: red !important;
+                                    }
+                                </style>
+                                {{-- Exists in wishlist or Not --}}
+                                @if ($wishitems->contains($product->id) )
+                                    {{-- <a href="#" wire:click.prevent="removeFromWishlist({{$product->id}})"><i class="fa fa-heart fill-heart"></i></a> --}}
+                                    <a href="#" class="btn btn-wishlist fill-heart fw-bold">Already in Wishlist</a>
+                                    @else
+                                    <a href="#" wire:click.prevent="addToWishlist({{$product->id}}, '{{$product->name}}', {{$product->regular_price}})" class="btn btn-wishlist">Add Wishlist</a>
+                                    @endif
+
                             </div>
                         </div>
                     </div>

@@ -1,12 +1,9 @@
+@section('title', 'Shop')
 <main id="main" class="main-site left-sidebar">
 <div class="container">
-    <div class="wrap-breadcrumb">
-        <ul>
-            <li class="item-link"><a href="/" class="link">home</a></li>
-            <li class="item-link"><span>shop</span></li>
-        </ul>
-    </div>
+    @livewire('breadcrumb-component')
     <div class="row">
+
         {{-- col-md-push-9 --}}
         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 sitebar ">
             <div class="widget mercado-widget categories-widget">
@@ -48,7 +45,14 @@
                 </div>
             </div><!-- Price-->
             <style>
-
+                .product_wish{
+                    position: absolute; top: 10%; left: 0; z-index: 99;right: 30px; text-align: right; padding-top: 0;
+                }
+                .product_wish i.fa-heart{
+                    color: #ddd; font-size: 32px; transition: 0.4s all ease-in-out;
+                }
+                .product_wish i.fa-heart:hover{ color: #FF2832; }
+                .product_wish i.fill-heart{ color: #FF2832; }
             </style>
 
             {{-- <div style="margin-top: 50px;"></div> --}}
@@ -153,6 +157,11 @@
                     <figure><img src="{{asset('assets/images/shop-banner.jpg')}}" alt=""></figure>
                 </a>
             </div>
+            @if (Session::has('msg'))
+                <div class="alert alert-success">
+                    {{Session::get('msg')}}
+                </div>
+            @endif
             <div class="wrap-shop-control">
                 <h1 class="shop-title">Digital & Electronics</h1>
                 <div class="wrap-right">
@@ -196,7 +205,10 @@
             </div><!--end wrap shop control-->
 
             <div class="row">
-
+                @php
+                   $wishitems = Cart::instance('wishlist')->content()->pluck('id');
+                   $cartitems = Cart::instance('cart')->content()->pluck('id');
+                @endphp
                 <ul class="product-list grid-products equal-container">
                     @foreach ($products as $product)
                         <li class="col-lg-4 col-md-6 col-sm-6 col-xs-6 ">
@@ -209,7 +221,24 @@
                             <div class="product-info">
                                 <a href="{{route('product.details', $product->slug)}}" class="product-name text-capitalize"><span>{{$product->name}}</span></a>
                                 <div class="wrap-price"><span class="product-price">${{$product->regular_price}}</span></div>
-                                <a href="#" wire:click.prevent="store({{$product->id}}, '{{$product->name}}', {{$product->regular_price}})" class="btn add-to-cart">Add To Cart</a>
+                                @if (Cart::instance('cart')->count() > 0 && $cartitems->contains($product->id))
+                                @foreach (Cart::instance('cart')->content() as $citem)
+                                    @if ($citem->id == $product->id && $cartitems->contains($product->id))
+                                    <a href="#" class="btn add-to-cart already-to-cart" wire:click.prevent="removeToCart('{{$citem->rowId}}')">Already To Cart</a>
+                                    @endif
+                                @endforeach
+                                @else
+                                    <a href="#" wire:click.prevent="AddtoCartOrWishlist({{$product->id}}, '{{$product->name}}', {{$product->regular_price}}, 'cart')" class="btn add-to-cart">Add To Cart</a>
+                                @endif
+                                 @if ( ! $cartitems->contains($product->id))
+                                <div class="product_wish">
+                                    @if ($wishitems->contains($product->id) )
+                                    <a href="#" wire:click.prevent="removeFromWishlist({{$product->id}})"><i class="fa fa-heart fill-heart"></i></a>
+                                    @else
+                                    <a href="#" wire:click.prevent="AddtoCartOrWishlist({{$product->id}}, '{{$product->name}}', {{$product->regular_price}}, 'wishlist')"><i class="fa fa-heart"></i></a>
+                                    @endif
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </li>

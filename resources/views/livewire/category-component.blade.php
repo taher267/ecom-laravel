@@ -1,12 +1,6 @@
 <main id="main" class="main-site left-sidebar">
     <div class="container">
-        <div class="wrap-breadcrumb">
-            <ul>
-                <li class="item-link"><a href="/" class="link">home</a></li>
-                <li class="item-link"><span>category</span></li>
-                <li class="item-link"><span>{{$category_name}}</span></li>
-            </ul>
-        </div>
+        @include('livewire.breadcrumb-component')
         <div class="row">
             <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12 main-content-area">
                 <div class="banner-shop">
@@ -27,7 +21,7 @@
                                 <option value="price-desc">Sort by price: high to low</option>
                             </select>
                         </div>
-    
+
                         <div class="sort-item product-per-page">
                             <select name="post-per-page" class="shop_select_wrapper" autofocus="off" wire:model="productperpage">
                                 <option value="12" selected="selected">12 per page</option>
@@ -40,7 +34,7 @@
                             </select>
                         </div>
     <style>
-    
+
     select.shop_select_wrapper {
         padding: 5px 10px;
         border: none;
@@ -51,13 +45,13 @@
                             <a href="#" class="grid-mode display-mode {{(Session::has('msg'))? '': 'active' }}"><i class="fa fa-th"></i>Grid</a>
                             <a href="#" class="list-mode display-mode {{(Session::has('msg'))? 'active': '' }}"><i class="fa fa-th-list" wire:click.prevent="list(12)"></i>List</a>
                         </div>
-    
+
                     </div>
-    
+
                 </div><!--end wrap shop control-->
-    
+
                 <div class="row">
-    
+
                     <ul class="product-list grid-products equal-container">
                         @foreach ($products as $product)
                             <li class="col-lg-{{(Session::has('msg')? 12 : 4)}} col-md-{{(Session::has('msg')? 12 : 6)}} col-sm-6 col-xs-6" >
@@ -77,12 +71,12 @@
                         @endforeach
                     </ul>
                 </div>
-    
+
                 <div class="wrap-pagination-info">
                     {{$products->links()}}
                 </div>
             </div><!--end main products area-->
-    
+
             <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12 sitebar">
                 <div class="widget mercado-widget categories-widget">
                     <h2 class="widget-title">All Categories</h2>
@@ -96,7 +90,7 @@
                         </ul>
                     </div>
                 </div><!-- Categories widget-->
-    
+
                 <div class="widget mercado-widget filter-widget brand-widget">
                     <h2 class="widget-title">Brand</h2>
                     <div class="widget-content">
@@ -115,7 +109,7 @@
                         </ul>
                     </div>
                 </div><!-- brand widget-->
-    
+
                 <div class="widget mercado-widget filter-widget price-filter">
                     <h2 class="widget-title">Price</h2>
                     <div class="widget-content">
@@ -127,7 +121,7 @@
                         </p>
                     </div>
                 </div><!-- Price-->
-    
+
                 <div class="widget mercado-widget filter-widget">
                     <h2 class="widget-title">Color</h2>
                     <div class="widget-content">
@@ -141,7 +135,7 @@
                         </ul>
                     </div>
                 </div><!-- Color -->
-    
+
                 <div class="widget mercado-widget filter-widget">
                     <h2 class="widget-title">Size</h2>
                     <div class="widget-content">
@@ -156,7 +150,7 @@
                         </div>
                     </div>
                 </div><!-- Size -->
-    
+
                 <div class="widget mercado-widget widget-product">
                     <h2 class="widget-title">Popular Products</h2>
                     <div class="widget-content">
@@ -174,7 +168,7 @@
                                     </div>
                                 </div>
                             </li>
-    
+
                             <li class="product-item">
                                 <div class="product product-widget-style">
                                     <div class="thumbnnail">
@@ -188,7 +182,7 @@
                                     </div>
                                 </div>
                             </li>
-    
+
                             <li class="product-item">
                                 <div class="product product-widget-style">
                                     <div class="thumbnnail">
@@ -202,7 +196,7 @@
                                     </div>
                                 </div>
                             </li>
-    
+
                             <li class="product-item">
                                 <div class="product product-widget-style">
                                     <div class="thumbnnail">
@@ -216,7 +210,7 @@
                                     </div>
                                 </div>
                             </li>
-    
+
                         </ul>
                     </div>
                 </div><!-- brand widget-->

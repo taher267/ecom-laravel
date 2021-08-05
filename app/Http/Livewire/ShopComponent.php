@@ -6,10 +6,14 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Cart;
 use App\Models\Category;
+use App\Models\Suspicious;
+use Illuminate\Support\Facades\Auth;
 
 class ShopComponent extends Component
 {
-    public $sorting, $productperpage, $min_price, $max_price, $price_range, $min_value, $max_value;
+    public $sorting, $productperpage, $min_price, $max_price, $price_range, $min_value, $max_value, $url;
+    use WithPagination;
+    use ProductCart;
 
     public function mount()
     {
@@ -18,6 +22,7 @@ class ShopComponent extends Component
         $this->min_price        = 1;
         $this->max_price        = 1000;
         $this->price_range      = 80;
+        $this->url              = $this->url;
     }
     public function updated($fields)
     {
@@ -26,14 +31,43 @@ class ShopComponent extends Component
             'max_price' => 'required|numeric|gt:min_price',
         ]);
     }
-    public function store($priduct_id, $product_name, $product_price){
-        Cart::add($priduct_id, $product_name, 1, $product_price)->associate('App\Models\Product');
-        session()->flash('success_msg', 'Item has been added in Cart!');
-        return redirect()->route('product.cart');
+    /**
+     * Product Add to Cart or Wishlist
+     */
+    public function AddtoCartOrWishlist( int $product_id =null, string $product_name =null, int $product_price =null, string $instanceIn=null ){
+        if(Product::find($product_id) ):
+            if (! $product_id || !$product_name || $product_price || $instanceIn) {
+                $this->addProductInAllInstance( $product_id, $product_name, $product_price, $instanceIn);
+                return redirect()->route('product.cart');
+            }else {
+                dd('Something Went Wrong!');
+            }
+        else:
+                $suspicious_user = new Suspicious;
+                $suspicious_user->user_id = Auth::user() ? Auth::user()->id :0;
+                $suspicious_user->url = 'shop';
+                // dd($suspicious_user);
+                if ($suspicious_user->save()) {
+                    session()->flash('msg', 'Your information has been enlisted!');
+                }
+        endif;
+
     }
 
-
-    use WithPagination;
+    /**
+     * Remove Wishlist
+     */
+    public function removeFromWishlist(int $product_id){
+        $this->removeProductFromWishlist($product_id);
+    }
+/**
+ * Remove from Cart
+ */
+    public function removeToCart($rowId)
+    {
+        Cart::instance('cart')->remove($rowId);
+        $this->emitTo('cart-count-component', 'refreshComponent');
+    }
 
     public function render()
     {

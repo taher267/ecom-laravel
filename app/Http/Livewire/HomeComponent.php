@@ -9,6 +9,7 @@ use App\Models\OnSale;
 use App\Models\Product;
 use Livewire\Component;
 
+
 class HomeComponent extends Component
 {
     public function render()

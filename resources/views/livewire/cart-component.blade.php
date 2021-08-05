@@ -1,25 +1,22 @@
 <main id="main" class="main-site">
-
 		<div class="container">
-
 			<div class="wrap-breadcrumb">
 				<ul>
 					<li class="item-link"><a href="/" class="link">home</a></li>
 					<li class="item-link"><span>Cart</span></li>
 				</ul>
 			</div>
-			<div class=" main-content-area">
-
-				<div class="wrap-iten-in-cart">
+			<div class="main-content-area">
+				<div class="wrap-item-in-cart">
 					@if (Session::has('success_msg'))
 						<div class="aldet alert-success">
 							<strong>{{Session::get('success_msg')}}</strong>
 						</div>
 					@endif
-					@if (Cart::count() > 0)
+					@if ( Cart::instance('cart')->count() > 0 )
 					<h3 class="box-title">Products Name</h3>
 					<ul class="products-cart">
-						@foreach (Cart::content() as $item)
+						@foreach (Cart::instance('cart')->content() as $item)
 						<li class="pr-cart-item">
 							<div class="product-image">
 								<figure><img src="{{asset('assets/images/products/'. $item->model->image)}}" alt="{{$item->model->name}}"></figure>
@@ -30,56 +27,45 @@
 							<div class="price-field produtc-price"><p class="price">${{$item->model->regular_price}}</p></div>
 							<div class="quantity">
 								<div class="quantity-input">
-									<input type="text" name="product-quatity" value="{{$item->qty}}" data-max="120" pattern="[0-9]*" >									
+									<input type="text" name="product-quatity" value="{{$item->qty}}" data-max="120" pattern="[0-9]*" >
 									<a class="btn btn-increase" href="#" wire:click.prevent="increseQuantity('{{$item->rowId}}')"></a>
 									<a class="btn btn-reduce" href="#" wire:click.prevent="decreseQuantity('{{$item->rowId}}')"></a>
 								</div>
+                                <p class="text-center btn-secondary"><a class="btn fz-14" href="#" wire:click.prevent="switchProduct('{{$item->rowId}}','cart', 'saveforlater')">Save For Later</a></p>
 							</div>
 							<div class="price-field sub-total"><p class="price">${{$item->subtotal}}</p></div>
+                            <div class="movetoWishlist delete">
+                                <a href="#" wire:click.prevent="moveCartToWishlist('{{$item->rowId}}',{{$item->model->id}}, '{{$item->model->name}}', {{$item->price}}, 'cart', 'wishlist')" class="btn btn-secondary" title="{{$item->model->name}}">
+                                    Move
+								</a>
+                            </div>
 							<div class="delete">
 								<a href="#" class="btn btn-delete" title="{{$item->model->name}}">
 									<span>Delete from your cart</span>
-									<i class="fa fa-times-circle" aria-hidden="true" wire:click.prevent="removeToCart('{{$item->rowId}}')"></i>
+									<i class="fa fa-times-circle" wire:click.prevent="removeToCart('{{$item->rowId}}', 'cart')"></i>
 								</a>
 							</div>
 						</li>
 						@endforeach
-						{{-- <li class="pr-cart-item">
-							<div class="product-image">
-								<figure><img src="assets/images/products/digital_20.jpg" alt=""></figure>
-							</div>
-							<div class="product-name">
-								<a class="link-to-product" href="#">Radiant-360 R6 Wireless Omnidirectional Speaker [White]</a>
-							</div>
-							<div class="price-field produtc-price"><p class="price">$256.00</p></div>
-							<div class="quantity">
-								<div class="quantity-input">
-									<input type="text" name="product-quatity" value="1" data-max="120" pattern="[0-9]*">									
-									<a class="btn btn-increase" href="#"></a>
-									<a class="btn btn-reduce" href="#"></a>
-								</div>
-							</div>
-							<div class="price-field sub-total"><p class="price">$256.00</p></div>
-							<div class="delete">
-								<a href="#" class="btn btn-delete" title="">
-									<span>Delete from your cart</span>
-									<i class="fa fa-times-circle" aria-hidden="true"></i>
-								</a>
-							</div>
-						</li>												 --}}
+
 					</ul>
 					@else
-					 <p>No Item in Cart</p>						
+                    <div style="height:35em; background:url('{{asset('assets/images/empty-cart.png')}}') no-repeat center top; background-size:;" class="bg-cover bg-no-repeat wishlist_empty_wrap d-flex justify-content-center align-items-center">
+                        <div class="mt-5 pt-5">
+                            <h4 class="text-alert">Empty Cart</h4>
+                        {{-- <a class="btn btn-primary fz-14 fw-bold" style="color:" href="{!! route('shop') !!}">Shopping  now</a> --}}
+                        </div>
+                    </div>
 					@endif
 				</div>
 
 				<div class="summary">
 					<div class="order-summary">
 						<h4 class="title-box">Order Summary</h4>
-						<p class="summary-info"><span class="title">Subtotal</span><b class="index">${{Cart::subtotal()}}</b></p>
-						<p class="summary-info"><span class="title">Tax</span><b class="index">${{Cart::tax()}}</b></p>
+						<p class="summary-info"><span class="title">Subtotal</span><b class="index">${{Cart::instance('cart')->subtotal()}}</b></p>
+						<p class="summary-info"><span class="title">Tax</span><b class="index">${{Cart::instance('cart')->tax()}}</b></p>
 						<p class="summary-info"><span class="title">Shipping</span><b class="index">Free Shipping</b></p>
-						<p class="summary-info total-info "><span class="title">Total</span><b class="index">${{Cart::total()}}</b></p>
+						<p class="summary-info total-info "><span class="title">Total</span><b class="index">${{Cart::instance('cart')->total()}}</b></p>
 					</div>
 					<div class="checkout-info">
 						<label class="checkbox-field">
@@ -92,8 +78,58 @@
 						<a class="btn btn-clear" href="#" wire:click.prevent="removeAllCart()">Clear Shopping Cart</a>
 						<a class="btn btn-update" href="#">Update Shopping Cart</a>
 					</div>
-				</div>
 
+				</div>
+                {{-- Save for latar --}}
+                <div class="main-content-area save_for_later">
+                    <h3 style="border-bottom:1px solid #000; padding-bottom:15px; margin-bottom:15px;">Save for Later</h3>
+                    <div class="wrap-item-in-cart">
+                        @if ( Cart::instance('saveforlater')->count() > 0 )
+                        <h3 class="box-title">Products Name</h3>
+                        <ul class="products-cart">
+                            @foreach ( Cart::instance('saveforlater')->content() as $item )
+                            <li class="pr-cart-item">
+                                <div class="product-image">
+                                    <figure><img src="{{asset('assets/images/products/'. $item->model->image)}}" alt="{{$item->model->name}}"></figure>
+                                </div>
+                                <div class="product-name">
+                                    <a class="link-to-product" href="{{route('product.details', $item->model->slug)}}">{{$item->model->name}}</a>
+                                </div>
+                                <div class="price-field produtc-price"><p class="price">${{$item->model->regular_price}}</p></div>
+                                <div class="quantity">
+                                    {{-- <div class="quantity-input">
+                                        <input type="text" name="product-quatity" value="{{$item->qty}}" data-max="120" pattern="[0-9]*" >
+                                        <a class="btn btn-increase" href="#" wire:click.prevent="increseQuantity('{{$item->rowId}}')"></a>
+                                        <a class="btn btn-reduce" href="#" wire:click.prevent="decreseQuantity('{{$item->rowId}}')"></a>
+                                    </div> --}}
+                                    <p class="text-center btn-secondary"><a class="btn fz-14" href="#" wire:click.prevent="switchProduct('{{$item->rowId}}', 'saveforlater', 'cart')">Switch In Cart</a></p>
+                                </div>
+                                <div class="price-field sub-total"><p class="price">${{$item->subtotal}}</p></div>
+                                <div class="movetoWishlist delete">
+                                    <a href="#" wire:click.prevent="moveCartToWishlist('{{$item->rowId}}',{{$item->model->id}}, '{{$item->model->name}}', {{$item->price}}, 'saveforlater', 'wishlist')" class="btn btn-secondary" title="{{$item->model->name}}">
+                                        Move to wishlist
+                                    </a>
+                                </div>
+                                <div class="delete">
+                                    <a href="#" class="btn btn-delete" title="{{$item->model->name}}">
+                                        <span>Delete from your cart</span>
+                                        <i class="fa fa-times-circle" wire:click.prevent="removeToCart('{{$item->rowId}}', 'saveforlater')"></i>
+                                    </a>
+                                </div>
+                            </li>
+                            @endforeach
+
+                        </ul>
+                        @else
+                        <div style="height:35em; background:url('{{asset('assets/images/empty-cart.png')}}') no-repeat center top; background-size:;" class="bg-cover bg-no-repeat wishlist_empty_wrap d-flex justify-content-center align-items-center">
+                            <div class="mt-5 pt-5">
+                                <h4 class="text-alert">Empty Cart</h4>
+                            {{-- <a class="btn btn-primary fz-14 fw-bold" style="color:" href="{!! route('shop') !!}">Shopping  now</a> --}}
+                            </div>
+                        </div>
+                        @endif
+                </div>
+                    {{-- Save for Latar End --}}
 				<div class="wrap-show-advance-info-box style-1 box-in-site">
 					<h3 class="title-box">Most Viewed Products</h3>
 					<div class="wrap-products">
