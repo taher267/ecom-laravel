@@ -25,13 +25,13 @@
                             <form class="" wire:submit.prevent="storeCategory">
 
                                 <div class="input-group form-group">
-                                    <span class="input-group-text f-z-16" id="basic-addon1">Category Name</span>
-                                    <input type="text" name="name" id="add_category_name" class="form-control f-z-16" placeholder="Category Name..." aria-describedby="helpId" wire:keyup="generateSlug" wire:model="name" {{--wire:keydown="generateSlug"--}}>
+                                    <span class="input-group-text" id="basic-addon1">Category Name</span>
+                                    <input type="text" name="name" id="add_category_name" class="form-control" placeholder="Category Name..." aria-describedby="helpId" wire:keyup="generateSlug" wire:model="name" {{--wire:keydown="generateSlug"--}}>
                                 </div>
 
                                 <div class="form-group input-group" id="from_group_cat_slug">
-                                    <span class="input-group-text f-z-16" id="basic-addon1">Category Slug</span>
-                                    <input style="color: {{($slugYes=='avaiable' && $slugYes !=' ')?'green': 'red' }}" wire:model="slug" type="text" name="slug" id="category_slug" class="form-control cat_converted_slug f-z-16" placeholder="Category Slug..." aria-describedby="helpId" >
+                                    <span class="input-group-text" id="basic-addon1">Category Slug</span>
+                                    <input style="color: {{($slugYes=='avaiable' && $slugYes !=' ')?'green': 'red' }}" wire:model="slug" type="text" name="slug" id="category_slug" class="form-control cat_converted_slug" placeholder="Category Slug..." aria-describedby="helpId" >
 
                                 </div>
                                 <style>
@@ -54,8 +54,9 @@
 
                                 {{-- <span class="avaiable_or_not">avaiable_or_not</span> --}}
                                 {{-- <input type="hidden" class="slug_exist_or_not" value="{{($confirmSlug)? $confirmSlug :'no'}}"> --}}
-                                <div class="form-group">
-                                    <button type="{{--($slugYes=='avaiable' && ' ' != $slugYes )?'submit': 'button' --}}submit" class="f-z-16 btn btn-primary form-control" {{--($slugYes=='avaiable' && ' ' != $slugYes )? '': 'disabled' --}}><i class="fa fa-plus"></i> Add New Category</button>
+                                <div class="form-group input-group">
+                                    <span class="input-group-text bg-transparant border-0" style="width: 120px;"></span>
+                                    <button type="{{$errors->any()?'button': 'submit' }}" class="btn btn-primary form-control" {{$errors->any() ? 'disabled': '' }}><i class="fa fa-plus"></i> Add New Category</button>
                                 </div>
                             </form>
                         </div>

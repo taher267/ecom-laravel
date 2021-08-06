@@ -90,6 +90,9 @@
                                                         <li class="menu-item" >
 															<a title="sale Setting" href="{{route('admin.onsale')}}">Sale Setting</a>
 														</li>
+                                                        <li class="menu-item" >
+															<a title="All coupons" href="{{route('admin.coupons')}}">All Coupons</a>
+														</li>
 
                                                         {{-- LOGOUT --}}
 														<li class="menu-item" >
