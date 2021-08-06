@@ -157,11 +157,11 @@
                     <figure><img src="{{asset('assets/images/shop-banner.jpg')}}" alt=""></figure>
                 </a>
             </div>
-            @if (Session::has('msg'))
+            {{-- @if (Session::has('msg'))
                 <div class="alert alert-success">
                     {{Session::get('msg')}}
                 </div>
-            @endif
+            @endif --}}
             <div class="wrap-shop-control">
                 <h1 class="shop-title">Digital & Electronics</h1>
                 <div class="wrap-right">
