@@ -27,11 +27,11 @@
 							<div class="price-field produtc-price"><p class="price">${{$item->model->regular_price}}</p></div>
 							<div class="quantity">
 								<div class="quantity-input">
-									<input type="text" name="product-quatity" value="{{$item->qty}}" data-max="120" pattern="[0-9]*" >
+									<input type="text" name="product-quatity" value="{{$item->qty}}" data-max="{{$item->model->quantity}}" pattern="[0-9]*" >
 									<a class="btn btn-increase" href="#" wire:click.prevent="increseQuantity('{{$item->rowId}}')"></a>
 									<a class="btn btn-reduce" href="#" wire:click.prevent="decreseQuantity('{{$item->rowId}}')"></a>
 								</div>
-                                <p class="text-center btn-secondary"><a class="btn fz-14" href="#" wire:click.prevent="switchProduct('{{$item->rowId}}','cart', 'saveforlater')">Save For Later</a></p>
+                                {{-- <p class="text-center btn-secondary"><a class="btn fz-14" href="#" wire:click.prevent="switchProduct('{{$item->rowId}}','cart', 'saveforlater')">Save For Later</a></p> --}}
 							</div>
 							<div class="price-field sub-total"><p class="price">${{$item->subtotal}}</p></div>
                             <div class="movetoWishlist delete">

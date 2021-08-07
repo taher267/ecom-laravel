@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Coupon;
+use Carbon\Carbon;
 use Livewire\Component;
 use Cart;
 class CartComponent extends Component
@@ -18,9 +19,13 @@ class CartComponent extends Component
     public function increseQuantity($rowId)
     {
         $product = Cart::instance('cart')->get($rowId);
-        $qty       = $product->qty +1;
-        Cart::instance('cart')->update($rowId, $qty);
-        $this->emitTo('cart-count-component', 'refreshComponent');
+        // dd($product->model->quantity);
+        if ($product->qty < $product->model->quantity) {
+            $qty       = $product->qty +1;
+            Cart::instance('cart')->update($rowId, $qty);
+            $this->emitTo('cart-count-component', 'refreshComponent');
+        }
+
     }
 
     public function decreseQuantity($rowId)
@@ -68,7 +73,7 @@ class CartComponent extends Component
      */
     public function applyCouponCode()
     {
-        $coupon = Coupon::where('code', $this->coupon_code)->where('cart_value', '<=', Cart::instance('cart')->subtotal())->first();
+        $coupon = Coupon::where('code', $this->coupon_code)->where('expiry_date', '>=', Carbon::today() )->where('cart_value', '<=', Cart::instance('cart')->subtotal())->first();
         // dd($coupon);
         if (! $coupon) {
             session()->flash('coupon_msg', 'Coupon code is invalid!');

@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class AdminEditCouponComponent extends Component
 {
-    public $code, $type, $value, $cart_value, $coupon_id;
+    public $code, $type, $value, $cart_value, $coupon_id, $expiry_date;
 
     public function mount($coupon_id)
     {
@@ -17,6 +17,7 @@ class AdminEditCouponComponent extends Component
         $this->type         = $coupon->type ;
         $this->value        = $coupon->value;
         $this->cart_value   = $coupon->cart_value;
+        $this->expiry_date   = $coupon->expiry_date;
 
     }
 
@@ -28,6 +29,7 @@ class AdminEditCouponComponent extends Component
             'type'          => 'required',
             'value'         => 'required|numeric',
             'cart_value'    => 'required|numeric',
+            'expiry_date'    => 'required|date|date_format:Y-m-d',
         ]);
     }
     /**
@@ -45,16 +47,18 @@ class AdminEditCouponComponent extends Component
             'type'          => 'required',
             'value'         => 'required|numeric',
             'cart_value'    => 'required|numeric',
+            'expiry_date'    => 'required|date|date_format:Y-m-d',
         ]);
 
         $coupon             = Coupon::findOrFail($this->coupon_id);
-        if ($coupon->code == $this->code && $coupon->type == $this->type && $coupon->value == $this->value && $coupon->cart_value == $this->cart_value ):
+        if ($coupon->code == $this->code && $coupon->type == $this->type && $coupon->value == $this->value && $coupon->cart_value == $this->cart_value && $this->expiry_date  == $coupon->expiry_date):
             session()->flash('msg', "Nothing has been Changed/Updated!!!");
         else:
             $coupon->code       = $this->code;
             $coupon->type       = $this->type;
             $coupon->value      = $this->value;
             $coupon->cart_value = $this->cart_value;
+            $coupon->expiry_date = $this->expiry_date;
             $coupon->save();
 
             session()->flash('msg', "Coupon has been Updated!");

@@ -45,6 +45,11 @@
                                     <input  wire:model="cart_value" type="text" name="cart_value" class="form-control valClass" placeholder="Cart value..." required>
                                 </div>
                                 <div class="form-group">@error('cart_value') <div class="alert alert-danger">{{$message}}</div> @enderror </div>
+                                <div class="input-group form-group field reqrd" wire:ignore>
+                                    <span class="input-group-text" id="basic-addon1">Expiry Date</span>
+                                    <input  wire:model="expiry_date" type="text" id="coupon_expiry_date" name="expiry_date" class="form-control valClass" placeholder="Expiry Date..." required>
+                                </div>
+                                <div class="form-group">@error('expiry_date') <div class="alert alert-danger">{{$message}}</div> @enderror </div>
 
                                 <div class="form-group actions">
                                     <button id="add_coupon_update" type="{{ ( !$errors->any()  && $code   && $type && $value && $cart_value ) ?'submit': 'button' }}"  class="btttt btn btn-primary form-control" {{ ( !$errors->any()  && $code   && $type && $value && $cart_value ) ? '': 'disabled'}} >Update <i class="fa fa-arrow-up"></i></button>

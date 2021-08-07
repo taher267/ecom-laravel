@@ -5,7 +5,7 @@
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="row">
-                            <div class="col-md-6"><h4>Add New Category</h4></div>
+                            <div class="col-md-6"><h4>Add New Coupon</h4></div>
                         <div class="col-md-6"><a class="btn btn-primary pull-right btn-lg" href="{{route('admin.coupons')}}"><i class="fa fa-group"></i> All Coupons</a></div>
                         </div>
                     </div>
@@ -52,6 +52,12 @@
                                 </div>
                                 <div class="form-group">@error('cart_value') <div class="alert alert-danger">{{$message}}</div> @enderror </div>
 
+                                  <div class="input-group form-group field reqrd" wire:ignore>
+                                    <span class="input-group-text" id="basic-addon1">Expiry Date</span>
+                                    <input  wire:model="expiry_date" type="text" id="coupon_expiry_date" name="expiry_date" class="form-control valClass" placeholder="Expiry Date..." required>
+                                </div>
+                                <div class="form-group">@error('expiry_date') <div class="alert alert-danger">{{$message}}</div> @enderror </div>
+
                                 <div class="form-group actions">
                                     <button id="add_coupon_save" type="{{ ( !$errors->any()  && $code   && $type && $value && $cart_value ) ?'submit': 'button' }}"  class="btttt btn btn-primary form-control" {{ ( !$errors->any()  && $code   && $type && $value && $cart_value ) ? '': 'disabled'}} ><i class="fa fa-plus"></i> Save</button>
                                     <div>
@@ -70,22 +76,32 @@
 @push('scripts')
 <script>
 
-$(document).ready(function() {
-    // $('button#add_coupon_save').attr('disabled', true);
-  $('.field .valClass').on('change keyup',function() {
+// $(document).ready(function() {
+//     // $('button#add_coupon_save').attr('disabled', true);
+//   $('.field .valClass').on('change keyup',function() {
 
-    var empty = false;
-    $('.field .valClass').each(function() {
+//     var empty = false;
+//     $('.field .valClass').each(function() {
 
-        if ($(this).val().length == 0 ) {
-            $('button#add_coupon_save').attr('disabled', true);
-        }
+//         if ($(this).val().length == 0 ) {
+//             $('button#add_coupon_save').attr('disabled', true);
+//         }
 
-        else{
-            $('button#add_coupon_save').removeAttr('disabled');
-        }
+//         else{
+//             $('button#add_coupon_save').removeAttr('disabled');
+//         }
+//     });
+//   });
+// });
+
+jQuery(function(){
+    jQuery('#coupon_expiry_date').datetimepicker({
+        format: 'YY-MM-DD'
     });
-  });
+    // .on('db.change', function(){
+    // var data = jQuery('#coupon_expiry_date').val();
+    // @this.set('expiry_date', data);
+    // });
 });
 
 </script>

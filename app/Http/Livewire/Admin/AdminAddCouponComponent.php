@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class AdminAddCouponComponent extends Component
 {
-    public $code, $type, $value, $cart_value;
+    public $code, $type, $value, $cart_value, $expiry_date;
 
     public function mount()
     {
@@ -15,6 +15,7 @@ class AdminAddCouponComponent extends Component
         $this->type         = $this->type ;
         $this->value        = $this->value;
         $this->cart_value   = $this->cart_value;
+        $this->expiry_date   = $this->expiry_date;
 
     }
 
@@ -25,6 +26,7 @@ class AdminAddCouponComponent extends Component
             'type'          => 'required',
             'value'         => 'required|numeric',
             'cart_value'    => 'required|numeric',
+            'expiry_date'    => 'required|date|date_format:Y-m-d',
         ]);
     }
     /**
@@ -41,6 +43,7 @@ class AdminAddCouponComponent extends Component
             'type'          => 'required',
             'value'         => 'required|numeric',
             'cart_value'    => 'required|numeric',
+            'expiry_date'    => 'required|date|date_format:Y-m-d',
         ]);
 
         $coupon             = new Coupon();
@@ -48,6 +51,7 @@ class AdminAddCouponComponent extends Component
         $coupon->type       = $this->type;
         $coupon->value      = $this->value;
         $coupon->cart_value = $this->cart_value;
+        $coupon->expiry_date = $this->expiry_date;
         $coupon->save();
 
         session()->flash('msg', "Coupon has been added!");

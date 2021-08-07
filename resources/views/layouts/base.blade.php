@@ -13,6 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/animate.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/font-awesome.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap5.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/owl.carousel.min.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/flexslider.css')}}">
@@ -21,6 +22,7 @@
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/color-01.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/select2.min.css')}}">
     {{-- <link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap-datetimepicker.min.css')}}"> --}}
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css">
     {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.7.0/nouislider.min.css" integrity="sha512-40vN6DdyQoxRJCw0klEUwZfTTlcwkOLKpP8K8125hy9iF4fi8gPpWZp60qKC6MYAFaond8yQds7cTMVU8eMbgA==" crossorigin="anonymous" referrerpolicy="no-referrer" /> --}}
 
@@ -468,8 +470,11 @@
     {{-- <script src="{{asset('assets/js/bootstrap-datetimepicker.min.js')}}"></script> --}}
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script> --}}
     <script src="{{asset('assets/js/jquery-1.7.2.min.js')}}"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.0.0/js/bootstrap-datetimepicker.min.js"></script>
+    {{-- <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.0.0/js/bootstrap-datetimepicker.min.js"></script> --}}
+
 	<script src="https://cdn.tiny.cloud/1/kkzm7aotubmkrvxqfvo82szskkhwzcqh9wd4vt5jjqqir1q2/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+    <script src="http://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.7.0/nouislider.min.js" integrity="sha512-jWNpWAWx86B/GZV4Qsce63q5jxx/rpWnw812vh0RE+SBIo/mmepwOSQkY2eVQnMuE28pzUEO7ux0a5sJX91g8A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
     {{-- <script src="{!! asset("assets/tinymce/tinymce.min.js") !!}"></script> --}}
 
