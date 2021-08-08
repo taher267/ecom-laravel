@@ -7,102 +7,111 @@
 				</ul>
 			</div>
 			<div class="main-content-area">
-				<div class="wrap-item-in-cart">
-					@if (Session::has('success_msg'))
-						<div class="aldet alert-success">
-							<strong>{{Session::get('success_msg')}}</strong>
-						</div>
-					@endif
-					@if ( Cart::instance('cart')->count() > 0 )
-					<h3 class="box-title">Products Name</h3>
-					<ul class="products-cart">
-						@foreach (Cart::instance('cart')->content() as $item)
-						<li class="pr-cart-item">
-							<div class="product-image">
-								<figure><img src="{{asset('assets/images/products/'. $item->model->image)}}" alt="{{$item->model->name}}"></figure>
-							</div>
-							<div class="product-name">
-								<a class="link-to-product" href="{{route('product.details', $item->model->slug)}}">{{$item->model->name}}</a>
-							</div>
-							<div class="price-field produtc-price"><p class="price">${{$item->model->regular_price}}</p></div>
-							<div class="quantity">
-								<div class="quantity-input">
-									<input type="text" name="product-quatity" value="{{$item->qty}}" data-max="{{$item->model->quantity}}" pattern="[0-9]*" >
-									<a class="btn btn-increase" href="#" wire:click.prevent="increseQuantity('{{$item->rowId}}')"></a>
-									<a class="btn btn-reduce" href="#" wire:click.prevent="decreseQuantity('{{$item->rowId}}')"></a>
-								</div>
-                                {{-- <p class="text-center btn-secondary"><a class="btn fz-14" href="#" wire:click.prevent="switchProduct('{{$item->rowId}}','cart', 'saveforlater')">Save For Later</a></p> --}}
-							</div>
-							<div class="price-field sub-total"><p class="price">${{$item->subtotal}}</p></div>
-                            <div class="movetoWishlist delete">
-                                <a href="#" wire:click.prevent="moveCartToWishlist('{{$item->rowId}}',{{$item->model->id}}, '{{$item->model->name}}', {{$item->price}}, 'cart', 'wishlist')" class="btn btn-secondary" title="{{$item->model->name}}">
-                                    Move
-								</a>
+                @if (Cart::instance('cart')->count() > 0)
+                    <div class="wrap-item-in-cart">
+                        @if (Session::has('success_msg'))
+                            <div class="aldet alert-success">
+                                <strong>{{Session::get('success_msg')}}</strong>
                             </div>
-							<div class="delete">
-								<a href="#" class="btn btn-delete" title="{{$item->model->name}}">
-									<span>Delete from your cart</span>
-									<i class="fa fa-times-circle" wire:click.prevent="removeToCart('{{$item->rowId}}', 'cart')"></i>
-								</a>
-							</div>
-						</li>
-						@endforeach
-
-					</ul>
-					@else
-                    <div style="height:35em; background:url('{{asset('assets/images/empty-cart.png')}}') no-repeat center top; background-size:;" class="bg-cover bg-no-repeat wishlist_empty_wrap d-flex justify-content-center align-items-center">
-                        <div class="mt-5 pt-5">
-                            <h4 class="text-alert">Empty Cart</h4>
-                        {{-- <a class="btn btn-primary fz-14 fw-bold" style="color:" href="{!! route('shop') !!}">Shopping  now</a> --}}
-                        </div>
-                    </div>
-					@endif
-				</div>
-
-				<div class="summary">
-					<div class="order-summary">
-						<h4 class="title-box">Order Summary</h4>
-						<p class="summary-info"><span class="title">Subtotal</span><b class="index">${{Cart::instance('cart')->subtotal()}}</b></p>
-                        @if (Session::has('coupon'))
-                            <p class="summary-info"><span class="title">Discount({{Session::get('coupon')['code']}}) <i class="fa fa-times text-danger" onclick="confirm('Are you sure to delete this Coupon?') || event.stopImmediatePropagation()" wire:click.prevent="deleteCoupon"></i></span><b class="index">${{number_format($discount, 2)}}</b></p>
-                            <p class="summary-info"><span class="title">Subtotal with discount(Exclusive Tax)</span><b class="index">${{number_format($subtotalAfterDiscount, 2)}}</b></p>
-                            <p class="summary-info"><span class="title">Tax({{config('cart.tax')}}%)</span><b class="index">${{number_format($taxAfterDiscount, 2)}}</b></p>
-                            <p class="summary-info total-info "><span class="title">Total({{config('cart.tax')}}% Inclusive Tax)</span><b class="index">${{number_format($totalAfterDiscount, 2)}}</b></p>
-                        @else
-                        <p class="summary-info"><span class="title">Tax({{config('cart.tax')}}%)</span><b class="index">${{Cart::instance('cart')->subtotal()* config('cart.tax')/100}}</b></p>
-                            <p class="summary-info"><span class="title">Shipping</span><b class="index">Free Shipping</b></p>
-                            <p class="summary-info total-info "><span class="title">Total</span><b class="index">${{Cart::instance('cart')->total()}}</b></p>
                         @endif
-					</div>
-					<div class="checkout-info">
-                        @if (!Session::has('coupon'))
-                            <label class="checkbox-field">
-                                @if (Session::has('coupon_msg'))
-                                    <div class="alert alert-danger" role="danger">{{Session::get('coupon_msg')}}</div>
-                                @endif
-                                <input class="frm-input" wire:model="have_coupon_code" name="have-code" id="have-code" value="1" type="checkbox"><span>I have coupon code</span>
-                            </label>
-                            @if ($have_coupon_code == 1)
-                                <div class="summary-item">
-                                    <form wire:submit.prevent="applyCouponCode">
-                                        <h4 class="title-box">Coupon Code</h4>
-                                        <p class="row-in-form">
-                                            <input type="text" name="coupon-code" wire:model="coupon_code" placeholder="Place your coupon code...">
-                                        </p>
-                                        <button type="submit" class="btn btn-lg">Apply</button>
-                                    </form>
+                        @if ( Cart::instance('cart')->count() > 0 )
+                        <h3 class="box-title">Products Name</h3>
+                        <ul class="products-cart">
+                            @foreach (Cart::instance('cart')->content() as $item)
+                            <li class="pr-cart-item">
+                                <div class="product-image">
+                                    <figure><img src="{{asset('assets/images/products/'. $item->model->image)}}" alt="{{$item->model->name}}"></figure>
                                 </div>
-                            @endif
-                        @endif
-						<a class="btn btn-checkout" href="checkout.html">Check out</a>
-						<a class="link-to-shop" href="shop.html">Continue Shopping<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
-					</div>
-					<div class="update-clear">
-						<a class="btn btn-clear" href="#" wire:click.prevent="removeAllCart()">Clear Shopping Cart</a>
-						<a class="btn btn-update" href="#">Update Shopping Cart</a>
-					</div>
+                                <div class="product-name">
+                                    <a class="link-to-product" href="{{route('product.details', $item->model->slug)}}">{{$item->model->name}}</a>
+                                </div>
+                                <div class="price-field produtc-price"><p class="price">${{$item->model->regular_price}}</p></div>
+                                <div class="quantity">
+                                    <div class="quantity-input">
+                                        <input type="text" name="product-quatity" value="{{$item->qty}}" data-max="{{$item->model->quantity}}" pattern="[0-9]*" >
+                                        <a class="btn btn-increase" href="#" wire:click.prevent="increseQuantity('{{$item->rowId}}')"></a>
+                                        <a class="btn btn-reduce" href="#" wire:click.prevent="decreseQuantity('{{$item->rowId}}')"></a>
+                                    </div>
+                                    {{-- <p class="text-center btn-secondary"><a class="btn fz-14" href="#" wire:click.prevent="switchProduct('{{$item->rowId}}','cart', 'saveforlater')">Save For Later</a></p> --}}
+                                </div>
+                                <div class="price-field sub-total"><p class="price">${{$item->subtotal}}</p></div>
+                                <div class="movetoWishlist delete">
+                                    <a href="#" wire:click.prevent="moveCartToWishlist('{{$item->rowId}}',{{$item->model->id}}, '{{$item->model->name}}', {{$item->price}}, 'cart', 'wishlist')" class="btn btn-secondary" title="{{$item->model->name}}">
+                                        Move
+                                    </a>
+                                </div>
+                                <div class="delete">
+                                    <a href="#" class="btn btn-delete" title="{{$item->model->name}}">
+                                        <span>Delete from your cart</span>
+                                        <i class="fa fa-times-circle" wire:click.prevent="removeToCart('{{$item->rowId}}', 'cart')"></i>
+                                    </a>
+                                </div>
+                            </li>
+                            @endforeach
 
-				</div>
+                        </ul>
+                        @else
+                        <div style="height:35em; background:url('{{asset('assets/images/empty-cart.png')}}') no-repeat center top; background-size:;" class="bg-cover bg-no-repeat wishlist_empty_wrap d-flex justify-content-center align-items-center">
+                            <div class="mt-5 pt-5">
+                                <h4 class="text-alert">Empty Cart</h4>
+                            {{-- <a class="btn btn-primary fz-14 fw-bold" style="color:" href="{!! route('shop') !!}">Shopping  now</a> --}}
+                            </div>
+                        </div>
+                        @endif
+                    </div>
+
+                    <div class="summary">
+                        <div class="order-summary">
+                            <h4 class="title-box">Order Summary</h4>
+                            <p class="summary-info"><span class="title">Subtotal</span><b class="index">${{Cart::instance('cart')->subtotal()}}</b></p>
+                            @if (Session::has('coupon'))
+                                <p class="summary-info"><span class="title">Discount({{Session::get('coupon')['code']}}) <i class="fa fa-times text-danger" onclick="confirm('Are you sure to delete this Coupon?') || event.stopImmediatePropagation()" wire:click.prevent="deleteCoupon"></i></span><b class="index">${{number_format($discount, 2)}}</b></p>
+                                <p class="summary-info"><span class="title">Subtotal with discount(Exclusive Tax)</span><b class="index">${{number_format($subtotalAfterDiscount, 2)}}</b></p>
+                                <p class="summary-info"><span class="title">Tax({{config('cart.tax')}}%)</span><b class="index">${{number_format($taxAfterDiscount, 2)}}</b></p>
+                                <p class="summary-info total-info "><span class="title">Total({{config('cart.tax')}}% Inclusive Tax)</span><b class="index">${{number_format($totalAfterDiscount, 2)}}</b></p>
+                            @else
+                            <p class="summary-info"><span class="title">Tax({{config('cart.tax')}}%)</span><b class="index">${{Cart::instance('cart')->subtotal()* config('cart.tax')/100}}</b></p>
+                                <p class="summary-info"><span class="title">Shipping</span><b class="index">Free Shipping</b></p>
+                                <p class="summary-info total-info "><span class="title">Total</span><b class="index">${{Cart::instance('cart')->total()}}</b></p>
+                            @endif
+                        </div>
+                        <div class="checkout-info">
+                            @if (!Session::has('coupon'))
+                                <label class="checkbox-field">
+                                    @if (Session::has('coupon_msg'))
+                                        <div class="alert alert-danger" role="danger">{{Session::get('coupon_msg')}}</div>
+                                    @endif
+                                    <input class="frm-input" wire:model="have_coupon_code" name="have-code" id="have-code" value="1" type="checkbox"><span>I have coupon code</span>
+                                </label>
+                                @if ($have_coupon_code == 1)
+                                    <div class="summary-item">
+                                        <form wire:submit.prevent="applyCouponCode">
+                                            <h4 class="title-box">Coupon Code</h4>
+                                            <p class="row-in-form">
+                                                <input type="text" name="coupon-code" wire:model="coupon_code" placeholder="Place your coupon code...">
+                                            </p>
+                                            <button type="submit" class="btn btn-lg">Apply</button>
+                                        </form>
+                                    </div>
+                                @endif
+                            @endif
+                            <a class="btn btn-checkout" href="#" wire:click.prevent="checkout">Check out</a>
+                            <a class="link-to-shop" href="/shop">Continue Shopping<i class="fa fa-arrow-circle-right" aria-hidden="true"></i></a>
+                        </div>
+                        <div class="update-clear">
+                            <a class="btn btn-clear" href="#" wire:click.prevent="removeAllCart()">Clear Shopping Cart</a>
+                            <a class="btn btn-update" href="#">Update Shopping Cart</a>
+                        </div>
+
+                    </div>
+                @else
+                    <div style="height:35em; background:url('{{asset('assets/images/empty-cart.png')}}') no-repeat center top; background-size:;" class="bg-cover bg-no-repeat wishlist_empty_wrap d-flex justify-content-center align-items-center">
+                            <div class="mt-5 pt-5">
+                                <h4 class="text-alert">Empty Cart</h4>
+                                <a class="btn btn-submit btn-submitx" style="color:" href="{!! route('shop') !!}">Shopping  Now <i class="fa fa-angle-right"></i></a>
+                            </div>
+                        </div>
+                @endif
                 {{-- Save for latar --}}
                 <div class="main-content-area save_for_later">
                     <h3 style="border-bottom:1px solid #000; padding-bottom:15px; margin-bottom:15px;">Save for Later</h3>
@@ -144,10 +153,9 @@
 
                         </ul>
                         @else
-                        <div style="height:35em; background:url('{{asset('assets/images/empty-cart.png')}}') no-repeat center top; background-size:;" class="bg-cover bg-no-repeat wishlist_empty_wrap d-flex justify-content-center align-items-center">
+                        <div style="height:15em; background:url('https://www.teachstarter.com/wp-content/uploads/2016/06/save_for_later_banner.jpg{{--asset('assets/images/empty-cart.png')--}}') no-repeat center center; background-size:cover;" class="bg-cover bg-no-repeat wishlist_empty_wrap d-flex justify-content-center align-items-center">
                             <div class="mt-5 pt-5">
-                                <h4 class="text-alert">Empty Cart</h4>
-                            {{-- <a class="btn btn-primary fz-14 fw-bold" style="color:" href="{!! route('shop') !!}">Shopping  now</a> --}}
+                                <h1 class="text-alert">Empty,</h1>
                             </div>
                         </div>
                         @endif

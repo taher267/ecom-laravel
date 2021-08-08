@@ -26,8 +26,9 @@ class CreateOrdersTable extends Migration
             $table->string('email');
             $table->string('line1');
             $table->string('line2')->nullable();
-            $table->string('province');
             $table->string('country');
+            $table->string('province');
+            $table->string('city');
             $table->string('zipcode');
             $table->enum('status', ['ordered', 'delivered', 'canceled'])->default('ordered');
             $table->boolean('is_shipping_different')->default(false);

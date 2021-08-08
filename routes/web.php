@@ -78,4 +78,7 @@ Route::middleware(['auth:sanctum', 'verified', 'authadmin'])->group(function () 
     Route::get('/admin/addcoupon', App\Http\Livewire\Admin\AdminAddCouponComponent::class)->name('admin.addcoupon');
     Route::get('/admin/editcoupon/{coupon_id}', App\Http\Livewire\Admin\AdminEditCouponComponent::class)->name('admin.editcoupon');
 
+    //Thankyou
+    Route::get('/thank-you', App\Http\Livewire\ThankyouComponent::class )->name('thankyou');
+
 });

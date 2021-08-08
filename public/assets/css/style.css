@@ -71,6 +71,8 @@ button:hover, button:focus, button:visited, button:active{
 a{text-decoration: none;}
 .input-group-text, .form-control{font-size: 14.5px;}
 .bg-transparant{background-color: transparent !important;}
+.mt-0p5{margin-top: 0.5rem !important;}
+.mt-0p75{margin-top: 0.75rem !important;}
 nav svg{
     height: 20px;
 }

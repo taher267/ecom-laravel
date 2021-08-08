@@ -47,7 +47,7 @@
                                 <div class="form-group">@error('cart_value') <div class="alert alert-danger">{{$message}}</div> @enderror </div>
                                 <div class="input-group form-group field reqrd" wire:ignore>
                                     <span class="input-group-text" id="basic-addon1">Expiry Date</span>
-                                    <input  wire:model="expiry_date" type="text" id="coupon_expiry_date" name="expiry_date" class="form-control valClass" placeholder="Expiry Date..." required>
+                                    <input  wire:model="expiry_date" type="date" id="coupon_expiry_date" name="expiry_date" class="form-control valClass" placeholder="Expiry Date..." required>
                                 </div>
                                 <div class="form-group">@error('expiry_date') <div class="alert alert-danger">{{$message}}</div> @enderror </div>
 

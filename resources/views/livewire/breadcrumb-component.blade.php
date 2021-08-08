@@ -8,6 +8,7 @@
             {{Request::is('shop') ? 'shop' :'' }}
             {{Request::is('cart') ? 'cart' :'' }}
             {{Request::is('checkout') ? 'checkout' :'' }}
+            {{Request::is('thank-you') ? 'thank you' :'' }}
         </span></li>
         @if (Request::is('product-category*'))
             <li class="item-link"><span>
