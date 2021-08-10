@@ -51,7 +51,7 @@
 
                                 <div class="form-group input-group">
                                     <span class="input-group-text f-z-16" id="basic-addon1">Regular Price<sup class="text-danger">*</sup></span>
-                                    <input type="number" name="regular_price" class="form-control f-z-16" placeholder="Product regular price..."  wire:model="regular_price">
+                                    <input type="text" name="regular_price" class="form-control f-z-16" placeholder="Product regular price..."  wire:model="regular_price">
                                 </div>
                                 @error('regular_price') <p class="text-danger fz-15">{{$message}}</p> @enderror
                                 <div class="form-group input-group">
@@ -100,6 +100,27 @@
                                         @else
                                              <img class="" src="{{$image->temporaryUrl()}}" width="120">
                                     @endif
+
+                                @endif
+
+                                <div class="form-group input-group">
+                                    <span class="input-group-text f-z-16" id="basic-addon1">Product Gallery<sup class="text-primary">*</sup></span>
+                                    <input type="file" name="images" wire:model="images" class="form-control f-z-16" placeholder="Product Image..." multiple>
+                                </div>
+
+                                @if ($images)
+                                    {{-- @if ($errors->any())
+                                        @foreach ($errors->all() as $err)
+                                            @if ($err === 'The image must be an image.' || 'The image must be a file of type: png, jpg, jpeg.' === $err)
+                                                <p class="text-danger fz-15">{{$err}}</p>
+                                            @endif
+                                        @endforeach
+                                        @else --}}
+                                        @foreach ($images as $image )
+                                        <img class="" src="{{$image->temporaryUrl()}}" width="120">
+                                        @endforeach
+
+                                    {{-- @endif --}}
 
                                 @endif
 

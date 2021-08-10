@@ -60,7 +60,7 @@ class CheckoutComponent extends Component
     public function placeOrder()
     {
         $this->validate([
-            'first_name'    => 'required|regex:/^[A-Za-z. ]+$/u',
+            'first_name'    => 'required|regex:/^[A-Za-z. ]/',
             'last_name'     => 'required|regex:/^[A-Za-z ]+$/u',
             'email'         => 'required|email',
             'mobile'        => 'required|numeric|digits_between:11,14',
