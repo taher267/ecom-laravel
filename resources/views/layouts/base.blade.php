@@ -95,6 +95,9 @@
                                                         <li class="menu-item" >
 															<a title="All coupons" href="{{route('admin.coupons')}}">All Coupons</a>
 														</li>
+                                                        <li class="menu-item" >
+															<a title="Settings" href="{{route('admin.settings')}}">Settings</a>
+														</li>
 
                                                         {{-- LOGOUT --}}
 														<li class="menu-item" >
