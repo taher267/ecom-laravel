@@ -224,7 +224,7 @@
                                 @if (Cart::instance('cart')->count() > 0 && $cartitems->contains($product->id))
                                 @foreach (Cart::instance('cart')->content() as $citem)
                                     @if ($citem->id == $product->id && $cartitems->contains($product->id))
-                                    <a href="#" class="btn add-to-cart already-to-cart" wire:click.prevent="removeToCart('{{$citem->rowId}}')">Already To Cart</a>
+                                    <a href="#" class="btn add-to-cart already-to-cart" onclick="confirm('Are you sure to remove this product from Cart?') || event.stopImmediatePropagation()" wire:click.prevent="removeToCart('{{$citem->rowId}}')">Already To Cart</a>
                                     @endif
                                 @endforeach
                                 @else

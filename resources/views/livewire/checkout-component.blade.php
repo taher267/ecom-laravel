@@ -124,7 +124,7 @@
                                     @error('s_zipcode') <label class="text-danger mt-0p75" role="danger">{{$message}}</label> @enderror
                                 </p>
                                 <p class="row-in-form">
-                                    <label for="province">Province<span>*</span></label>
+                                        <label for="province">Province<span>*</span></label>
                                     <input  wire:model="s_province" type="text" name="s_province" placeholder="Province name">
                                     @error('s_province') <label class="text-danger mt-0p75" role="danger">{{$message}}</label> @enderror
                                 </p>

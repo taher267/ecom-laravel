@@ -52,8 +52,17 @@
 					<div class="container">
 						<div class="topbar-menu left-menu">
 							<ul>
-								<li class="menu-item" >
-									<a title="Hotline: (+123) 456 789" href="#" ><span class="icon label-before fa fa-mobile"></span>Hotline: (+123) 456 789</a>
+                                @if( Route::has('login') )
+										@auth
+											@if (Auth::user()->utype === 'ADM')
+                                        <li class="menu-item" >
+                                            <a title="dashboard" href="#" ><span class="icon label-before fa fa-dashboard"></span>Dashboard </a>
+                                        </li>
+                                        @endif
+                                    @endauth
+                                @endif
+								<li class="menu-item mx-1">
+									<a title="Hotline: (+123) 456 789" href="#" > <span class="icon label-before fa fa-mobile"></span>Hotline: (+123) 456 789</a>
 								</li>
 							</ul>
 						</div>

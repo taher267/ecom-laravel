@@ -45,9 +45,6 @@ Route::get('/wishlist', App\Http\Livewire\WishlistComponent::class)->name('produ
     //Thankyou
 Route::get('/thank-you', App\Http\Livewire\ThankyouComponent::class )->name('thankyou');
 
-// Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-//     return view('dashboard');
-// })->name('dashboard');
 
 //For user or customer
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
@@ -83,5 +80,11 @@ Route::middleware(['auth:sanctum', 'verified', 'authadmin'])->group(function () 
 
     /**Admin Setting */
     Route::get('/admin/settings', App\Http\Livewire\Admin\AdminSettingsComponent::class )->name('admin.settings');
+
+    /**Admin Order */
+    Route::get('/admin/Orders', App\Http\Livewire\Admin\AdminOrderComponent::class )->name('admin.orders');
+    /**Order Details */
+    Route::get('/admin/Order/{order_id}', App\Http\Livewire\Admin\AdminOrderDetailsComponent::class )->name('admin.orderdetails');
+
 
 });

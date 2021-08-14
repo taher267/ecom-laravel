@@ -11,9 +11,9 @@
                     </div>
                     <div class="panel-body row">
                         <div class="col-lg-8 col-md-8 mx-auto">
-                            @if (Session::has('msg'))
+                            @if ( Session::has('msg') )
                                 <div class="alert alert-success">
-                                    {{Session::get('msg')}}
+                                    {{ Session::get('msg') }}
                                 </div>
                             @endif
 
