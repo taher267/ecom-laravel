@@ -4871,7 +4871,7 @@ table.shop_attributes tbody{
 }
 .wrap-address-billing .row-in-form input[type=email],
 .wrap-address-billing .row-in-form input[type=text],
-.wrap-address-billing .row-in-form input[type=number]{
+.wrap-address-billing .row-in-form input[type=number],.wrap-address-billing .row-in-form input{
     font-size: 13px;
     line-height: 19px;
     display: inline-block;
