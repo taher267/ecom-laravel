@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Shipping;
 use App\Models\Transaction;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Cart;
@@ -28,6 +29,13 @@ class CheckoutComponent extends Component
     public $order_id;
     public $mode, $transaction_status, $card_no, $expiry_month, $expiry_year, $cvc;
 
+    public function mount()
+    {
+        $this->email = Auth::user()->email;
+        // $time = Carbon::now('y');
+        $this->expiry_year = Carbon::createFromFormat('Y-m-d H:i:s',Carbon::now('y'))->year;
+        // dd($this->expiry_year);
+    }
     public function updated($fields)
     {
         $this->validateOnly($fields, [
@@ -58,17 +66,24 @@ class CheckoutComponent extends Component
 
             ]);
         }if ($this->paymentmethod=='card') {
+            $current_year = Carbon::createFromFormat('Y-m-d H:i:s',Carbon::now('y'))->year;
+
             $this->validateOnly($fields, [
                 'card_no'    => 'required|numeric',
-                'expiry_month'     => 'required|numeric',
-                'expiry_year'     => 'required|numeric',
+                'expiry_month'     => 'required|numeric|date_format:m|digits:2',//digits:2|between:1,12
+                'expiry_year'     => 'required|numeric|min:current_year',
                 'cvc'         => 'required|numeric',
-            ]);
+            ],
+            [
+                'expiry_year.min' => "The expiry year must be at least $current_year",
+                // 'regular_price.regex:/^[0-9].[0-9]/' => 'The product :attribute must be number.',
+            ],);
         }
     }
 
     public function placeOrder()
     {
+        // dd( $this->paymentmethod );
         $this->validate([
             'first_name'    => 'required|regex:/^[A-Za-z. ]/',
             'last_name'     => 'required|regex:/^[A-Za-z ]+$/u',
@@ -155,7 +170,7 @@ class CheckoutComponent extends Component
             $this->makeTransaction($order->id, 'pending');
             $this->resetCart();
 
-        }else if( $this->paymentmethod =='card' ){
+        }elseif( $this->paymentmethod =='card' ){
             $stripe = Stripe::make(env('STRIPE_KEY'));
             try{
              $token = $stripe->tokens()->create([
@@ -219,10 +234,10 @@ class CheckoutComponent extends Component
     }
     public function makeTransaction( int $order_id, string $status)
     {
-        $transaction                = new Transaction();
+        $transaction                    = new Transaction();
             $transaction->user_id       = Auth::user()->id;
             $transaction->order_id      = $order_id;
-            $transaction->mode          = 'cod';
+            $transaction->mode          = $this->paymentmethod;;
             $transaction->status        = $status;
             $transaction->save();
     }

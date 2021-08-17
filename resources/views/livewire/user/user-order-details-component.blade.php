@@ -1,11 +1,11 @@
-@section('title', 'Order Details')
-<div class="">
+@section('title', 'Customer Order Details')
+<div class="p-3">
     <div class="row mb-4">
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="row">
                     <div class="col-lg-6"><div class="panel-heading alert"><h4 class="">Order Items</h4></div></div>
-                    <div class="col-lg-6  text-end"><a class="btn btn-primary" href="{{route('admin.orders')}}">All Orders</a></div>
+                    <div class="col-lg-6  text-end"><a class="btn btn-primary" href="{{route('user.orders')}}">All Orders</a></div>
                 </div>
 
                 <div class="panel-body">
@@ -46,31 +46,6 @@
             <div class="panel panel-default">
                 <div class="panel-heading alert alert-secondary">Builling Details</div>
                 <div class="panel-body row">
-                            {{-- <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4 col-4 fw-bold">First Name</div>
-                            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-8 col-8">{{$order->first_name}}</div>
-                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4 col-4 fw-bold">Last Name</div>
-                            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-8 col-8">{{$order->last_name}}</div>
-
-                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4 col-4 fw-bold">Moblie</div>
-                            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-8 col-8">{{$order->mobile}}</div>
-                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4 col-4 fw-bold">Email</div>
-                            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-8 col-8">{{$order->email}}</div>
-
-                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4 col-4 fw-bold">Line 1</div>
-                            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-8 col-8">{{$order->line1}}</div>
-                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4 col-4 fw-bold">Line 2</div>
-                            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-8 col-8">{{$order->line2 ? $order->line2 :'-------'}}</div>
-
-                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4 col-4 fw-bold">Province</div>
-                            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-8 col-8">{{$order->province}}</div>
-                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4 col-4 fw-bold">Zip-code</div>
-                            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-8 col-8">{{$order->zipcode}}</div>
-
-                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4 col-4 fw-bold">City</div>
-                            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-8 col-8">{{$order->city}}</div>
-                            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4 col-4 fw-bold">Country</div>
-                            <div class="col-lg-4 col-md-4 col-sm-8 col-xs-8 col-8">{{$order->country}}</div> --}}
-
                         <div class="col-lg-12">
                             <table class="table table-striped">
                                 <tr>
@@ -169,82 +144,35 @@
                 <div class="panel-heading alert-secondary alert">Transaction</div>
                 <div class="panel-body">
                     <div class="card text-white bg-dark my-3 mx-auto" style="max-width: 18rem;">
-                        <div class="card-header text-center" style="font-size: 100px; color: #2F56C8"><i class="fa fa-paper-plane"></i></div>
+                        <div class="card-header text-center" ><i class="fa fa-paper-plane my-5" style="font-size: 100px !important; color: #ffffff;"></i></div>
                         <div class="card-body transaction-body">
-                          <h5 class="card-title"><b><i class="fa fa-user"></i></b> {{$order->user->name}}</h5>
-                          {{-- {{$order->transaction->id}} --}}
-                          <table class="table" style="color: #fff !important;">
-                              <tr>
-                                  <td><b><i class="fas fa-file-invoice-dollar"></i></b></td>
-                                  <td>{{ $order->transaction->mode=='cod' ? 'Cash On Delivery': '' }}</td>
-                              </tr>
-                              @if (Session::has('msg'))
+                            <h5 class="card-title"><b><i class="fa fa-user"></i></b> {{$order->user->name}}</h5>
+                            <table class="table" style="color: #fff !important;">
                                 <tr>
-                                    <td colspan="2" class="alert alert-{{substr(Session::get('msg'), -8)=='approved'?'primary': 'danger'}}" >
-                                       {{Session::get('msg')}}
-                                    </td>
+                                    <td><b><i class="fas fa-file-invoice-dollar"></i></b></td>
+                                    <td>{{ $order->transaction->mode=='cod' ? 'Cash On Delivery': '' }}</td>
                                 </tr>
-                              @endif
+                                @if (Session::has('msg'))
+                                    <tr>
+                                        <td colspan="2" class="alert alert-{{substr(Session::get('msg'), -8)=='approved'?'primary': 'danger'}}" >
+                                        {{Session::get('msg')}}
+                                        </td>
+                                    </tr>
+                                @endif
 
-                              <tr>
-                                  <td><b><i wire:click.prevent="changeStatus('{{$order->transaction->status=='pending'? 'approved': 'pending'}}',{{$order->transaction->id}})" class="fas fa-thermometer-@if($order->transaction->status=='pending')quarter text-danger @elseif($order->transaction->status=='approved')three-quarters text-primary @endif"></i></b></td>
-                                  <td class="text-capitalize">{{ $order->transaction->status}}</td>
-                                  <td>
-                                      <form class="" wire:submit.prevent="changeStatus('{{$status}}', {{$order->id}})">
-
-                                        <select id="order_status_change" class="btn-sm text-capitalize " style="" name="status" wire:model="status">
-                                            @php
-                                                $options=[
-                                                    'approved', 'pending', 'declined', 'refunded'
-                                                ];
-                                            @endphp
-                                            @foreach ($options as $option)
-                                                @if ($option == $order->transaction->status)
-                                                    <option disabled class="bg" selected value="{{$option}}">{{$option}}</option>
-                                                @else
-                                                    <option value="{{$option}}">{{$option}}</option>
-                                                @endif
-                                            @endforeach
-                                          </select>
-                                          <button id="change_btn" type="submit" class="btn btn-info btn-sm mt-2">Submit</button>
-                                      </form>
-                                  </td>
-                              </tr>
-                              <tr>
-                                  <td><b><i class="fas fa-calendar-alt"></i></b></td>
-                                  <td>{{ $order->transaction->created_at}}</td>
-                              </tr>
-                          </table>
-
+                                <tr>
+                                    <td><b><i wire:click.prevent="changeStatus('{{$order->transaction->status=='pending'? 'approved': 'pending'}}',{{$order->transaction->id}})" class="fas fa-thermometer-@if($order->transaction->status=='pending')quarter text-danger @elseif($order->transaction->status=='approved')three-quarters text-primary @endif"></i></b></td>
+                                    <td class="text-capitalize">{{ $order->transaction->status}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b><i class="fas fa-calendar-alt"></i></b></td>
+                                    <td>{{ $order->transaction->created_at}}</td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
-
             </div>
-            <i class="fas fa-thermometer-three-quarters"></i>
-            <i class="fas fa-file-invoice-dollar"></i>
-            <i class="far fa-money-bill-alt"></i>
-            <i class="fas fa-money-bill-alt"></i>
-            <i class="fas fa-money-bill-wave"></i>
-            <i class="fas fa-thermometer-quarter"></i>
-            <i class="fab fa-intercom"></i>
-            <i class="fas fa-calendar-alt"></i>
         </div>
     </div>
-
 </div>
-@push('scripts')
-    <script>
-        jQuery(function(){
-            jQuery('.navbar-nav.bg-gradient-primary.sidebar.sidebar-dark.accordion').addClass('toggled');
-            jQuery('#change_btn').css('display','none');
-            jQuery('#order_status_change').on('change', function(){
-                var option = $('option:selected', this).val();
-                if( option != '{{$order->transaction->status}}'){
-                    jQuery('#change_btn').css('display','block');
-                }else{
-                    jQuery('#change_btn').css('display','none');
-                }
-            });
-        });
-    </script>
-@endpush
+

@@ -53,12 +53,13 @@
 						<div class="topbar-menu left-menu">
 							<ul>
                                 @if( Route::has('login') )
-										@auth
-											@if (Auth::user()->utype === 'ADM')
+									@auth
+											{{-- @if (Auth::user()->utype === 'ADM') --}}
                                         <li class="menu-item" >
-                                            <a title="dashboard" href="#" ><span class="icon label-before fa fa-dashboard"></span>Dashboard </a>
+                                            <a title="dashboard" href="@if ( Auth::user()->utype === 'ADM' ){{route('admin.dashboard')}} @elseif(Auth::user()->utype === 'USR' ) {{route('user.dashboard')}} @endif" ><span class="icon label-before fa fa-dashboard"></span>Dashboard </a>
                                         </li>
-                                        @endif
+                                        {{-- @elseif (Auth::user()->utype === 'USR') --}}
+                                        {{-- @endif --}}
                                     @endauth
                                 @endif
 								<li class="menu-item mx-1">

@@ -60,7 +60,7 @@
                         <td>{!! $order->zipcode!!}</td>
                         <td>{!! $order->status!!}</td>
                         <td>{!! $order->created_at!!}</td>
-                        <td><a href="{!!route('admin.orderdetails', $order->id)!!}"><i class="fa fa-eye btn-lg"></i></a></td>
+                        <td><a href="{!!route('user.orderdetails', $order->id)!!}"><i class="fa fa-eye btn-lg"></i></a></td>
                     </tr>
                     @endforeach
                 </tbody>

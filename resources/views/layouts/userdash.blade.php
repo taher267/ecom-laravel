@@ -50,9 +50,8 @@
             <!-- Nav Item - Dashboard -->
 
             <li class="nav-item">
-                <a class="nav-link" href="{!! route('admin.dashboard')!!}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                <a class="nav-link" href="{!! route('user.dashboard')!!}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i><strong>Dashboard</strong></a>
             </li>
 
             <!-- Divider -->
@@ -66,8 +65,8 @@
             <!-- Nav Item - Pages Collapse Menu -->
             @if( Route::has('login') )
                 @auth
-                    @if (Auth::user()->utype === 'ADM')
-                        @include('layouts.dashboard-menu.admin-nav-menu')
+                    @if (Auth::user()->utype === 'USR')
+                        @include('layouts.dashboard-menu.user-nav-menu')
                     @endif
                 @endauth
             @endif
@@ -264,7 +263,7 @@
 
                     @if( Route::has('login') )
                     @auth
-                        @if (Auth::user()->utype === 'ADM')
+                        @if (Auth::user()->utype === 'USR')
                             <li class="nav-item dropdown no-arrow">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -354,7 +353,7 @@
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="#">Logout</a>
                 </div>
             </div>
         </div>

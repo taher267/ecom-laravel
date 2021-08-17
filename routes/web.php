@@ -49,6 +49,9 @@ Route::get('/thank-you', App\Http\Livewire\ThankyouComponent::class )->name('tha
 //For user or customer
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/user/dashboard', UserDashboardComponent::class)->name('user.dashboard');
+    /**User Order */
+    Route::get('/user/orders', App\Http\Livewire\User\UserOrdersComponent::class)->name('user.orders');
+    Route::get('/user/order/{order_id}', App\Http\Livewire\User\UserOrderDetailsComponent::class)->name('user.orderdetails');
 });
 
 //For Adamin
@@ -82,9 +85,9 @@ Route::middleware(['auth:sanctum', 'verified', 'authadmin'])->group(function () 
     Route::get('/admin/settings', App\Http\Livewire\Admin\AdminSettingsComponent::class )->name('admin.settings');
 
     /**Admin Order */
-    Route::get('/admin/Orders', App\Http\Livewire\Admin\AdminOrderComponent::class )->name('admin.orders');
+    Route::get('/admin/orders', App\Http\Livewire\Admin\AdminOrderComponent::class )->name('admin.orders');
     /**Order Details */
-    Route::get('/admin/Order/{order_id}', App\Http\Livewire\Admin\AdminOrderDetailsComponent::class )->name('admin.orderdetails');
+    Route::get('/admin/order/{order_id}', App\Http\Livewire\Admin\AdminOrderDetailsComponent::class )->name('admin.orderdetails');
 
 
 });

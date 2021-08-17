@@ -8,11 +8,11 @@ use Livewire\Component;
 
 class AdminOrderDetailsComponent extends Component
 {
-    public $order_id, $status, $optionVal='jdkfjkds';
+    public $order_id, $status, $optionVal;
     public function mount($order_id)
     {
         $this->order_id = $order_id;
-        // $this->optionVal = $optionVal;
+        $this->status   = 'pending';
     }
     public function changeStatus(string $approveStatus, int $transaction_id)
     {

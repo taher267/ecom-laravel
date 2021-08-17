@@ -29,7 +29,7 @@
                                 </p>
                                 <p class="row-in-form">
                                     <label for="mobile">Mobile number<span>*</span></label>
-                                    <input wire:model="mobile" type="number" name="mobile" placeholder="11 digits format">
+                                    <input wire:model="mobile" type="number" name="mobile" placeholder="Mobile no...">
                                     @error('mobile') <label class="text-danger mt-0p75" role="danger">{{$message}}</label> @enderror
                                 </p>
                                 <p class="row-in-form">
@@ -95,7 +95,7 @@
                                 </p>
                                 <p class="row-in-form">
                                     <label for="mobile">Mobile number<span>*</span></label>
-                                    <input wire:model="s_mobile" type="number" name="s_mobile" placeholder="10 digits format">
+                                    <input wire:model="s_mobile" type="number" name="s_mobile" placeholder="Mobile no...">
                                     @error('s_mobile') <label class="text-danger mt-0p75" role="danger">{{$message}}</label> @enderror
                                 </p>
                                 <p class="row-in-form">
@@ -176,13 +176,13 @@
 
                                 <div class="choose-payment-methods">
                                     <label class="payment-method">
-                                        <input name="paymentmethod" wire:model="paymentmethod" id="payment-method-bank" checked value="cod" type="radio">
+                                        <input name="paymentmethod" wire:model="paymentmethod" id="payment-method-bank" value="cod" type="radio">
                                         <span>Cash on Delivery</span>
                                         <span class="payment-desc">Order Now, Pay on Delivery</span>
                                     </label>
                                     <label class="payment-method">
                                         <input name="paymentmethod" wire:model="paymentmethod" id="payment-method-visa" value="card" type="radio">
-                                        <span>Card</span>
+                                        <span>Debit / Credit Payment</span>
                                         <span class="payment-desc">There are many variations of passages of Lorem Ipsum available</span>
                                     </label>
                                     <label class="payment-method">
@@ -194,7 +194,7 @@
                                     @error('paymentmethod') <label class="text-danger mt-0p75" role="danger">{{$message}}</label> @enderror
                                 </div>
                                 <p class="summary-info grand-total"><span>Grand Total</span> <span class="grand-total-price">${{Session::has('checkout')? Session::get('checkout')['total'] : 0}}</span></p>
-                                <button type="submit" class="btn btn-medium">Place order now</button>
+                                <button type="{{$errors->any()?'button':'submit'}}" {{$errors->any()?'disabled':''}} class="btn btn-medium">Place order now</button>
                             </div>
                             <div class="summary-item shipping-method">
                                 <h4 class="title-box f-title">Shipping method</h4>
