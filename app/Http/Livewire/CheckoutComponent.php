@@ -16,7 +16,7 @@ use Faker\Extension\Extension;
 
 class CheckoutComponent extends Component
 {
-    public  $ship_to_different, $thankyou;
+    public  $ship_to_different, $thankyou, $submitBtnStatus;
 
     /**Building address Propertis */
     public $user_id, $subtotal, $discount, $tax, $total, $first_name, $last_name, $email, $mobile, $line1, $line2, $city, $province, $country, $zipcode,
@@ -29,12 +29,11 @@ class CheckoutComponent extends Component
     public $order_id;
     public $mode, $transaction_status, $card_no, $expiry_month, $expiry_year, $cvc;
 
+
     public function mount()
     {
-        $this->email = Auth::user()->email;
-        // $time = Carbon::now('y');
-        $this->expiry_year = Carbon::createFromFormat('Y-m-d H:i:s',Carbon::now('y'))->year;
-        // dd($this->expiry_year);
+        $this->expiry_year = date('Y');
+        $this->submitBtnStatus = 1;
     }
     public function updated($fields)
     {
@@ -65,19 +64,43 @@ class CheckoutComponent extends Component
                 's_zipcode'       => 'required|numeric',
 
             ]);
-        }if ($this->paymentmethod=='card') {
-            $current_year = Carbon::createFromFormat('Y-m-d H:i:s',Carbon::now('y'))->year;
 
+        }
+        //Check Payment Method System
+        if ($this->paymentmethod=='card') {
+            $current_year = Carbon::createFromFormat('Y-m-d H:i:s',Carbon::now('y'))->year;
+            $min_exp_month='';
+            if ( $this->expiry_year == date('Y') ) {
+                $min_exp_month == (date('m'));
+            }else {
+                $min_exp_month == '01';
+            }
             $this->validateOnly($fields, [
                 'card_no'    => 'required|numeric',
-                'expiry_month'     => 'required|numeric|date_format:m|digits:2',//digits:2|between:1,12
-                'expiry_year'     => 'required|numeric|min:current_year',
+                'expiry_month'     => 'required|numeric|date_format:m|digits:2|min:'.(date('m')),//digits:2|between:1,12
+                'expiry_year' => "required|digits:4|integer|min:$min_exp_month",
                 'cvc'         => 'required|numeric',
-            ],
-            [
-                'expiry_year.min' => "The expiry year must be at least $current_year",
-                // 'regular_price.regex:/^[0-9].[0-9]/' => 'The product :attribute must be number.',
-            ],);
+            ]
+        );
+        }
+        if ( $this->first_name == '' || $this->last_name  == '' || $this->email      == ''   ||
+        $this->mobile     == '' || $this->line1      == '' || $this->city       == ''   ||
+        $this->province   == '' || $this->country == '' || $this->zipcode    == '' || $this->paymentmethod== '' ||
+        ($this->ship_to_different ==1 &&
+            ($this->s_first_name == '' ||  $this->s_last_name  == ''  ||  $this->s_email      == ''  ||
+            $this->s_mobile     == ''  ||  $this->s_line1      == ''  ||  $this->s_city       == ''  ||
+            $this->s_province   == ''  ||  $this->s_country    == ''  ||  $this->s_zipcode    == '')
+            ) ||
+            ($this->paymentmethod =='card' &&
+            ($this->card_no == ''   ||
+            $this->expiry_month  == ''   ||
+            $this->expiry_year      == ''   ||
+            $this->cvc     == '')
+            )
+        ) {
+            $this->submitBtnStatus =1;
+        }else{
+            $this->submitBtnStatus =0;
         }
     }
 
@@ -111,15 +134,41 @@ class CheckoutComponent extends Component
                 's_country'       => 'required',
                 's_zipcode'       => 'required|numeric',
             ]);
-        }if ($this->paymentmethod=='card') {
-            $this->validate([
-                'card_no'           => 'required|numeric',
-                'expiry_month'      => 'required|numeric',
-                'expiry_year'       => 'required|numeric',
-                'cvc'               => 'required|numeric',
-            ]);
-
         }
+        if ($this->paymentmethod=='card') {
+            $current_year = Carbon::createFromFormat('Y-m-d H:i:s',Carbon::now('y'))->year;
+            $min_exp_month='';
+            if ( $this->expiry_year == date('Y') ) {
+                $min_exp_month == (date('m'));
+            }else {
+                $min_exp_month == '01';
+            }
+            $this->validate([
+                'card_no'    => 'required|numeric',
+                'expiry_month'     => 'required|numeric|date_format:m|digits:2|min:'.(date('m')),
+                'expiry_year' => "required|digits:4|integer|min:$min_exp_month",
+                'cvc'         => 'required|numeric',
+            ]
+        );
+        }
+
+        if ( $this->first_name == '' || $this->last_name  == '' || $this->email      == ''   ||
+        $this->mobile     == '' || $this->line1      == '' || $this->city       == ''   ||
+        $this->province   == '' || $this->country == '' || $this->zipcode    == '' || $this->paymentmethod== '' ||
+        ($this->ship_to_different ==1 &&
+            ($this->s_first_name == '' ||  $this->s_last_name  == ''  ||  $this->s_email      == ''  ||
+            $this->s_mobile     == ''  ||  $this->s_line1      == ''  ||  $this->s_city       == ''  ||
+            $this->s_province   == ''  ||  $this->s_country    == ''  ||  $this->s_zipcode    == '')
+            ) ||
+            ($this->paymentmethod =='card' &&
+            ($this->card_no == '' || $this->expiry_month  == '' || $this->expiry_year == '' || $this->cvc     == '')
+            )
+        ) {
+            $this->submitBtnStatus =1;
+        }else{
+            $this->submitBtnStatus =0;
+        }
+
 
         $order = new Order();
         $order->user_id                 = Auth::user()->id;
@@ -266,8 +315,34 @@ class CheckoutComponent extends Component
 
         }
     }
+    //Submit Button Controller
+    public function emptyFields()
+    {
+        if ($this->first_name == ''   ||
+        $this->last_name  == ''   ||
+        $this->email      == ''   ||
+        $this->mobile     == ''   ||
+        $this->line1      == ''   ||
+        $this->city       == ''   ||
+        $this->province   == ''   ||
+        $this->country    == ''   ||
+        $this->zipcode    == ''   ||
+        $this->paymentmethod == '' || ($this->is_shipping_different && ($this->first_name == ''   ||
+        $this->last_name  == ''   ||
+        $this->email      == ''   ||
+        $this->mobile     == ''   ||
+        $this->line1      == ''   ||
+        $this->city       == ''   ||
+        $this->province   == ''   ||
+        $this->country    == ''   ||
+        $this->zipcode    == ''   ||
+        $this->paymentmethod == '')) ) {
+            session()->flash('btnStatus', 'disabled');
+        }
+    }
     public function render()
     {
+        // $this->emptyFields();
         $this->verifyForCheckout();
         return view('livewire.checkout-component')->layout('layouts.base');
     }
