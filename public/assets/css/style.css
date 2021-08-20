@@ -7247,3 +7247,6 @@ span.relative.inline-flex.items-center.px-4.py-2.-ml-px.text-sm.font-medium.text
     color: #fff;
     border: 2.5px solid #FF2832 !important;
 }
+div.dataTables_wrapper div.dataTables_length select{
+    width: 50px;
+}

@@ -1,6 +1,6 @@
     {{-- Category Menu --}}
     <li class="nav-item">
-        <a class="nav-link collapsed" href="{{route('admin.categories')}}" data-toggle="collapse" data-target="#adminCategory"
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#adminCategory"
             aria-expanded="true" aria-controls="adminCategory">
             <i class="fas fa-fw fa-object-group"></i>
             <span>Categories</span>
@@ -13,9 +13,9 @@
         </div>
     </li>
 
-    {{-- Category Menu --}}
+    {{-- Product Menu --}}
     <li class="nav-item">
-        <a class="nav-link collapsed" href="{{route('admin.categories')}}" data-toggle="collapse" data-target="#adminProduct"
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#adminProduct"
             aria-expanded="true" aria-controls="adminProduct">
             <i class="fas fa-fw fa-layer-group"></i>
             <span>Products</span>
@@ -28,7 +28,7 @@
         </div>
     </li>
 
-    {{-- Category Menu --}}
+    {{-- Order Menu --}}
     <li class="nav-item">
         <a class="nav-link collapsed" href="{{route('admin.orders')}}" data-toggle="collapse" data-target="#adminOrders"
             aria-expanded="true" aria-controls="adminOrders">

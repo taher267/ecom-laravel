@@ -187,10 +187,10 @@
                               @endif
 
                               <tr>
-                                  <td><b><i wire:click.prevent="changeStatus('{{$order->transaction->status=='pending'? 'approved': 'pending'}}',{{$order->transaction->id}})" class="fas fa-thermometer-@if($order->transaction->status=='pending')quarter text-danger @elseif($order->transaction->status=='approved')three-quarters text-primary @endif"></i></b></td>
+                                  <td><b><i wire:click.prevent="changeStatus('{{$order->transaction->status=='pending' ? 'approved': 'pending'}}',{{$order->transaction->id}})" class="fas fa-thermometer-@if($order->transaction->status=='pending')quarter text-danger @elseif($order->transaction->status=='approved')three-quarters text-primary @endif"></i></b></td>
                                   <td class="text-capitalize">{{ $order->transaction->status}}</td>
                                   <td>
-                                      <form class="" wire:submit.prevent="changeStatus('{{$status}}', {{$order->id}})">
+                                      <form class="" wire:submit.prevent="changeStatus('{{$status}}', {{$order->transaction->id}})">
 
                                         <select id="order_status_change" class="btn-sm text-capitalize " style="" name="status" wire:model="status">
                                             @php
@@ -200,7 +200,7 @@
                                             @endphp
                                             @foreach ($options as $option)
                                                 @if ($option == $order->transaction->status)
-                                                    <option disabled class="bg" selected value="{{$option}}">{{$option}}</option>
+                                                    <option disabled class="bg-danger" selected value="{{$option}}">{{$option}}</option>
                                                 @else
                                                     <option value="{{$option}}">{{$option}}</option>
                                                 @endif

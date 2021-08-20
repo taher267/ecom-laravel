@@ -27,7 +27,7 @@
 
                                 <div class="input-group form-group">
                                     <span class="input-group-text f-z-16" id="basic-addon1">Product Name<sup class="text-danger">*</sup></span>
-                                    <input type="text" name="name" id="add_product_name" class="form-control f-z-16" placeholder="Product Name..."  wire:keyup="generateSlug" wire:model="name" {{--wire:keydown="generateSlug"--}}>
+                                    <input type="text" name="name" id="add_product_name" class="form-control f-z-16" placeholder="Product Name..."  wire:keyup="generateSlug" wire:model="name">
                                 </div>
                                 @error('name') <p class="text-danger fz-15">{{$message}}</p> @enderror
 

@@ -1,12 +1,23 @@
-<h1 class="h3 mb-2 text-gray-800">Tables</h1>
+<div>
+    <h1 class="h3 mb-2 text-gray-800">Tables</h1>
 <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
-    For more information about DataTables, please visit the <a target="_blank"
-        href="https://datatables.net">official DataTables documentation</a>.</p>
+    For more information about DataTables, please visit the <a
+        href="#">official DataTables documentation</a>.</p>
 
 <!-- DataTales Example -->
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">All Orders</h6>
+        <div class="row">
+            <div class="cal-lg-4">
+                <h6 class="m-0 font-weight-bold text-primary d-inline-block">All Orders</h6>
+            </div>
+            @if (Session::has('msg'))
+                <div class="cal-lg-8 alert alert-success">
+                    {{Session::get('msg')}}
+                </div>
+            @endif
+        </div>
+        {{-- {{$datas->count()}} --}}
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -25,7 +36,7 @@
                         <th>Zipcode</th>
                         <th>Status</th>
                         <th>Date</th>
-                        <th>View</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -42,7 +53,7 @@
                         <th>Zipcode</th>
                         <th>Status</th>
                         <th>Date</th>
-                        <th>View</th>
+                        <th>Actions</th>
                     </tr>
                 </tfoot>
                 <tbody>
@@ -60,7 +71,18 @@
                         <td>{!! $order->zipcode!!}</td>
                         <td>{!! $order->status!!}</td>
                         <td>{!! $order->created_at!!}</td>
-                        <td><a href="{!!route('admin.orderdetails', $order->id)!!}"><i class="fa fa-eye btn-lg"></i></a></td>
+                        <td>
+                            <a href="{!!route('admin.orderdetails', $order->id)!!}"><i class="fa fa-eye btn-lg"></i></a>
+                            <a href="#" wire:click.prevent="deleteOrder({!! $order->id !!})"><i class="fa fa-trash btn-sm text-danger"></i></a>
+
+                            <div class="dropdown">
+                                <button class="btn btn-success btn-sm drowdown-toggle" type="submit" data-toggle="dropdown">Status <span class="caret"></span></button>
+                                <ul class="dropdown-menu">
+                                    <li class="form-control border-0"><a href="#" wire:click.prevent="updateOrderStatus({{$order->id}},'delivered')">Delivered</a></li>
+                                    <li class="form-control border-0"><a href="#" wire:click.prevent="updateOrderStatus({!!$order->id!!},'canceled')">Canceled</a></li>
+                                </ul>
+                            </div>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -68,10 +90,14 @@
         </div>
     </div>
 </div>
+
+</div>
 @push('scripts')
     <script>
         jQuery(function(){
             jQuery('.navbar-nav.bg-gradient-primary.sidebar.sidebar-dark.accordion').addClass('toggled');
+            //
+
         });
     </script>
 @endpush
