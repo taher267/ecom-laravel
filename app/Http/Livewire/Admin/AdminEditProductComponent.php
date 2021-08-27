@@ -15,7 +15,7 @@ class AdminEditProductComponent extends Component
     use WithFileUploads;
 
     public $product_id, $product_slug, $name, $slug, $short_description, $checkSlug,
-            $description, $image, $newimage, $regular_price, $sale_price, $SKU, $featured,
+            $description, $image, $newimage, $images, $newImages, $regular_price, $sale_price, $SKU, $featured,
             $category_id, $sel_categories=[], $quantity, $stock_status, $updated_id;
 
     public function mount($product_slug)
@@ -33,6 +33,7 @@ class AdminEditProductComponent extends Component
         $this->featured             = $product->featured;
         $this->quantity             = $product->quantity;
         $this->image                = $product->image;
+        $this->images               = explode(',', $product->images);
         $this->category_id          = $product->category_id;
         $this->sel_categories       = $product->pro_categories;
 
@@ -108,7 +109,16 @@ class AdminEditProductComponent extends Component
             $imageName      = Carbon::now()->timestamp . '.' . $this->newimage->extension();
             $product->image = $imageName;
         }
+        //Is exist data of new product gallery images
+        if ( $this->newImages) {
+            $newImagesName = '';
+            foreach ($this->newImages as $key => $image) {
+                $newImgName         = $this->slug . '-' . $key. '-' . Carbon::now()->timestamp . '.' . $image->extension();
+                $newImagesName     = $newImagesName . $newImgName. ',';
+            }
+            $product->images = $newImagesName;
 
+        }
 
         //update data
         if ( $product->save() )
@@ -116,6 +126,21 @@ class AdminEditProductComponent extends Component
             //update new image
             if ( $this->newimage ) {
                 $this->newimage->storeAs( 'products', $imageName );
+            }
+
+             /**
+             * If exist product Gallery Images
+             */
+            if ($this->newImages) {
+                //Delete Old data
+                if ( Storage::disk('local')->exists( "products/$product->slug" ) ) {
+                   Storage::disk('local')->deleteDirectory( "products/$product->slug" );
+                }
+                //Update new data
+                foreach ($this->newImages as $key => $image) {
+                    $imagesName = $this->slug . '-' . $key. '-' . Carbon::now()->timestamp . '.' . $image->extension();
+                    $image->storeAs( 'products/'.$this->slug, $imagesName );
+                }
             }
             //Update products Categories in pvot table=product_category
             // $product->pro_categories()->sync($this->sel_categories);
@@ -131,7 +156,7 @@ class AdminEditProductComponent extends Component
 
         $storage = Storage::disk('local');
         foreach ($storage->allFiles('livewire-tmp') as $filePathname) {
-            $yesterdaysStamp = now()->subSeconds(5)->timestamp;
+            $yesterdaysStamp = now()->subMinutes(5)->timestamp;
             if ($yesterdaysStamp > $storage->lastModified($filePathname)) {
                 $storage->delete($filePathname);
             }
@@ -142,6 +167,6 @@ class AdminEditProductComponent extends Component
     {
         $product = Product::where( 'slug', $this->product_slug )->first();
         $categories = Category::all();
-        return view('livewire.admin.admin-edit-product-component', compact('categories'))->layout('layouts.base');
+        return view('livewire.admin.admin-edit-product-component', compact('categories'))->layout('layouts.dashboard');
     }
 }

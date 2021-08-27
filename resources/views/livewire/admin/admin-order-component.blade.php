@@ -105,8 +105,6 @@
     <script>
         jQuery(function(){
             jQuery('.navbar-nav.bg-gradient-primary.sidebar.sidebar-dark.accordion').addClass('toggled');
-            //
-
         });
     </script>
 @endpush

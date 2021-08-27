@@ -5,9 +5,9 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <div class="row">
+                        <div class="row mb-3">
                             <div class="col-md-6"><h4>All Product</h4></div>
-                        <div class="col-md-6"><a class="btn btn-primary pull-right btn-lg" href="{{route('admin.addproduct')}}"><i class="fa fa-plus"></i> Add New</a></div>
+                        <div class="col-md-6 text-right"><a class="btn btn-primary pull-right" href="{{route('admin.addproduct')}}"><i class="fa fa-plus"></i> Add New</a></div>
                         </div>
                     </div>
                     @if (Session::has('msg'))
@@ -66,3 +66,10 @@
         </div>
     </div>
 </div>
+@push('scripts')
+    <script>
+        jQuery(function(){
+            jQuery('.navbar-nav.bg-gradient-primary.sidebar.sidebar-dark.accordion').addClass('toggled');
+        });
+    </script>
+@endpush

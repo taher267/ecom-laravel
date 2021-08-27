@@ -3,9 +3,9 @@
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <div class="row">
+                    <div class="row mb-3">
                         <div class="col-md-6"><h4>Edit Product</h4></div>
-                    <div class="col-md-6"><a class="btn btn-primary pull-right btn-lg" href="{{route('admin.products')}}"><i class="fa fa-group"></i> All Product</a></div>
+                    <div class="col-md-6 text-right"><a class="btn btn-primary pull-right" href="{{route('admin.products')}}"><i class="fa fa-group"></i> All Product</a></div>
                     </div>
                 </div>
                 <div class="panel-body row">
@@ -100,7 +100,28 @@
                                      <img class="" src="{{$newimage->temporaryUrl()}}" width="120">
                             @endif
 
-                        @endif
+                            @endif
+
+                            <div class="form-group input-group">
+                                <span class="input-group-text f-z-16" id="basic-addon1">Product Gallery<sup class="text-primary">*</sup></span>
+                                <input type="file" name="newImages" wire:model="newImages" class="form-control f-z-16" placeholder="Product Image..." multiple>
+                            </div>
+
+                            @if ($newImages)
+                                @foreach ($newImages as $image )
+                                    @if ($image)
+                                        <img class="" src="{{$image->temporaryUrl()}}" width="120">
+                                    @endif
+                                @endforeach
+                                @else
+                                @if (null != $images)
+                                    @foreach ($images as $image )
+                                        @if ($image)
+                                            <img class="" src="{{asset("assets/images/products/$slug/$image")}}" width="120">
+                                        @endif
+                                    @endforeach
+                                @endif
+                            @endif
 
                             <div class="form-group input-group">
                                 <span class="input-group-text f-z-16" id="basic-addon1">Category<sup class="text-danger">*</sup></span>
@@ -195,6 +216,9 @@
                 })
             },
             });
+
+        tinymce.DOM.addClass('.mce-content-body', 'someclass-fdkfjkdjfd-fdkfjdkjfk');
         });
+
     </script>
 @endpush

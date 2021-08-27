@@ -4,9 +4,9 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <div class="row">
+                        <div class="row mb-3">
                             <div class="col-md-6"><h4>Add New Product</h4></div>
-                        <div class="col-md-6"><a class="btn btn-primary pull-right btn-lg" href="{{route('admin.products')}}"><i class="fa fa-group"></i> All Product</a></div>
+                        <div class="col-md-6  text-right"><a class="btn btn-primary pull-right" href="{{route('admin.products')}}"><i class="fa fa-group"></i> All Product</a></div>
                         </div>
                     </div>
                     <div class="panel-body row">
@@ -202,5 +202,6 @@
     //     $('.select_multiple').select2();
     //     $('.select2-container').addClass('form-control', 'p-0', 'f-z-16');
     // });
+    $('.tox-tinymce').addClass('form-control');
 </script>
 @endpush

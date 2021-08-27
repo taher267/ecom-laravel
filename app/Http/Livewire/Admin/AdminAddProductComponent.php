@@ -127,7 +127,7 @@ class AdminAddProductComponent extends Component
             $imagesName = '';
 
             foreach ($this->images as $key => $image) {
-                $imgName    = $this->slug . '-' . $key. '-' . Carbon::now()->timestamp . '.' . $this->image->extension();
+                $imgName    = $this->slug . '-' . $key. '-' . Carbon::now()->timestamp . '.' . $image->extension();
             $imagesName     = $imagesName . $imgName. ',';
             }
             // dd(substr($imagesName, 0, -1));
@@ -145,7 +145,7 @@ class AdminAddProductComponent extends Component
              */
             if ($this->images) {
                 foreach ($this->images as $key => $image) {
-                    $imagesName = $this->slug . '-' . $key. '-' . Carbon::now()->timestamp . '.' . $this->image->extension();
+                    $imagesName = $this->slug . '-' . $key. '-' . Carbon::now()->timestamp . '.' . $image->extension();
                     $image->storeAs( 'products/'.$this->slug, $imagesName );
                 }
             }
@@ -175,6 +175,6 @@ class AdminAddProductComponent extends Component
     public function render()
     {
         $categories = Category::all();
-        return view('livewire.admin.admin-add-product-component', compact('categories'))->layout('layouts.base');
+        return view('livewire.admin.admin-add-product-component', compact('categories'))->layout('layouts.dashboard');
     }
 }

@@ -377,6 +377,7 @@
     <script src="{{asset('dashboard/js/demo/datatables-demo.js')}}"></script>
     <script src="{{asset('assets/js/owl.carousel.min.js')}}"></script>
     <script src="{{asset('assets/js/jquery.flexslider.js')}}"></script>
+    <script src="https://cdn.tiny.cloud/1/kkzm7aotubmkrvxqfvo82szskkhwzcqh9wd4vt5jjqqir1q2/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 	<script src="{{asset('assets/js/functions.js')}}"></script>
     @if ( Request::is('admin/dashboard') )
         <script src="{{asset('dashboard/vendor/chart.js/Chart.min.js')}}"></script>
