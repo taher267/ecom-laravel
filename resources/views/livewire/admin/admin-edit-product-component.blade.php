@@ -112,8 +112,8 @@
                                 </select>
                             </div>
                             @error('category_id') <p class="text-danger f-z-16">{{$message}}</p>@enderror
-                            <div class="form-group input-group">
-                                <span class="input-group-text f-z-16" id="basic-addon1">Categories<sup class="text-danger">*</sup></span>
+                            {{-- <div class="form-group input-group">
+                                <span class="input-group-text f-z-16" id="basic-addon1">Categories<sup class="text-danger">*</sup></span> --}}
                                 {{-- <select name="sel_categories[]" wire:model="sel_categories" class="select_multiple f-z-16 text-capitalize" multiple="multiple">
                                     @foreach ($categories as $category)
                                         <option value="{{$category->id}}">{{$category->name}}</option>
@@ -126,7 +126,7 @@
                                     <label for="cat_{{$category->id}}">{{$category->name}}</label></p>
                                 @endforeach
                                 </div> --}}
-                            </div>
+                            {{-- </div> --}}
                             {{-- @error('sel_categories') <p class="test-danger">{{$message}}</p> @enderror --}}
 
                             <style>

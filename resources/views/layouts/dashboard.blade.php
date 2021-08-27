@@ -20,7 +20,9 @@
     <!-- Custom styles for this template-->
     <link href="{{asset('dashboard/css/sb-admin-2.min.css')}}" rel="stylesheet">
     <link href="{{asset('dashboard/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+    @if ( ! Request::is('admin/dashboard') )
     <link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap5.min.css')}}">
+    @endif
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/flexslider.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/style.css')}}">
 	<link rel="stylesheet" type="text/css" href="{{asset('assets/css/color-01.css')}}">
@@ -376,6 +378,11 @@
     <script src="{{asset('assets/js/owl.carousel.min.js')}}"></script>
     <script src="{{asset('assets/js/jquery.flexslider.js')}}"></script>
 	<script src="{{asset('assets/js/functions.js')}}"></script>
+    @if ( Request::is('admin/dashboard') )
+        <script src="{{asset('dashboard/vendor/chart.js/Chart.min.js')}}"></script>
+        <script src="{{asset('dashboard/js/demo/chart-area-demo.js')}}"></script>
+        <script src="{{asset('dashboard/js/demo/chart-pie-demo.js')}}"></script>
+    @endif
 
     @livewireScripts
     @stack('scripts')

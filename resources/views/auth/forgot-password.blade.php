@@ -1,4 +1,4 @@
-<x-guest-layout>
+{{-- <x-guest-layout>
     <x-jet-authentication-card>
         <x-slot name="logo">
             <x-jet-authentication-card-logo />
@@ -31,4 +31,46 @@
             </div>
         </form>
     </x-jet-authentication-card>
-</x-guest-layout>
+</x-guest-layout> --}}
+
+<x-base-layout>
+<main id="main" class="main-site left-sidebar">
+    @section('title', 'Forgot Password')
+    <div class="container">
+
+        @livewire('breadcrumb-component')
+        <div class="row">
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-12 col-md-offset-3">
+                <div class=" main-content-area">
+                    <div class="wrap-login-item ">
+                        <div class="login-form form-item form-stl">
+                            @if (session('status'))
+                            <div class="mb-4 font-medium text-sm text-green-600">
+                                {{ session('status') }}
+                            </div>
+                        @endif
+                            <x-jet-validation-errors class="mb-4" style="color:red" />
+                            <form name="frm-login" method="post" action="{{route('password.email')}}">
+                                @csrf
+                                <fieldset class="wrap-title">
+                                    <h3 class="form-title">Forgot Password</h3>
+                                </fieldset>
+                                <fieldset class="wrap-input">
+                                    <label for="frm-login-uname">Email Address:</label>
+                                    <input type="email" id="frm-login-uname" name="email" placeholder="Type your email address" :value="old('email')"  required autofocus>
+                                </fieldset>
+
+                                <input type="submit" class="btn btn-submit fas fa-envelope" value="Password Reset Link In Email" name="submit">
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div><!--end main products area-->
+            </div>
+        </div><!--end row-->
+
+    </div><!--end container-->
+
+</main>
+</x-base-layout>

@@ -30,15 +30,15 @@
 
     {{-- Order Menu --}}
     <li class="nav-item">
-        <a class="nav-link collapsed" href="{{route('admin.orders')}}" data-toggle="collapse" data-target="#adminOrders"
-            aria-expanded="true" aria-controls="adminOrders">
+        <a class="nav-link" href="{{route('admin.orders')}}">
             <i class="fas fa-fw fa-hand-rock"></i>
             <span>Orders</span>
         </a>
-        <div id="adminOrders" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{route('admin.orders')}}">All Orders</a>
-                {{-- <a class="collapse-item" href="{{route('admin.addproduct')}}">Add product</a> --}}
-            </div>
-        </div>
+    </li>
+      {{-- Order Menu --}}
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('admin.contact')}}" aria-expanded="true" aria-controls="adminContact">
+            <i class="fas fa-fw fa-hand-rock"></i>
+            <span>Contacts</span>
+        </a>
     </li>

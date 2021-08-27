@@ -1,4 +1,5 @@
 <main id="main" class="main-site">
+    @section('title', 'Checkout')
     <div class="container">
         @livewire('breadcrumb-component')
         <div class=" main-content-area">

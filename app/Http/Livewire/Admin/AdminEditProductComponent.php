@@ -142,6 +142,6 @@ class AdminEditProductComponent extends Component
     {
         $product = Product::where( 'slug', $this->product_slug )->first();
         $categories = Category::all();
-        return view('livewire.admin.admin-edit-product-component', compact('categories', 'product'))->layout('layouts.base');
+        return view('livewire.admin.admin-edit-product-component', compact('categories'))->layout('layouts.base');
     }
 }

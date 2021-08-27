@@ -7,13 +7,7 @@
             <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12 main-content-area">
                 <div class="wrap-product-detail">
                     <div class="detail-media">
-                        <div class="product-gallery">
-                          {{-- <ul class="slides">
-                            <li data-thumb="{!! asset('assets/images/products/' . $product->image) !!}">
-                                <img src="{!! asset('assets/images/products/' . $product->image) !!}" alt="product thumbnail" />
-                            </li>
-                          </ul> --}}
-
+                        <div class="product-gallery" wire:ignore>
                           <ul class="slides">
 
                               @if ( $product->images )
@@ -34,21 +28,27 @@
                     </div>
                     <div class="detail-info">
                         <div class="product-rating">
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <i class="fa fa-star" aria-hidden="true"></i>
-                            <a href="#" class="count-review">(05 review)</a>
+                            @php
+                                $avgrating = 0;
+                            @endphp
+                            @foreach ( $product->orderItems->where( 'rstatus', 1 ) as $itemReview )
+                                @php
+                                    $avgrating = $avgrating + $itemReview->review->rating;
+                                @endphp
+                            @endforeach
+                            @for( $i =1; $i<=5; $i++ )
+                                @if ( $i <= $avgrating )
+                                    <i class="fa fa-star"></i>
+                                @else
+                                    <i class="fa fa-star text-secondary"></i>
+                                @endif
+                            @endfor
+
+                            <a href="#" class="count-review">({{ $product->orderItems->where( 'rstatus', 1 )->count() }} review)</a>
                         </div>
                         <h2 title="{!! $product->category_id !!}" class="product-name text-capitalize">{!! $product->name !!}</h2>
                         <div class="short-desc">
                             {!!$product->short_description!!}
-                            {{-- <ul>
-                                <li>7,9-inch LED-backlit, 130Gb</li>
-                                <li>Dual-core A7 with quad-core graphics</li>
-                                <li>FaceTime HD Camera 7.0 MP Photos</li>
-                            </ul> --}}
                         </div>
                         <div class="wrap-social">
                             <a class="link-socail" href="#"><img src="{!! asset('assets/images/social-list.png') !!}" alt="{!! $product->name !!}"></a>
@@ -76,11 +76,6 @@
                         </div>
 
                         <div class="wrap-butons">
-                            {{-- @if (Cart::instance('cart')->count() > 0)
-                            @foreach (Cart::instance('cart')->content() as $item)
-                                <p>{{$item->model->name}}</p>
-                            @endforeach
-                            @endif --}}
                             @php
                                 $wishitems = Cart::instance('wishlist')->content()->pluck('id');
                                 $cartitems = Cart::instance('cart')->content()->pluck('id');
@@ -104,7 +99,7 @@
                                     }
                                 </style>
                                 {{-- Exists in wishlist or Not --}}
-                                @if ($wishitems->contains($product->id) )
+                                @if ( $wishitems->contains( $product->id ) )
                                     {{-- <a href="#" wire:click.prevent="removeFromWishlist({{$product->id}})"><i class="fa fa-heart fill-heart"></i></a> --}}
                                     <a href="#" class="btn btn-wishlist fill-heart fw-bold">Already in Wishlist</a>
                                     @else
@@ -115,10 +110,15 @@
                         </div>
                     </div>
                     <div class="advance-info">
+                        @if (Session::has('msg'))
+                        <div class="alert alert-info">{{Session::get('msg')}}</div>
+                    @endif
                         <div class="tab-control normal">
-                            <a href="#description" class="tab-control-item active">description</a>
+                            <a href="#description" id="details_desc" class="tab-control-item active">description</a>
                             <a href="#add_infomation" class="tab-control-item">Additional Infomation</a>
-                            <a href="#review" class="tab-control-item">Reviews</a>
+                            <a href="#review" id="product_review" value="def" class="tab-control-item
+                            {{--@auth @foreach ($is_order_item_added as $item) @if ($item->order->status == 'delivered' && $item->order->user_id == Auth::user()->id && $item->product->slug == $slug && $item->rstatus == false) active @endif @endforeach @endauth--}}
+                            ">Reviews</a>
                         </div>
                         <div class="tab-contents">
                             <div class="tab-content-item active" id="description">
@@ -146,75 +146,80 @@
                                 @endif
 
                             </div>
-                            <div class="tab-content-item " id="review">
-
+                            <div class="tab-content-item{{--@auth @foreach ($is_order_item_added as $item) @if ($item->order->status == 'delivered' && $item->order->user_id == Auth::user()->id && $item->product->slug == $slug && $item->rstatus == false) active @endif @endforeach @endauth--}}" id="review">
                                 <div class="wrap-review-form">
-
                                     <div id="comments">
-                                        <h2 class="woocommerce-Reviews-title">01 review for <span>Radiant-360 R6 Chainsaw Omnidirectional [Orage]</span></h2>
+                                        <h2 class="woocommerce-Reviews-title">{{ $product->orderItems->where( 'rstatus', 1 )->count() }} review for <span>{{ $product->name }}</span></h2>
                                         <ol class="commentlist">
-                                            <li class="comment byuser comment-author-admin bypostauthor even thread-even depth-1" id="li-comment-20">
+                                            @foreach ($product->orderItems->where( 'rstatus', 1 ) as $orderItem)
+                                            <style>
+                                                .width-{{ $orderItem->review->rating * 20 }}-percent {width: {{ $orderItem->review->rating * 20 }}%;}
+                                            </style>
+                                                <li class="comment byuser comment-author-admin bypostauthor even thread-even depth-1" id="li-comment-20">
                                                 <div id="comment-20" class="comment_container">
-                                                    <img alt=""{!! $product->name !!} src="{!! asset('assets/images/author-avata.jpg') !!}" height="80" width="80">
+                                                    <img alt="" src="{{asset('assets/images/author-avata.jpg')}}" height="80" width="80">
                                                     <div class="comment-text">
                                                         <div class="star-rating">
-                                                            <span class="width-80-percent">Rated <strong class="rating">5</strong> out of 5</span>
+                                                            <span class="width-{{ $orderItem->review->rating * 20 }}-percent">Rated <strong class="rating">{{ $orderItem->review->rating }}</strong> out of 5</span>
                                                         </div>
                                                         <p class="meta">
-                                                            <strong class="woocommerce-review__author">admin</strong>
+                                                            <strong class="woocommerce-review__author">{{$orderItem->order->user->name}}</strong>
                                                             <span class="woocommerce-review__dash">–</span>
-                                                            <time class="woocommerce-review__published-date" datetime="2008-02-14 20:00" >Tue, Aug 15,  2017</time>
+                                                            <time class="woocommerce-review__published-date" datetime="2008-02-14 20:00" >{{Carbon\Carbon::parse($orderItem->review->created_at)->format('D, F d, Y g:i A')}}</time>
                                                         </p>
                                                         <div class="description">
-                                                            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
+                                                            <p>{{$orderItem->review->comment}}</p>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </li>
+                                            @endforeach
+
                                         </ol>
                                     </div><!-- #comments -->
 
                                     <div id="review_form_wrapper">
                                         <div id="review_form">
                                             <div id="respond" class="comment-respond">
+                                                @auth
+                                                    @foreach ( $is_order_item_added as $item )
+                                                        @if ( $item->order->status == 'delivered' && $item->order->user_id == Auth::user()->id && $item->product->slug == $slug && $item->rstatus == false )
+                                                        <div id="comments">
+                                                            <h2 class="woocommerce-Reviews-title">Review for <span>{{$item->product->name}}</span></h2>
+                                                            {{-- {{$item->product->image}} --}}
+                                                            <img src='{{asset("assets/images/products/".$item->product->image)}}' alt="{{$item->product->name}}" width="45" height="45">
+                                                        </div>
+                                                             <form id="review_field" wire:submit.prevent="addReview({{$item->id}})" id="commentform" class="comment-form" >
+                                                                <div class="comment-form-rating">
+                                                                    <span>Your rating</span>
+                                                                    <p class="stars">
+                                                                        <label for="rated-1"></label>
+                                                                        <input type="radio" id="rated-1" name="rating" wire:model="rating" value="1">
+                                                                        <label for="rated-2"></label>
+                                                                        <input type="radio" id="rated-2" name="rating" wire:model="rating" value="2">
+                                                                        <label for="rated-3"></label>
+                                                                        <input type="radio" id="rated-3" name="rating" wire:model="rating" value="3">
+                                                                        <label for="rated-4"></label>
+                                                                        <input type="radio" id="rated-4" name="rating" wire:model="rating" value="4">
+                                                                        <label for="rated-5"></label>
+                                                                        <input type="radio" id="rated-5" name="rating" wire:model="rating" value="5" checked="checked">
+                                                                    </p>
+                                                                    @error('rating')<p class="text-danger">{{$message}}</p>@enderror
+                                                                </div>
 
-                                                <form action="#" method="post" id="commentform" class="comment-form" novalidate="">
-                                                    <p class="comment-notes">
-                                                        <span id="email-notes">Your email address will not be published.</span> Required fields are marked <span class="required">*</span>
-                                                    </p>
-                                                    <div class="comment-form-rating">
-                                                        <span>Your rating</span>
-                                                        <p class="stars">
-
-                                                            <label for="rated-1"></label>
-                                                            <input type="radio" id="rated-1" name="rating" value="1">
-                                                            <label for="rated-2"></label>
-                                                            <input type="radio" id="rated-2" name="rating" value="2">
-                                                            <label for="rated-3"></label>
-                                                            <input type="radio" id="rated-3" name="rating" value="3">
-                                                            <label for="rated-4"></label>
-                                                            <input type="radio" id="rated-4" name="rating" value="4">
-                                                            <label for="rated-5"></label>
-                                                            <input type="radio" id="rated-5" name="rating" value="5" checked="checked">
-                                                        </p>
-                                                    </div>
-                                                    <p class="comment-form-author">
-                                                        <label for="author">Name <span class="required">*</span></label>
-                                                        <input id="author" name="author" type="text" value="">
-                                                    </p>
-                                                    <p class="comment-form-email">
-                                                        <label for="email">Email <span class="required">*</span></label>
-                                                        <input id="email" name="email" type="email" value="" >
-                                                    </p>
-                                                    <p class="comment-form-comment">
-                                                        <label for="comment">Your review <span class="required">*</span>
-                                                        </label>
-                                                        <textarea id="comment" name="comment" cols="45" rows="8"></textarea>
-                                                    </p>
-                                                    <p class="form-submit">
-                                                        <input name="submit" type="submit" id="submit" class="submit" value="Submit">
-                                                    </p>
-                                                </form>
+                                                                <p class="comment-form-comment">
+                                                                    <label for="comment">Your review <span class="required">*</span>
+                                                                    </label>
+                                                                    <textarea id="comment" name="comment" wire:model="comment" cols="45" rows="8"></textarea>
+                                                                </p>
+                                                                @error('comment')<p class="text-danger">{{$message}}</p>@enderror
+                                                                <p class="form-submit">
+                                                                    <input name="submit" type="submit" id="submit" class="submit" value="Submit">
+                                                                </p>
+                                                            </form>
+                                                        @endif
+                                                    @endforeach
+                                                @endauth
 
                                             </div><!-- .comment-respond-->
                                         </div><!-- #review_form -->
@@ -222,6 +227,7 @@
 
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -325,3 +331,13 @@
         </div><!--end row-->
     </div><!--end container-->
 </main>
+@push('scripts')
+    <script>
+        // jQuery(function(){
+        //     if($('#review_field').val() == null){
+        //         jQuery('#details_desc').addClass('active');
+        //         jQuery('#description').addClass('active');
+        //     }
+        // });
+    </script>
+@endpush

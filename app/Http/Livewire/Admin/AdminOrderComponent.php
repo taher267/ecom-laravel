@@ -10,10 +10,11 @@ use Illuminate\Support\Str;
 
 class AdminOrderComponent extends Component
 {
-    public $datas, $test, $inpText;
-    public function searchText()
+    public $datas, $status_value, $ordersstatus;
+    /**Order Statuses Update */
+    public function ordersStatusesUpdate()
     {
-        $this->inpText = $this->test;
+        dd('Actions');
     }
 
     public function updateOrderStatus(int $order_id, string $status)
@@ -26,7 +27,7 @@ class AdminOrderComponent extends Component
             $order->canceled_date = DB::raw('CURRENT_DATE');
         }
         $order->save();
-        session()->flash('msg', 'Order has been updated!');
+        session()->flash('msg', "Order has been updated!, $status");
     }
     public function deleteOrder( int $order_id)
     {

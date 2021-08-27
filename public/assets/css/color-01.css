@@ -58,7 +58,7 @@
 .widget.filter-widget .inline-round li a:hover,
 .widget.filter-widget .inline-round li a.active,
 .wrap-login-item .form-item .btn,
-.wrap-contacts .contact-box input[type="submit"],
+.wrap-contacts .contact-box input[type="submit"],.wrap-contacts .contact-box button[type="submit"],
 .wrap-icon-box .icon-box-item i,
 .aboutus-info.style-small-left .list-showups label input[type="radio"]:checked + span.check-box,
 .wrap-pagination-info .page-numbers li .page-number-item.current,

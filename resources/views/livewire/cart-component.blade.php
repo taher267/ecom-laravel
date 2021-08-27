@@ -1,4 +1,5 @@
 <main id="main" class="main-site">
+    @section('title', 'Cart')
 		<div class="container">
 			<div class="wrap-breadcrumb">
 				<ul>

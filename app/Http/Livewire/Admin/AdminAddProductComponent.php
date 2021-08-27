@@ -119,7 +119,7 @@ class AdminAddProductComponent extends Component
         $product->quantity          = $this->quantity;
         if ($this->image) {
             // dd( $this->image);
-            $imageName      = $this->slug . Carbon::now()->timestamp . '.' . $this->image->extension();
+            $imageName      = $this->slug . '-' . Carbon::now()->timestamp . '.' . $this->image->extension();
             $product->image = $imageName;
         }
         //Is exist data of product gallery

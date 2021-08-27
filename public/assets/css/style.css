@@ -3215,6 +3215,7 @@ i.fill-heart{ color: #FF2832 !important; }
 }
 .wrap-contacts .contact-box textarea,
 .wrap-contacts .contact-box input[type="text"],
+.wrap-contacts .contact-box input[type="number"],
 .wrap-contacts .contact-box input[type="email"]{
     width: 100%;
     font-size: 14px;
@@ -3226,6 +3227,7 @@ i.fill-heart{ color: #FF2832 !important; }
     outline: none;
 }
 .wrap-contacts .contact-box input[type="text"],
+.wrap-contacts .contact-box input[type="number"],
 .wrap-contacts .contact-box input[type="email"]{
     height: 43px;
     margin-bottom: 11px;
@@ -3239,7 +3241,8 @@ i.fill-heart{ color: #FF2832 !important; }
 .wrap-contacts .contact-box label[for="comment"]{
     margin-top: 21px;
 }
-.wrap-contacts .contact-box input[type="submit"]{
+.wrap-contacts .contact-box input[type="submit"],
+.wrap-contacts .contact-box button[type="submit"]{
     font-size: 14px;
     line-height: 19px;
     font-weight: 600;
@@ -7247,6 +7250,4 @@ span.relative.inline-flex.items-center.px-4.py-2.-ml-px.text-sm.font-medium.text
     color: #fff;
     border: 2.5px solid #FF2832 !important;
 }
-div.dataTables_wrapper div.dataTables_length select{
-    width: 50px;
-}
+div.dataTables_wrapper div.dataTables_length select{width: 58px;}

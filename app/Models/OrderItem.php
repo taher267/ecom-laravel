@@ -29,4 +29,14 @@ class OrderItem extends Model
         return $this->belongsTo(Product::class);
     }
 
+    /**
+     * Get the review that owns the OrderItem
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasOne
+     */
+    public function review()
+    {
+        return $this->hasOne( Review::class, 'order_item_id' );
+    }
+
 }

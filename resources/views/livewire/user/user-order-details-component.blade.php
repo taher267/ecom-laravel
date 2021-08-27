@@ -1,11 +1,44 @@
 @section('title', 'Customer Order Details')
 <div class="p-3">
     <div class="row mb-4">
+        <div class="col-lg-12">
+            @if (Session::has('status_msg'))
+            <div class="alert alert-success">
+                {{Session::get('status_msg')}}
+            </div>
+            @endif
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row alert alert-secondary">
+                        <div class="col-lg-4">Order Details</div>
+                        <div class="col-lg-4">
+                            @if ( $order->status == 'ordered' )
+                                <a class="btn btn-warning btn-sm" wire:click.prevent="cancelOrder" href="#">Cancel Order</a>
+                            @endif
+                        </div>
+                        <div class="col-lg-4 text-end">
+                            <a class="btn btn-primary  btn-sm" href="{{route('user.orders')}}">My Orders</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel body">
+                    <table class="table">
+                        <th>Order ID</th>
+                        <td>{{$order->id}}</td>
+                        <th>Order Date</th>
+                        <td>{{$order->created_at}}</td>
+                        <th>Status</th>
+                        <td>{{$order->status}}</td>
+                        <th>{{$order->status == 'delivered' ? 'Delivery date' : 'Canceled date'}}</th>
+                        <td>{{$order->status == 'delivered' ? $order->delivered_date : $order->canceled_date}}</td>
+                    </table>
+                </div>
+            </div>
+        </div>
         <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="row">
-                    <div class="col-lg-6"><div class="panel-heading alert"><h4 class="">Order Items</h4></div></div>
-                    <div class="col-lg-6  text-end"><a class="btn btn-primary" href="{{route('user.orders')}}">All Orders</a></div>
+                <div class="panel-heading">
+                   Order Items
                 </div>
 
                 <div class="panel-body">
@@ -23,6 +56,14 @@
                                     <div class="price-field produtc-price"><p class="price">${{$item->price}}</p></div>
                                     <div class="quantity"><h6 class="fw-bolder">{{ $item->quantity }}</h6></div>
                                     <div class="price-field sub-total"><p class="price">${{$item->price * $item->quantity}}</p></div>
+                                    @if ($order->status == 'delivered' && $item->rstatus == false)
+                                    <div>
+                                        <a class="link-to-product btn btn-dark btn-sm" href="{{route('product.details',$item->product->slug)}}">Write Review</a>
+                                        {{-- <button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#customerReview">Write Review</button> --}}
+                                    </div>
+                                    @endif
+
+                                    {{-- Modal --}}
                                 </li>
                             @endforeach
                         </ul>
@@ -161,7 +202,7 @@
                                 @endif
 
                                 <tr>
-                                    <td><b><i wire:click.prevent="changeStatus('{{$order->transaction->status=='pending'? 'approved': 'pending'}}',{{$order->transaction->id}})" class="fas fa-thermometer-@if($order->transaction->status=='pending')quarter text-danger @elseif($order->transaction->status=='approved')three-quarters text-primary @endif"></i></b></td>
+                                    <td><b><i class="fas fa-thermometer-@if($order->transaction->status=='pending')quarter text-danger @elseif($order->transaction->status=='approved')three-quarters text-primary @endif"></i></b></td>
                                     <td class="text-capitalize">{{ $order->transaction->status}}</td>
                                 </tr>
                                 <tr>
@@ -174,5 +215,33 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="customerReview" tabindex="-1" aria-labelledby="customerReviewLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="customerReviewLabel">Write your review about {{ $item->product->name }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form wire:submit.prevent="makeReview">
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Rating:</label>
+            <input type="number" wire:model="rating" class="form-control" id="recipient-name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Comment:</label>
+            <textarea class="form-control" wire:model="comment" id="message-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send review</button>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 

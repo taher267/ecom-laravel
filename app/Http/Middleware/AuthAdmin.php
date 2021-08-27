@@ -19,7 +19,6 @@ class AuthAdmin
     {
         if(session('utype') === 'ADM' ){
             return $next($request);
-            // return redirect()->route('admin.products');
         }else {
             session()->flash();
             return redirect()->route('login');

@@ -23,7 +23,8 @@ class AdminProductComponent extends Component
             $product->pro_categories()->detach();
             //Delete Image of Phone
             if ( Storage::disk('local')->exists('products/' . $product->image ) ) {
-                Storage::disk('local')->delete('products/'. $product->image);
+                // Storage::disk('local')->delete('products/'. $product->image);
+                unlink('assets/images/products/'. $product->image);
 
             }
 

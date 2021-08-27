@@ -3,11 +3,11 @@
         <a class="nav-link collapsed" href="{{route('user.orders')}}" data-toggle="collapse" data-target="#userOrders"
             aria-expanded="true" aria-controls="userOrders">
             <i class="fas fa-fw fa-object-group"></i>
-            <span>All Orders</span>
+            <span>My Orders</span>
         </a>
         <div id="userOrders" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item" href="{{route('user.orders')}}">All Orders</a>
+                <a class="collapse-item" href="{{route('user.orders')}}">My Orders</a>
             </div>
         </div>
     </li>
